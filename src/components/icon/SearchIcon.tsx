@@ -1,5 +1,5 @@
 import { Search } from 'lucide-react';
-import type { IconProps } from '@/components/types/icon';
+import type { IconProps } from '@/components/types/type';
 
 export function SearchIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
   return (

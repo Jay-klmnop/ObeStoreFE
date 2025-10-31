@@ -1,5 +1,5 @@
 import { Menu } from 'lucide-react';
-import type { IconProps } from '@/components/types/icon';
+import type { IconProps } from '@/components/types/type';
 
 export function NavigationIcon({
   width,

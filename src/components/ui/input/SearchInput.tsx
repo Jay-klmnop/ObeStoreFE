@@ -1,4 +1,4 @@
-import type { SearchProps } from '@/components/types/input';
+import type { SearchProps } from '@/components/types/type';
 import { useState } from 'react';
 
 export default function SearchInput({ value, id, placeholder, fullWidth, onChange }: SearchProps) {

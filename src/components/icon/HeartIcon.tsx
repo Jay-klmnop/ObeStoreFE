@@ -1,4 +1,4 @@
-import type { IconProps } from '@/components/types/icon';
+import type { IconProps } from '@/components/types/type';
 import { Heart } from 'lucide-react';
 
 export function HeartIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
