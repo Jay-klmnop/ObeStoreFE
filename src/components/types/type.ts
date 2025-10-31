@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes } from 'react';
+import type { InputHTMLAttributes, ReactNode } from 'react';
 import type { ChangeEvent } from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -138,4 +138,11 @@ export interface SelectBoxProps {
   disabled?: boolean;
   fullWidth?: boolean;
   className?: string;
+}
+
+export interface ModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+  children: ReactNode;
+  [property: string]: any;
 }
