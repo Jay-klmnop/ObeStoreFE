@@ -22,3 +22,38 @@
     @apply border border-(--color-primary-700) bg-white text-(--color-primary-700) hover:opacity-90;
   }
 }
+
+.modal {
+  @apply rounded-lg bg-white p-6 shadow-lg transition-all;
+  width: 90%;
+  max-width: 40rem;
+}
+
+/* 반응형 설정 */
+@media (min-width: 640px) {
+  /* sm */
+  .modal {
+    width: 30rem;
+  }
+}
+
+@media (min-width: 768px) {
+  /* md */
+  .modal {
+    width: 40rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* lg */
+  .modal {
+    width: 50rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* xl */
+  .modal {
+    width: 56rem;
+  }
+}
