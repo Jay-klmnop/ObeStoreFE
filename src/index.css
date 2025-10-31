@@ -1,7 +1,22 @@
 @import 'tailwindcss';
+
 @layer base {
   :root {
     --color-primary-700: #291b16;
-    --color-primary-50060: #886554;
+    --color-primary-500-60: #886554;
+    --color-primary-500-50: #a57865;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply flex items-center justify-center rounded-lg font-semibold transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-(--color-primary-700) text-white hover:opacity-90;
+  }
+  .btn-primary-hollow {
+    @apply border border-(--color-primary-700) bg-white text-(--color-primary-700) hover:opacity-90;
   }
 }
