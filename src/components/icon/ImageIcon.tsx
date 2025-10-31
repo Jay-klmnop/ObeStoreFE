@@ -1,5 +1,5 @@
 import { ImagePlus } from 'lucide-react';
-import type { IconProps } from '@/components/types/icon';
+import type { IconProps } from '@/components/types/type';
 
 export function ImageIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
   return (

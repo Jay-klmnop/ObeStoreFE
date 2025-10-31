@@ -1,4 +1,4 @@
-import type { ButtonProps } from '@/components/types/button';
+import type { ButtonProps } from '@/components/types/type';
 
 export function GnbButton({ label, fullWidth = false, className = '', ...rest }: ButtonProps) {
   return (

@@ -1,5 +1,5 @@
 import { CircleUserRound } from 'lucide-react';
-import type { IconProps } from '@/components/types/icon';
+import type { IconProps } from '@/components/types/type';
 
 export function ProfileIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
   return (

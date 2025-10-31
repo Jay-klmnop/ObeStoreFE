@@ -1,4 +1,4 @@
-import type { PasswordProps } from '@/components/types/input';
+import type { PasswordProps } from '@/components/types/type';
 import { useState } from 'react';
 
 export function PasswordInput({ value, id, placeholder, fullWidth, onChange }: PasswordProps) {
