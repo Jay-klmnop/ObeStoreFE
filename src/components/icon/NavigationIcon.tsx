@@ -1,24 +1,10 @@
-import { Menu } from 'lucide-react';
-import type { IconProps } from '@/components/types/type';
+import { LuMenu } from 'react-icons/lu';
+import type { IconProps } from '@/components/types';
 
-export function NavigationIcon({
-  width,
-  height,
-  color,
-  className,
-  strokeWidth,
-  ...rest
-}: IconProps) {
+export function NavigationIcon({ size, color, className }: IconProps) {
   return (
     <>
-      <Menu
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      ></Menu>
+      <LuMenu size={size} color={color} className={className}></LuMenu>
     </>
   );
 }

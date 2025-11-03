@@ -1,17 +1,10 @@
-import { Search } from 'lucide-react';
-import type { IconProps } from '@/components/types/type';
+import { LuSearch } from 'react-icons/lu';
+import type { IconProps } from '@/components/types';
 
-export function SearchIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
+export function SearchIcon({ size, color, className }: IconProps) {
   return (
     <>
-      <Search
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      />
+      <LuSearch size={size} color={color} className={className} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import type { EmailProps } from '@/components/types/type';
+import type { EmailProps } from '@/components/types/props';
 import { useState } from 'react';
 
 export function EmailInput({ value, id, placeholder, fullWidth, onChange }: EmailProps) {

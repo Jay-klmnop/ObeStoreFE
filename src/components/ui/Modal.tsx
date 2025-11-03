@@ -1,11 +1,11 @@
-import type { ModalProps } from '../types/type';
+import type { ModalProps } from '@/components/types';
 
 export function Modal({ isOpen, closeModal, children, ...rest }: ModalProps) {
   if (!isOpen) return null;
   return (
     <>
       <div
-        className='tems-center fixed inset-0 z-50 flex justify-center bg-black/40'
+        className='fixed inset-0 z-50 flex items-center justify-center bg-black/40'
         onClick={closeModal}
       >
         <div className='modal relative' onClick={(e) => e.stopPropagation()} {...rest}>

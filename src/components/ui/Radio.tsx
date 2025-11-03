@@ -1,4 +1,4 @@
-import type { RadioProps } from '@/components/types/type';
+import type { RadioProps } from '@/components/types';
 
 export function Radio({ id, value, checked, name, onChange, disabled }: RadioProps) {
   return (

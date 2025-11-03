@@ -1,17 +1,10 @@
-import type { IconProps } from '@/components/types/type';
-import { Heart } from 'lucide-react';
+import type { IconProps } from '@/components/types';
+import { GoHeart } from 'react-icons/go';
 
-export function HeartIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
+export function HeartIcon({ size, color, className }: IconProps) {
   return (
     <>
-      <Heart
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      />
+      <GoHeart size={size} color={color} className={className} />
     </>
   );
 }

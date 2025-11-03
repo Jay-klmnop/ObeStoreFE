@@ -1,17 +1,10 @@
-import { ImagePlus } from 'lucide-react';
-import type { IconProps } from '@/components/types/type';
+import { LuImagePlus } from 'react-icons/lu';
+import type { IconProps } from '@/components/types';
 
-export function ImageIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
+export function ImageIcon({ size, color, className }: IconProps) {
   return (
     <>
-      <ImagePlus
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      ></ImagePlus>
+      <LuImagePlus size={size} color={color} className={className}></LuImagePlus>
     </>
   );
 }
