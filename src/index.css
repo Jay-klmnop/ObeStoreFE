@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import '@fontsource/pretendard';
 
 @layer base {
   :root {
@@ -8,6 +9,12 @@
     --color-secondary-300: #ce5133;
     --color-custom-gray-50: #cdd1d5;
     --color-custom-gray-30: #b1b8be;
+
+    --font-pretendard: 'Pretendard', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-pretendard);
   }
 }
 
