@@ -1,17 +1,6 @@
-import { CircleUserRound } from 'lucide-react';
-import type { IconProps } from '@/components/types/type';
+import { LuCircleUserRound } from 'react-icons/lu';
+import type { IconProps } from '@/components/types';
 
-export function ProfileIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
-  return (
-    <>
-      <CircleUserRound
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      ></CircleUserRound>
-    </>
-  );
+export function ProfileIcon({ size, color, className }: IconProps) {
+  return <LuCircleUserRound size={size} color={color} className={className}></LuCircleUserRound>;
 }

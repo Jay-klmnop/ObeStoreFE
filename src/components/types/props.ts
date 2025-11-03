@@ -9,13 +9,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   py?: number | string; // y축 padding
 }
 
-import type { LucideProps } from 'lucide-react';
 import type { HTMLAttributes } from 'react';
 
-export interface IconProps extends LucideProps {
-  width?: number | string;
-  height?: number | string;
-  strokeWidth?: number; // 옵션으로 변경
+export interface IconProps {
+  size: number;
   color?: string;
   className?: string;
 }

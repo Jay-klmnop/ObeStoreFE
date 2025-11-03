@@ -1,17 +1,10 @@
-import { ShoppingCart } from 'lucide-react';
-import type { IconProps } from '@/components/types/type';
+import { LuShoppingCart } from 'react-icons/lu';
+import type { IconProps } from '@/components/types';
 
-export function CartIcon({ width, height, color, className, strokeWidth, ...rest }: IconProps) {
+export function CartIcon({ size, color, className }: IconProps) {
   return (
     <>
-      <ShoppingCart
-        width={width}
-        height={height}
-        color={color}
-        strokeWidth={strokeWidth}
-        className={className}
-        {...rest}
-      />
+      <LuShoppingCart size={size} color={color} className={className} />
     </>
   );
 }

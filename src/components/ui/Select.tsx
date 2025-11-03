@@ -1,4 +1,4 @@
-import type { SelectBoxProps } from '@/components/types/type';
+import type { SelectBoxProps } from '@/components/types';
 
 export function Select({
   id,

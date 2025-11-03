@@ -1,4 +1,4 @@
-import type { CheckboxAloneProps, CheckboxProps } from '@/components/types/type';
+import type { CheckboxAloneProps, CheckboxProps } from '@/components/types';
 
 export function CheckBox({ id, label, checked, onChange, className }: CheckboxProps) {
   return (
