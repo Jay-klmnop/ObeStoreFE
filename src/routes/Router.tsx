@@ -1,9 +1,6 @@
 // Router.tsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainPage from '../pages/MainPage';
-import ProductDetailPage from '../pages/ProductDetailPage';
-import MyPageOrderInfo from '../pages/mypage/MyPageOrderInfo';
-import MyPageOrderDetail from '../pages/mypage/MyPageOrderDetail';
+import { MainPage, MyPageOrderDetail, MyPageOrderInfo, ProductDetailPage } from '@/pages';
 
 export default function Router() {
   return (

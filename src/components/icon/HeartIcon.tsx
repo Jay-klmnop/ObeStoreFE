@@ -2,9 +2,5 @@ import type { IconProps } from '@/components/types';
 import { GoHeart } from 'react-icons/go';
 
 export function HeartIcon({ size, color, className }: IconProps) {
-  return (
-    <>
-      <GoHeart size={size} color={color} className={className} />
-    </>
-  );
+  return <GoHeart size={size} color={color} className={className} />;
 }

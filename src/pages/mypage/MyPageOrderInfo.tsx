@@ -1,1 +1,3 @@
-export default function MyPageOrderInfo() { return <div>MyPageOrderInfo</div> }
+export function MyPageOrderInfo() {
+  return <div>MyPageOrderInfo</div>;
+}
