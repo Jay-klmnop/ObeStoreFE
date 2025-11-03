@@ -29,6 +29,14 @@
   .btn-primary-hollow {
     @apply border border-(--color-primary-700) bg-white text-(--color-primary-700) hover:opacity-90;
   }
+
+  .mobile-visible {
+    @apply inline-flex;
+  }
+
+  .mobile-hidden {
+    @apply hidden md:inline-flex;
+  }
 }
 
 .modal {
