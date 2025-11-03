@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from '@/components/layout';
+import { Footer, Header } from '@/components/layout';
 
 export function Layout() {
   return (
@@ -8,6 +8,7 @@ export function Layout() {
       <main className='grow p-4'>
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }
