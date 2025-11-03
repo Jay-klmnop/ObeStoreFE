@@ -1,11 +1,7 @@
-import { Footer } from './components/layout';
+import { Router } from '@/routes';
 
 function App() {
-  return (
-    <>
-      <Footer></Footer>
-    </>
-  );
+  return <Router />;
 }
 
 export default App;
