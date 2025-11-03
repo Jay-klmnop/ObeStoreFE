@@ -1,4 +1,4 @@
-import LogoImgImage from '../../../dist/assets/logo-img.svg';
+import LogoImgImage from '@/asset/logo-img.svg';
 import type { LogoProps } from '@/components/types/type';
 
 export function HeaderLogoImgIcon({ width, height, className }: LogoProps) {
