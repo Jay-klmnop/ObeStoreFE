@@ -19,8 +19,7 @@ export function ProductCard({ product }: ProductCardProps) {
             height={400}
           />
           <HeartIcon
-            width={20}
-            height={20}
+            size={20}
             color='var(--color-secondary-300)'
             className='absolute right-2 bottom-2'
           />

@@ -1,1 +1,3 @@
-export default function ProductDetailPage() { return <div>ProductDetailPage</div> }
+export function ProductDetailPage() {
+  return <div>ProductDetailPage</div>;
+}
