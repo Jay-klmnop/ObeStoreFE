@@ -7,3 +7,4 @@ export * from './NavigationIcon';
 export * from './SocialLinksIcon';
 export * from './HeaderLogoIcon';
 export * from './HeaderLogoImgIcon';
+export * from './FooterLogoIcon';

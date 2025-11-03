@@ -141,5 +141,6 @@ export interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
   children: ReactNode;
+  buttons?: boolean;
   [property: string]: any;
 }

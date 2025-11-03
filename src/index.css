@@ -4,6 +4,7 @@
 @layer base {
   :root {
     --color-primary-700: #291b16;
+    --color-primary-100: #f6efed;
     --color-primary-500-60: #886554;
     --color-primary-500-50: #a57865;
     --color-secondary-300: #ce5133;
@@ -43,6 +44,12 @@
   @apply rounded-lg bg-white p-6 shadow-lg transition-all;
   width: 90%;
   max-width: 40rem;
+}
+
+.modal.big {
+  @apply rounded-lg bg-white p-6 shadow-lg transition-all;
+  width: 90%;
+  max-width: 50rem;
 }
 
 /* 반응형 설정 */

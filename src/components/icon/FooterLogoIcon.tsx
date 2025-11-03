@@ -1,10 +1,10 @@
-import LogoImgImage from '@/assets/logo-img.svg';
+import LogoFooterImage from '@/assets/logo-footer.svg';
 import type { LogoProps } from '@/components/types';
 
-export function HeaderLogoImgIcon({ width, height, className }: LogoProps) {
+export function FooterLogoIcon({ width, height, className }: LogoProps) {
   return (
     <img
-      src={LogoImgImage}
+      src={LogoFooterImage}
       alt='OBE STORE Logo'
       width={width}
       height={height}
