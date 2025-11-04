@@ -3,6 +3,7 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   plugins: [],
   theme: {
+    plugins: [require('@tailwindcss/line-clamp')],
     extend: {
       colors: {
         primary: {
@@ -10,6 +11,7 @@ export default {
           '500-60': 'var(--color-primary-500-60)',
           '500-50': 'var(--color-primary-500-50)',
           '500-40': 'var(--color-primary-500-40)',
+          '500-0': 'var(--color-primary-500-0)',
         },
         'custom-gray': {
           50: '#cdd1d5',
