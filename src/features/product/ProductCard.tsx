@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { HeartIcon } from '@/components/icon';
+import { ReviewRating } from '@/components/ui';
 import type { ProductCardType } from '@/types';
 
 interface ProductCardProps {
@@ -25,12 +26,12 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </div>
 
-        <div className='flex h-14 grow flex-col justify-between text-xs'>
+        <div className='flex h-14 grow flex-col justify-evenly text-xs'>
           <h2>{product.product_brand}</h2>
           <h3 className='mb-2 font-bold'>{product.product_name}</h3>
-          <div>
+          <div className='flex justify-between'>
             <p className='font-bold'>₩{Number(product.product_price).toLocaleString('ko-KR')}</p>
-            <p className='font-bold'>{product.product_rating}</p>
+            <ReviewRating initialValue={Number(product.product_rating)} readOnly size={12} />
           </div>
         </div>
       </div>
