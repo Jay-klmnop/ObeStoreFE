@@ -1,30 +1,21 @@
-export type ProductType = {
+export interface Product {
   id: number;
-  product_brand: string;
-  product_name: string;
-  product_price: number;
-  product_stock: number;
-  discount_rate: string;
-  product_rating: string;
-  sales: number;
-  created_at: string;
-  updated_at: string;
-  category_id: number;
-  tag_id: number;
-  brand_id: number;
-  product_image: {
-    thumbnail: string;
-    detail: string;
-  };
-};
+  name: string;
+  price: number;
+  image: string;
+  salePrice?: number;
+  description?: string;
+  category?: string;
+  images?: string[];
+  detailImages?: string[];
+  options?: ProductOption[];
+  reviewCount?: number;
+  rating?: number;
+  salesCount?: number;
+  createdAt?: string;
+}
 
-export type ProductCardType = {
-  id: number;
-  product_brand: string;
-  product_name: string;
-  product_price: number;
-  product_image: {
-    thumbnail: string;
-  };
-  product_rating: string;
-};
+export interface ProductOption {
+  name: string;
+  values: string[];
+}
