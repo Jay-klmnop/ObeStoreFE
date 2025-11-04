@@ -9,6 +9,10 @@ export interface Product {
   images?: string[];
   detailImages?: string[];
   options?: ProductOption[];
+  reviewCount?: number;
+  rating?: number;
+  salesCount?: number;
+  createdAt?: string;
 }
 
 export interface ProductOption {
