@@ -5,7 +5,7 @@ export function Layout() {
   return (
     <div className='flex min-h-screen flex-col'>
       <Header />
-      <main className='grow p-4'>
+      <main className='grow'>
         <Outlet />
       </main>
       <Footer />
