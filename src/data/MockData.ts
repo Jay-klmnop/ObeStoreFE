@@ -1,7 +1,7 @@
 import type { Product } from '../types/product';
 
 export const mockProducts: Product[] = [
- // Sale 상품
+ // 세일 상품
   {
     id: 1,
     name: '트위티 크로스백',
@@ -12,6 +12,8 @@ export const mockProducts: Product[] = [
     description: '가볍고 실용적인 디자인의 미니 크로스백입니다. 비건 레더 소재로 환경까지 생각했습니다.',
     reviewCount: 156,
     rating: 4.7,
+    salesCount: 342,
+    createdAt: '2025-10-15',
     images: [
       'https://via.placeholder.com/400x400?text=Crossbag+1',
       'https://via.placeholder.com/400x400?text=Crossbag+2',
@@ -35,6 +37,8 @@ export const mockProducts: Product[] = [
     description: '비건 레더 가죽으로 고급진 카멜 색의 심플한 핸드백입니다.',
     reviewCount: 178,
     rating: 4.6,
+    salesCount: 223,
+    createdAt: '2025-10-10',
     images: [
       'https://via.placeholder.com/400x400?text=Handbag+1',
       'https://via.placeholder.com/400x400?text=Handbag+2',
@@ -56,6 +60,8 @@ export const mockProducts: Product[] = [
     description: '가볍고 감성있는 체크패턴 머플러로 따뜻한 겨울 OOTD 완성',
     reviewCount: 189,
     rating: 4.2,
+    salesCount: 512,
+    createdAt: '2025-11-04',
     images: [
       'https://via.placeholder.com/400x400?text=Muffler+1',
       'https://via.placeholder.com/400x400?text=Muffler+2',
@@ -77,6 +83,8 @@ export const mockProducts: Product[] = [
     description: '코코아색의 가죽 글러브로 심플하지만 고급진 무드로 업그레이드',
     reviewCount: 234,
     rating: 4.8,
+    salesCount: 298,
+    createdAt: '2025-11-01',
     images: [
       'https://via.placeholder.com/400x400?text=Gloves+1',
       'https://via.placeholder.com/400x400?text=Gloves+2',
@@ -98,6 +106,8 @@ export const mockProducts: Product[] = [
     description: '카키색 코듀로이 소재의 볼캡으로 완성한 내추럴 무드.',
     reviewCount: 145,
     rating: 4.1,
+    salesCount: 289,
+    createdAt: '2025-09-20',
     images: [
       'https://via.placeholder.com/400x400?text=Cap+1',
       'https://via.placeholder.com/400x400?text=Cap+2',
@@ -110,7 +120,7 @@ export const mockProducts: Product[] = [
     ],
   },
 
-  // 신상
+  // 신상품
   {
     id: 7,
     name: '925 실버 링 세트',
@@ -120,6 +130,8 @@ export const mockProducts: Product[] = [
     description: '실버 925 레이어드링 세트로 어느 패션에나 다양한 무드로 연출 가능',
     reviewCount: 156,
     rating: 4.3,
+    salesCount: 456,
+    createdAt: '2025-10-01',
     images: [
       'https://via.placeholder.com/400x400?text=Ring+1',
       'https://via.placeholder.com/400x400?text=Ring+2',
@@ -141,6 +153,8 @@ export const mockProducts: Product[] = [
     description: '부드럽게 감기는 라인, 달콤한 무드.',
     reviewCount: 98,
     rating: 4.7,
+    salesCount: 567,
+    createdAt: '2025-09-15',
     images: [
       'https://via.placeholder.com/400x400?text=Wave+Ring+1',
       'https://via.placeholder.com/400x400?text=Wave+Ring+2',
@@ -161,6 +175,8 @@ export const mockProducts: Product[] = [
     description: '확실한 존재감으로 불필요한 장식 없이 형태로 말하다.',
     reviewCount: 112,
     rating: 4.5,
+    salesCount: 187,
+    createdAt: '2025-11-03',
     images: [
       'https://via.placeholder.com/400x400?text=Necklace+1',
       'https://via.placeholder.com/400x400?text=Necklace+2',
@@ -181,6 +197,8 @@ export const mockProducts: Product[] = [
     description: '따뜻한 베이지와 싱그러운 녹음이 어우러진 감성 화병.',
     reviewCount: 87,
     rating: 4.7,
+    salesCount: 156,
+    createdAt: '2025-10-28',
     images: [
       'https://via.placeholder.com/400x400?text=Vase+1',
       'https://via.placeholder.com/400x400?text=Vase+2',
@@ -201,6 +219,8 @@ export const mockProducts: Product[] = [
     description: '달콤한 향기와 함께 번지는 여유의 순간, 둘이서 즐기는 잠깐의 여유.',
     reviewCount: 198,
     rating: 4.8,
+    salesCount: 423,
+    createdAt: '2025-11-02',
     images: [
       'https://via.placeholder.com/400x400?text=Mug+1',
       'https://via.placeholder.com/400x400?text=Mug+2',
@@ -214,31 +234,56 @@ export const mockProducts: Product[] = [
   },
 ];
 
-
+// 추후 Api 연동 시 대체 예정
+// 카테고리별 필터링
 export const getProductsByCategory = (category: string): Product[] => {
   return mockProducts.filter(product => product.category === category);
 };
 
-export const getProductById = (id: number): Product | undefined => {
-  return mockProducts.find(product => product.id === id);
+// 인기순(판매량 많은 순)
+export const getProductsBySales = (): Product[] => {
+  return [...mockProducts].sort((a, b) => 
+    (b.salesCount || 0) - (a.salesCount || 0)
+  );
 };
 
+// 가격 낮은 순
+export const getProductsByPriceLow = (): Product[] => {
+  return [...mockProducts].sort((a, b) => {
+    const priceA = a.salePrice || a.price;
+    const priceB = b.salePrice || b.price;
+    return priceA - priceB;
+  });
+};
+
+// 가격 높은 순
+export const getProductsByPriceHigh = (): Product[] => {
+  return [...mockProducts].sort((a, b) => {
+    const priceA = a.salePrice || a.price;
+    const priceB = b.salePrice || b.price;
+    return priceB - priceA;
+  });
+};
+
+// 최신순(등록일)
+export const getProductsByNewest = (): Product[] => {
+  return [...mockProducts].sort((a, b) => {
+    const dateA = new Date(a.createdAt || '2024-01-01').getTime();
+    const dateB = new Date(b.createdAt || '2024-01-01').getTime();
+    return dateB - dateA; 
+  });
+};
+
+// 리뷰 많은 순
 export const getProductsSortedByReview = (): Product[] => {
   return [...mockProducts].sort((a, b) => 
     (b.reviewCount || 0) - (a.reviewCount || 0)
   );
 };
 
+// 평점 높은 순
 export const getProductsSortedByRating = (): Product[] => {
   return [...mockProducts].sort((a, b) => 
     (b.rating || 0) - (a.rating || 0)
   );
-};
-
-export const getProductsSortedByPrice = (): Product[] => {
-  return [...mockProducts].sort((a, b) => {
-    const priceA = a.salePrice || a.price;
-    const priceB = b.salePrice || b.price;
-    return priceA - priceB;
-  });
 };
