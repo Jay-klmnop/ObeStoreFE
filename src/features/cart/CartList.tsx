@@ -1,18 +1,18 @@
-import { CheckBox, FilledButton } from '@/components/ui';
+import { CheckBox, FilledButton, GnbButton } from '@/components/ui';
 import CartCard from '@/features/cart/CartCard';
-import { useMemo, useState } from 'react';
+import {
+  useCartStore,
+  useCheckedItemSum,
+  useDiscountSum,
+  useRewardPoints,
+  useSelectedQuantity,
+  useShippingFee,
+  useTotalPayment,
+} from '@/features/cart/store/useCartStore';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-type CartItem = {
-  id: string;
-  brandName: string;
-  productName: string;
-  img: string;
-  quantity: number;
-  checked: boolean;
-  price: number;
-};
-
-const initialCartItems: CartItem[] = [
+const initialCartItems = [
   {
     id: 'cart-001',
     brandName: 'OBE STORE',
@@ -44,78 +44,61 @@ const initialCartItems: CartItem[] = [
 ];
 
 export default function CartList() {
-  const [selectAll, setSelectAll] = useState(false);
-  const [cartItem, setCartItem] = useState<CartItem[]>(initialCartItems);
+  const navigate = useNavigate();
+  const {
+    cartItems,
+    selectAll,
+    setCartItems,
+    handleSelectAll,
+    handleItemCheck,
+    removeCheckedItems,
+  } = useCartStore();
 
-  const { checkedItemSum, discountSum } = useMemo((): {
-    checkedItemSum: number;
-    discountSum: number;
-  } => {
-    const checkedItems = cartItem.filter((item) => item.checked);
+  const checkedItemSum = useCheckedItemSum();
+  const discountSum = useDiscountSum();
+  const shippingFee = useShippingFee();
+  const totalPayment = useTotalPayment();
+  const rewardPoints = useRewardPoints();
+  const totalQuantity = useSelectedQuantity();
 
-    const sum = checkedItems.reduce((acc, item) => {
-      // (가격 * 수량)을 누적합니다.
-      return acc + item.price * item.quantity;
-    }, 0);
-    const discount = sum > 50000 ? 1000 : 0; // 임시
+  useEffect(() => {
+    setCartItems(initialCartItems);
+  }, [setCartItems]);
 
-    return {
-      checkedItemSum: sum,
-      discountSum: discount,
-    };
-  }, [cartItem]);
-  const calculateShippingPayment = (): number => {
-    const FREE_SHIPPING_THRESHOLD = 50000;
-    const SHIPPING_FEE = 3500;
-
-    if (checkedItemSum > FREE_SHIPPING_THRESHOLD) {
-      return 0;
-    }
-    return SHIPPING_FEE;
-  };
-  const shippingFee = calculateShippingPayment();
-  const shippingFeeText = shippingFee === 0 ? '무료 배송' : `${shippingFee.toLocaleString()}원`;
-  const totalPayment = checkedItemSum - discountSum + shippingFee;
-  // 적립금 계산 함수 추가
-  const calculateRewardPoints = (): number => {
-    const REWARD_RATE = 0.01; // 1%
-    return Math.floor(checkedItemSum * REWARD_RATE);
-  };
-
-  // 계산된 적립금
-  const rewardPoints = calculateRewardPoints();
-
-  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setSelectAll(checked);
-    const updatedItems = cartItem.map((item) => ({
-      ...item,
-      checked,
-    }));
-    setCartItem(updatedItems);
-  };
-
-  const handleItemCheck = (id: string, checked: boolean) => {
-    const updated = cartItem.map((item) => (item.id === id ? { ...item, checked } : item));
-    setCartItem(updated);
-    const allChecked = updated.every((item) => item.checked);
-    setSelectAll(allChecked);
+  let shippingFeeText = '';
+  if (totalQuantity === 0) {
+    shippingFeeText = '0원'; // 또는 '배송비 없음' 등
+  } else if (shippingFee === 0) {
+    shippingFeeText = '무료 배송';
+  } else {
+    shippingFeeText = `${shippingFee.toLocaleString()}원`;
+  }
+  const selectedItems = cartItems.filter((item: any) => item.checked);
+  const handlePurchase = () => {
+    if (selectedItems.length === 0) return alert('상품을 선택해주세요!');
+    navigate('/order', {
+      state: {
+        selectedItems,
+        totalPayment,
+      },
+    });
   };
 
   return (
     <div className='sub-info-half-content-with-wrap flex w-full'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
-        <div className='py-5'>
+        <div className='flex justify-between py-5'>
           <CheckBox
             id='cart-select-all'
             checked={selectAll}
             label='전체 선택'
             inputMargin='mr-4'
-            onChange={handleSelectAll}
+            onChange={(e) => handleSelectAll(e.target.checked)}
             className='pdr-3 text-base'
           />
+          <GnbButton label='선택 삭제' onClick={removeCheckedItems} />
         </div>
-        {cartItem.map((item) => (
+        {cartItems.map((item) => (
           <CartCard
             key={item.id}
             id={item.id}
@@ -165,10 +148,11 @@ export default function CartList() {
             </li>
           </ul>
           <FilledButton
-            label={`${totalPayment.toLocaleString()}원 구매하기 (${cartItem.filter((item) => item.checked).reduce((acc, item) => acc + item.quantity, 0)}개)`}
+            label={`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
             className='mt-7 text-lg font-bold'
             variant='filled'
             fullWidth
+            onClick={handlePurchase}
           />
         </div>
       </div>

@@ -146,3 +146,7 @@ export interface ModalProps {
   buttons?: boolean;
   [property: string]: any;
 }
+
+export interface SubtitleProps {
+  label: string;
+}
