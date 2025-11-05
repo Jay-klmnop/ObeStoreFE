@@ -32,10 +32,8 @@ export default function CartCard({
           <img src={img} alt='' />
         </div>
         <div>
-          <div className='text-base leading-none font-bold text-(--color-primary-700)'>
-            {brandName}
-          </div>
-          <div className='mt-1 line-clamp-2 text-base font-normal text-ellipsis text-(--color-primary-700)'>
+          <div className='text-color-primary-700 text-base leading-none font-bold'>{brandName}</div>
+          <div className='text-color-primary-700) mt-1 line-clamp-2 text-base font-normal text-ellipsis'>
             {productName}
           </div>
           <div className='mt-1 text-base font-normal'>{quantity}개</div>

@@ -1,4 +1,4 @@
-import { CheckBox } from '@/components/ui';
+import { CheckBox, FilledButton } from '@/components/ui';
 import CartCard from '@/features/cart/CartCard';
 import { useMemo, useState } from 'react';
 
@@ -76,6 +76,14 @@ export default function CartList() {
   const shippingFee = calculateShippingPayment();
   const shippingFeeText = shippingFee === 0 ? '무료 배송' : `${shippingFee.toLocaleString()}원`;
   const totalPayment = checkedItemSum - discountSum + shippingFee;
+  // 적립금 계산 함수 추가
+  const calculateRewardPoints = (): number => {
+    const REWARD_RATE = 0.01; // 1%
+    return Math.floor(checkedItemSum * REWARD_RATE);
+  };
+
+  // 계산된 적립금
+  const rewardPoints = calculateRewardPoints();
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -95,7 +103,7 @@ export default function CartList() {
   };
 
   return (
-    <div className='sub-info-half-content-with-wrap flex w-full flex-row'>
+    <div className='sub-info-half-content-with-wrap flex w-full'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
         <div className='py-5'>
           <CheckBox
@@ -152,11 +160,16 @@ export default function CartList() {
             <li className='flex justify-between'>
               <span className=''>적립 혜택 예상</span>
               <span className=''>
-                <span>최대</span>
-                <span>6,172</span>원
+                <span>{rewardPoints.toLocaleString()}</span>원
               </span>
             </li>
           </ul>
+          <FilledButton
+            label={`${totalPayment.toLocaleString()}원 구매하기 (${cartItem.filter((item) => item.checked).reduce((acc, item) => acc + item.quantity, 0)}개)`}
+            className='mt-7 text-lg font-bold'
+            variant='filled'
+            fullWidth
+          />
         </div>
       </div>
     </div>
