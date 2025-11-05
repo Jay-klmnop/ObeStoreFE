@@ -5,9 +5,9 @@ import {
   TiktokIcon,
   TwitterIcon,
 } from '@/components/icon';
-import type { IconProps } from '@/components/types/props';
+import type { IconProps } from '@/components/types';
 import type { JSX } from 'react';
-import { BrandInfo } from './BrandInfo';
+import { BrandInfo } from '@/components/layout/footer';
 
 type socialLink = {
   name: string;
@@ -28,8 +28,8 @@ export function Footer() {
       Icon: FacebookIcon,
     },
     {
-      name: 'hreadsI',
-      href: 'http://www.facebook/',
+      name: 'Threads',
+      href: 'http://www.threads/',
       Icon: ThreadsIcon,
     },
     {
@@ -44,9 +44,9 @@ export function Footer() {
     },
   ];
   return (
-    <footer className='bg-(--color-primary-700) px-40 py-33'>
+    <footer className='px-40 bg-primary-700 py-33'>
       <BrandInfo />
-      <div className='mt-10 flex gap-3'>
+      <div className='flex gap-3 mt-10'>
         {socialLink.map((link) => (
           <a
             key={link.name}
