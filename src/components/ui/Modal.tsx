@@ -53,12 +53,12 @@ export function Modal({
             <div className='flex items-center justify-center gap-4 pt-5'>
               <button
                 onClick={() => handleCancel()}
-                className='h-11 w-[170px] rounded-lg bg-(--color-primary-700) text-white'
+                className='bg-primary-700 h-11 w-[170px] rounded-lg text-white'
               >
                 아니요
               </button>
               <button
-                className='h-11 w-[170px] rounded-lg border border-(--color-primary-700) bg-white text-(--color-primary-700)'
+                className='border-primary-700 text-primary-700 h-11 w-[170px] rounded-lg border bg-white'
                 onClick={() => handleConfirm()}
               >
                 네

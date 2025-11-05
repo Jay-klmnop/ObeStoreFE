@@ -11,7 +11,7 @@ export function Radio({ id, value, checked, name, onChange, disabled }: RadioPro
         name={name}
         onChange={onChange}
         disabled={disabled}
-        className={`mr-2 h-4 w-4 accent-(--color-primary-500-50)`}
+        className={`mr-2 w-4 h-4 accent-primary-500-50`}
       />
     </>
   );

@@ -1,18 +1,18 @@
 import type { CheckboxAloneProps, CheckboxProps } from '@/components/types';
 
-export function CheckBox({ id, label, checked, onChange, className, inputpd }: CheckboxProps) {
+export function CheckBox({ id, label, checked, onChange, className, inputId }: CheckboxProps) {
   return (
     <>
       <label
         htmlFor={id}
-        className={`flex cursor-pointer items-center gap-2 text-lg text-(--color-primary-700) ${className}`}
+        className={`flex gap-2 items-center text-lg cursor-pointer text-primary-700 ${className}`}
       >
         <input
           id={id}
           type='checkbox'
           checked={checked}
           onChange={onChange}
-          className={`mr-2 h-4 w-4 rounded-lg border border-(--color-primary-500-50) accent-(--color-primary-500-50) ${inputpd} ${className}`}
+          className={`mr-2 w-4 h-4 rounded-lg border border-primary-500-50 accent-primary-500-50 ${inputId} ${className}`}
         />
         {label}
       </label>
@@ -28,7 +28,7 @@ export function CheckBoxAlone({ id, checked, onChange, className }: CheckboxAlon
         type='checkbox'
         checked={checked}
         onChange={onChange}
-        className={`mr-2 h-4 w-4 rounded-lg border border-(--color-primary-500-50) accent-(--color-primary-500-50) ${className}`}
+        className={`mr-2 w-4 h-4 rounded-lg border border-primary-500-50 accent-primary-500-50 ${className}`}
       />
     </>
   );

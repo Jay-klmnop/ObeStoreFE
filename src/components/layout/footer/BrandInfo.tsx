@@ -30,10 +30,10 @@ export function BrandInfo() {
       <h2>
         <FooterLogoIcon />
       </h2>
-      <p className='mt-4 text-sm text-(--color-primary-100)'>
+      <p className='mt-4 text-sm text-primary-100'>
         Obe Store, a place where you can find The Objet for yourself
       </p>
-      <div className='mt-4 cursor-default text-sm leading-6 text-(--color-primary-100)'>
+      <div className='mt-4 cursor-default text-sm leading-6 text-primary-100'>
         <p>
           대표: {BrandInfoTxts.ceo} | 사업자등록번호 : {BrandInfoTxts.businessNumber}
         </p>
@@ -41,7 +41,7 @@ export function BrandInfo() {
         <p>통신판매업 : {BrandInfoTxts.MailOrderSalesRegistrationNumber}</p>
         <p>이메일 : {BrandInfoTxts.email}</p>
       </div>
-      <div className='mt-4 text-sm text-(--color-primary-100)'>
+      <div className='mt-4 text-sm text-primary-100'>
         <ul className='flex gap-10'>
           <li className='cursor-pointer hover:underline' onClick={() => handleOpen('terms')}>
             이용약관
