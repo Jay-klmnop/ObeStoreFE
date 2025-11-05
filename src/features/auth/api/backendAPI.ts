@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { API_ENDPOINTS } from '@/api';
+import { API_ENDPOINTS } from '@/features/auth/api';
+import { useAuthStore } from '@/features/auth';
 
 export const backendAPI = axios.create({
   baseURL: 'dk yet', // 추후에 백엔드에게 주소 받아와야함
@@ -11,14 +12,9 @@ export const backendAPI = axios.create({
 
 backendAPI.interceptors.request.use(
   (config) => {
-    const storedData = localStorage.getItem('persist:root');
-    if (storedData) {
-      const parsed = JSON.parse(storedData);
-      const authData = JSON.parse(parsed.auth || '{}');
-      const accessToken = authData.token;
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`;
-      }
+    const accessToken = useAuthStore.getState().accessToken;
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -33,11 +29,7 @@ backendAPI.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const storedData = localStorage.getItem('persist:root');
-        if (!storedData) throw new Error('no persisted data');
-        const parsed = JSON.parse(storedData);
-        const authData = JSON.parse(parsed.auth || '{}');
-        const refreshToken = authData.refresh_token;
+        const refreshToken = useAuthStore.getState().refreshToken;
         if (!refreshToken) throw new Error('no refresh token');
         const res = await axios.post(
           `${backendAPI.defaults.baseURL}${API_ENDPOINTS.REFRESH_TOKEN}`,
@@ -45,16 +37,13 @@ backendAPI.interceptors.response.use(
         );
         const newAccessToken = res.data?.accessToken;
         if (newAccessToken) {
-          authData.token = newAccessToken;
-          parsed.auth = JSON.stringify(authData);
-          localStorage.setItem('persist:root', JSON.stringify(parsed));
-
+          useAuthStore.getState().setToken(newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return backendAPI(originalRequest);
         }
       } catch (err) {
         console.error('Token refresh failed: ', err);
-        localStorage.clear();
+        useAuthStore.getState().logout();
         window.location.href = '/';
       }
     }

@@ -1,4 +1,4 @@
-import { API_ENDPOINTS, backendAPI } from '@/api';
+import { authAPI } from '@/features/auth';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -9,6 +9,7 @@ interface AuthState {
   refreshToken: string | null;
   user: any | null;
   authModalType: AuthModalType;
+  setToken: (accessToken: string) => void;
   openAuthModal: (type: AuthModalType) => void;
   closeAuthModal: () => void;
   signup: (email: string, password: string) => Promise<void>;
@@ -24,25 +25,26 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       user: null,
       authModalType: null,
+      setToken: (accessToken) => set({ accessToken }),
       openAuthModal: (type) => set({ authModalType: type }),
       closeAuthModal: () => set({ authModalType: null }),
       signup: async (email, password) => {
-        (await backendAPI.post(API_ENDPOINTS.SIGNUP), { email, password });
+        await authAPI.signup({ email, password });
         await get().login(email, password);
       },
       login: async (email, password) => {
-        const res = await backendAPI.post(API_ENDPOINTS.LOGIN, { email, password });
+        const res = await authAPI.login({ email, password });
         const { accessToken, refreshToken, user } = res.data;
         set({ accessToken, refreshToken, user });
       },
       logout: async () => {
-        await backendAPI.post(API_ENDPOINTS.LOGOUT);
+        await authAPI.logout();
         set({ accessToken: null, refreshToken: null, user: null });
       },
       refresh: async () => {
         const { refreshToken } = get();
         if (!refreshToken) return;
-        const res = await backendAPI.post(API_ENDPOINTS.REFRESH_TOKEN, { refreshToken });
+        const res = await authAPI.refreshToken({ refreshToken });
         set({ accessToken: res.data.accessToken });
       },
     }),
