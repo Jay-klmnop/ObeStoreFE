@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "커밋 메시지 규칙 검사 중..."
+
+npx --no -- commitlint --edit "$1"
+
+if [ $? -ne 0 ]; then
+  echo "커밋 메시지가 규칙에 맞지 않습니다."
+  echo "형식 예시: feat: Header 컴포넌트 생성"
+  echo "가능한 타입: feat | fix | chore | refactor | style | docs | build | ci | perf"
+  exit 1
+fi
+
+echo "검사 통과."
