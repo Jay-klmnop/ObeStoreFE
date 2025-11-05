@@ -9,6 +9,7 @@
   --color-primary-500-60: #886554;
   --color-primary-500-50: #a57865;
   --color-primary-500-40: #b9917f;
+  --color-primary-500-0: #f6efed;
   --color-secondary-300: #ce5133;
   --color-custom-gray-50: #cdd1d5;
   --color-custom-gray-30: #b1b8be;
@@ -55,11 +56,6 @@
   max-width: 50rem;
 }
 
-.sub-info-half-content {
-  width: 100%;
-  max-width: 685px;
-}
-
 /* 반응형 설정 */
 @media (min-width: 640px) {
   /* sm */
@@ -73,6 +69,9 @@
   .modal {
     width: 40rem;
   }
+  .sub-info-half-content {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -80,11 +79,30 @@
   .modal {
     width: 50rem;
   }
+  .sub-info-half-content-with {
+    width: calc(100% - 705px);
+    margin-top: 0px;
+  }
+  .sub-info-half-content-with-wrap {
+    flex-direction: row;
+  }
 }
 
 @media (min-width: 1280px) {
   /* xl */
   .modal {
     width: 56rem;
+  }
+  .sub-info-half-content-with-wrap {
+    justify-content: space-between;
+  }
+  .sub-info-half-content {
+    width: 100%;
+    max-width: 685px;
+    flex-direction: row;
+  }
+
+  .sub-info-half-content-with {
+    width: calc(100% - 705px);
   }
 }

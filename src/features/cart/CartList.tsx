@@ -64,8 +64,18 @@ export default function CartList() {
       discountSum: discount,
     };
   }, [cartItem]);
+  const calculateShippingPayment = (): number => {
+    const FREE_SHIPPING_THRESHOLD = 50000;
+    const SHIPPING_FEE = 3500;
 
-  const totalPayment = checkedItemSum - discountSum;
+    if (checkedItemSum > FREE_SHIPPING_THRESHOLD) {
+      return 0;
+    }
+    return SHIPPING_FEE;
+  };
+  const shippingFee = calculateShippingPayment();
+  const shippingFeeText = shippingFee === 0 ? '무료 배송' : `${shippingFee.toLocaleString()}원`;
+  const totalPayment = checkedItemSum - discountSum + shippingFee;
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
@@ -85,14 +95,14 @@ export default function CartList() {
   };
 
   return (
-    <div className='flex w-full flex-row justify-between'>
+    <div className='sub-info-half-content-with-wrap flex w-full flex-row'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
         <div className='py-5'>
           <CheckBox
             id='cart-select-all'
             checked={selectAll}
             label='전체 선택'
-            inputpd='mr-4'
+            inputMargin='mr-4'
             onChange={handleSelectAll}
             className='pdr-3 text-base'
           />
@@ -113,39 +123,41 @@ export default function CartList() {
           />
         ))}
       </div>
-      <div className='bg-white px-7.5 py-2.5'>
-        <h3>구매 금액</h3>
-        <ul>
-          <li>
-            <span>상품 금액</span>
-            <span>
-              <span>{checkedItemSum.toLocaleString()}</span>원
-            </span>
-          </li>
-          <li>
-            <span>할인 금액</span>
-            <span>
-              <span>{discountSum.toLocaleString()}</span>원
-            </span>
-          </li>
-          <li>
-            <span>배송비</span>
-            <span>무료 배송</span>
-          </li>
-          <li>
-            <span>총 결제 금액</span>
-            <span>
-              <span>{totalPayment.toLocaleString()}</span>원
-            </span>
-          </li>
-          <li>
-            <span className=''>적립 혜택 예상</span>
-            <span className=''>
-              <span>최대</span>
-              <span>6,172</span>원
-            </span>
-          </li>
-        </ul>
+      <div className='sub-info-half-content-with bg-white px-7.5 py-2.5'>
+        <div className='py-5'>
+          <h3 className='text-lg font-bold'>구매 금액</h3>
+          <ul className='mt-3 text-base leading-7'>
+            <li className='flex justify-between'>
+              <span>상품 금액</span>
+              <span>
+                <span>{checkedItemSum.toLocaleString()}</span>원
+              </span>
+            </li>
+            <li className='flex justify-between'>
+              <span>할인 금액</span>
+              <span>
+                <span>{discountSum.toLocaleString()}</span>원
+              </span>
+            </li>
+            <li className='flex justify-between'>
+              <span>배송비</span>
+              <span>{shippingFeeText}</span>
+            </li>
+            <li className='mt-4 flex justify-between'>
+              <span className='font-semibold'>총 결제 금액</span>
+              <span className='font-semibold'>
+                <span className='font-semibold'>{totalPayment.toLocaleString()}</span>원
+              </span>
+            </li>
+            <li className='flex justify-between'>
+              <span className=''>적립 혜택 예상</span>
+              <span className=''>
+                <span>최대</span>
+                <span>6,172</span>원
+              </span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
