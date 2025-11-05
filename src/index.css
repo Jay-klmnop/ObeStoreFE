@@ -5,6 +5,7 @@
   :root {
     --color-primary-700: #291b16;
     --color-primary-100: #f6efed;
+    --color-primary-500-90: #302823;
     --color-primary-500-60: #886554;
     --color-primary-500-50: #a57865;
     --color-primary-500-40: #b9917f;
@@ -54,6 +55,11 @@
   @apply rounded-lg bg-white p-6 shadow-lg transition-all;
   width: 90%;
   max-width: 50rem;
+}
+
+.sub-info-half-content {
+  width: 100%;
+  max-width: 685px;
 }
 
 /* 반응형 설정 */

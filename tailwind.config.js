@@ -8,6 +8,7 @@ export default {
       colors: {
         primary: {
           700: 'var(--color-primary-700)',
+          '500-90': 'var(--color-primary-500-90)',
           '500-60': 'var(--color-primary-500-60)',
           '500-50': 'var(--color-primary-500-50)',
           '500-40': 'var(--color-primary-500-40)',

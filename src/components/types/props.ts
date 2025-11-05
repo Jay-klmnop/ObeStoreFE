@@ -53,6 +53,7 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  inputpd?: string;
 }
 
 export interface CheckboxAloneProps {
