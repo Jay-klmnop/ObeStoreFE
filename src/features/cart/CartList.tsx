@@ -1,5 +1,7 @@
+import { useCartItemsQuery } from '@/features/cart/api/useCartItemsQuery';
 import { CheckBox, FilledButton, GnbButton } from '@/components/ui';
-import CartCard from '@/features/cart/CartCard';
+import { useNavigate } from 'react-router-dom';
+import { usdToKrw } from '@/features/cart/api/currency';
 import {
   useCartStore,
   useCheckedItemSum,
@@ -9,41 +11,31 @@ import {
   useShippingFee,
   useTotalPayment,
 } from '@/features/cart/store/useCartStore';
+import CartCard from '@/features/cart/CartCard';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const initialCartItems = [
-  {
-    id: 'cart-001',
-    brandName: 'OBE STORE',
-    productName: 'Lknup Colored Mugs (Autumn Edition)',
-    img: 'https://placehold.co/200x200',
-    quantity: 1,
-    price: 45000,
-    checked: false,
-  },
-  {
-    id: 'cart-002',
-    brandName: 'Pocket Object',
-    productName: 'Classic Tote Bag with Leather Handle',
-    img: 'https://placehold.co/200x200',
-    quantity: 1,
-    price: 75000,
-    checked: false,
-  },
-  {
-    id: 'cart-003',
-    brandName: '오즈코딩스쿨',
-    productName:
-      '상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명상품명',
-    img: 'https://placehold.co/200x200',
-    quantity: 5,
-    price: 98000,
-    checked: false,
-  },
-];
+export interface Product {
+  id: number;
+  title: string;
+  price: number;
+  brand?: string;
+  stock?: number;
+  images?: string;
+  checked: boolean;
+}
+
+export type CartItem = {
+  id: string | number;
+  brand: string;
+  title: string;
+  images: string;
+  stock: number; // quantity
+  checked: boolean;
+  price: number;
+};
 
 export default function CartList() {
+  const { data, isLoading, error } = useCartItemsQuery();
   const navigate = useNavigate();
   const {
     cartItems,
@@ -59,11 +51,31 @@ export default function CartList() {
   const shippingFee = useShippingFee();
   const totalPayment = useTotalPayment();
   const rewardPoints = useRewardPoints();
-  const totalQuantity = useSelectedQuantity();
+  const totalQuantity: number = useSelectedQuantity();
 
   useEffect(() => {
-    setCartItems(initialCartItems);
-  }, [setCartItems]);
+    if (data?.products) {
+      // Zustand store에 초기 cart 데이터 설정
+      setCartItems(
+        data.products.map(
+          (product): CartItem => ({
+            id: String(product.id),
+            brand: product.brand ?? 'none',
+            title: product.title ?? 'none',
+            images:
+              typeof product.images === 'string'
+                ? product.images
+                : Array.isArray(product.images)
+                  ? product.images[0]
+                  : 'http://placehold.co/200x200',
+            price: Math.floor(usdToKrw(product.price)) ?? 0,
+            stock: product.stock ?? 1,
+            checked: product.checked,
+          })
+        )
+      );
+    }
+  }, [data, setCartItems]);
 
   let shippingFeeText = '';
   if (totalQuantity === 0) {
@@ -76,7 +88,7 @@ export default function CartList() {
   const selectedItems = cartItems.filter((item: any) => item.checked);
   const handlePurchase = () => {
     if (selectedItems.length === 0) return alert('상품을 선택해주세요!');
-    navigate('/order', {
+    navigate('/order/order', {
       state: {
         selectedItems,
         totalPayment,
@@ -84,6 +96,18 @@ export default function CartList() {
     });
   };
 
+  if (isLoading)
+    return <div className='p-10 text-center'>장바구니 상품 정보를 불러오는 중입니다...</div>;
+  if (error)
+    return (
+      <div className='p-10 text-center text-red-500'>
+        장바구니 정보를 가져오는 데 실패했습니다: {error.message}
+      </div>
+    );
+  console.log(data); // 👈 API 구조 확인용
+  console.log('상품합계:', checkedItemSum);
+  console.log('배송비:', shippingFee);
+  console.log('총결제금액:', totalPayment);
   return (
     <div className='sub-info-half-content-with-wrap flex w-full'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
@@ -98,18 +122,25 @@ export default function CartList() {
           />
           <GnbButton label='선택 삭제' onClick={removeCheckedItems} />
         </div>
-        {cartItems.map((item) => (
+
+        {cartItems.map((product) => (
           <CartCard
-            key={item.id}
-            id={item.id}
-            brandName={item.brandName}
-            productName={item.productName}
-            img={item.img}
-            quantity={item.quantity}
-            checked={item.checked}
-            price={item.price}
+            key={product.id}
+            id={String(product.id)}
+            brand={product.brand ?? 'none'}
+            title={product.title ?? 'none'}
+            images={
+              typeof product.images === 'string'
+                ? product.images
+                : Array.isArray(product.images)
+                  ? product.images[0]
+                  : 'http://placehold.co/200x200'
+            }
+            stock={product.stock}
+            checked={product.checked}
+            price={product.price}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleItemCheck(item.id, e.target.checked)
+              handleItemCheck(String(product.id), e.target.checked)
             }
           />
         ))}
