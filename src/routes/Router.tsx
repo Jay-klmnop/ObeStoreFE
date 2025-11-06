@@ -1,11 +1,16 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { MainPage, MyPageOrderDetail, MyPageOrderInfo, ProductDetailPage } from '@/pages';
+import {
+  CartPage,
+  MainPage,
+  MyPage,
+  MyPageAddressInfo,
+  MyPageInfo,
+  MyPageOrderDetail,
+  MyPageOrderInfo,
+  OrderPage,
+  ProductDetailPage,
+} from '@/pages';
 import { Layout } from '@/components/layout';
-import CartPage from '@/pages/CartPage';
-import OrderPage from '@/pages/OrderPage';
-import MyPage from '@/pages/mypage/MyPage';
-import MyPageAddressInfo from '@/pages/mypage/MyPageAddressInfo';
-import MyPageInfo from '@/pages/mypage/MyPageInfo';
 
 export function Router() {
   return (
