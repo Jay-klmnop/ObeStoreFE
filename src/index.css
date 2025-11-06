@@ -17,11 +17,12 @@
   --color-custom-gray-30: #b1b8be;
   --color-custom-gray-20: #cdd1d5;
   --color-custom-gray-10: #e6e8ea;
+  --color-naver-green: #00be18;
 }
 
 @layer base {
   body {
-    @apply font-pretendard;
+    @apply font-pretendard text-primary-700 font-medium;
   }
 }
 
@@ -34,7 +35,7 @@
     @apply bg-primary-700 text-white hover:opacity-90;
   }
   .btn-primary-hollow {
-    @apply border-primary-700 text-primary-700 border bg-white hover:opacity-90;
+    @apply border-primary-700 text-primary-700 border-2 bg-transparent hover:opacity-90;
   }
 
   .mobile-visible {
@@ -44,12 +45,36 @@
   .mobile-hidden {
     @apply hidden md:inline-flex;
   }
+
+  .centralize {
+    @apply flex items-center justify-center;
+  }
+
+  .input {
+    @apply border-primary-500-60 h-12 w-full rounded-lg border-2 bg-white p-4 focus:ring-0 focus:outline-none;
+
+    &.auth-input {
+      @apply w-3/4;
+    }
+  }
+
+  .auth-button {
+    @apply h-12;
+  }
+
+  .sub-text {
+    @apply text-primary-500-60 font-medium;
+  }
 }
 
 .modal {
   @apply rounded-lg bg-white p-6 shadow-lg transition-all;
   width: 90%;
   max-width: 40rem;
+
+  &.auth-modal {
+    @apply max-h-[90vh] overflow-auto p-10;
+  }
 }
 
 .modal.big {

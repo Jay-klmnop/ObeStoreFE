@@ -1,6 +1,6 @@
-import { LuShoppingCart } from 'react-icons/lu';
+import { BsCart } from 'react-icons/bs';
 import type { IconProps } from '@/components/types';
 
-export function CartIcon({ size, color, className }: IconProps) {
-  return <LuShoppingCart size={size} color={color} className={className} />;
+export function CartIcon({ color, className }: IconProps) {
+  return <BsCart size={23} strokeWidth={0.3} color={color} className={className} />;
 }

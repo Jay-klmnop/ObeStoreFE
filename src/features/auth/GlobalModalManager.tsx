@@ -1,6 +1,6 @@
 import { useAuthStore, LoginModal, SignupForm } from '@/features/auth';
 
-const GlobalModalManager = () => {
+export function GlobalModalManager() {
   const { authModalType } = useAuthStore();
 
   return (
@@ -9,6 +9,4 @@ const GlobalModalManager = () => {
       {authModalType === 'signup' && <SignupForm />}
     </>
   );
-};
-
-export default GlobalModalManager;
+}

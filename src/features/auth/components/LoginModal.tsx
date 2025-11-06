@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useAuthStore } from '@/features/auth';
-import { AuthModal } from '@/components/ui';
-import { EmailInput, PasswordInput } from '@/components/ui';
+import { AuthModal, FilledButton, HollowButton } from '@/components/ui';
+import naverIcon from '@/assets/naver-icon.svg';
+import { HeaderLogoImgIcon } from '@/components/icon';
 
 export function LoginModal() {
   const { login, openAuthModal, closeAuthModal, authModalType } = useAuthStore();
@@ -22,15 +23,55 @@ export function LoginModal() {
 
   return (
     <AuthModal isOpen={authModalType === 'login'} onClose={closeAuthModal} title='로그인'>
-      <form onSubmit={handleLogin}>
-        <EmailInput value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <PasswordInput value={password} onChange={(e) => setPassword(e.target.value)} required />
+      <div className='flex w-full justify-center'>
+        <HeaderLogoImgIcon />
+      </div>
+      <form onSubmit={handleLogin} className='flex w-full flex-col gap-6'>
+        <div className='flex w-full flex-col gap-2'>
+          <div>
+            <label htmlFor='email' className='text-sm font-semibold'>
+              이메일
+            </label>
+            <input
+              id='email'
+              value={email}
+              type='email'
+              placeholder='이메일을 입력해주세요'
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className='input'
+            />
+          </div>
+          <div>
+            <label htmlFor='password' className='text-sm font-semibold'>
+              비밀번호
+            </label>
+            <input
+              id='password'
+              value={password}
+              type='password'
+              placeholder='비밀번호를 입력해주세요'
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className='input'
+            />
+          </div>
+        </div>
         {error && <p className='text-secondary-300 text-sm'>{error}</p>}
-        <button>로그인</button>
-        <div>
-          계정이 없으신가요? <button onClick={() => openAuthModal('signup')}>회원가입</button>
+        <div className='flex w-full flex-col gap-6'>
+          <FilledButton className='auth-button'>로그인</FilledButton>
+          <HollowButton className='auth-button flex items-center justify-center gap-2'>
+            <img src={naverIcon} alt='Naver' className='h-10 w-10' />
+            네이버 간편 로그인
+          </HollowButton>
         </div>
       </form>
+      <div className='sub-text flex justify-center gap-2'>
+        계정이 없으신가요?{' '}
+        <button className='text-primary-700 font-bold' onClick={() => openAuthModal('signup')}>
+          회원가입
+        </button>
+      </div>
     </AuthModal>
   );
 }

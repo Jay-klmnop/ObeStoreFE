@@ -1,5 +1,6 @@
+export * from './AuthModal';
 export * from './CheckBox';
-export * from './Modal';
+export * from './ConfirmModal';
 export * from './Radio';
 export * from './ReviewRating';
 export * from './ReviewUser';

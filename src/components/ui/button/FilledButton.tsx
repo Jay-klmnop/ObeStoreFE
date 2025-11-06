@@ -1,7 +1,7 @@
 import type { ButtonProps } from '@/components/types';
 
 export function FilledButton({
-  label,
+  children,
   variant = 'filled',
   fullWidth = false,
   className = '',
@@ -14,7 +14,7 @@ export function FilledButton({
 
   return (
     <button {...rest} className={`${baseStyle} ${fullWidth ? 'w-full' : ''} ${className}`}>
-      {label}
+      {children}
     </button>
   );
 }
