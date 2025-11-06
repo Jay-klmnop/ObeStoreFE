@@ -1,3 +1,3 @@
-export default function MyPageAddressInfo() {
+export function MyPageAddressInfo() {
   return <div>MyPageAddressInfo</div>;
 }
