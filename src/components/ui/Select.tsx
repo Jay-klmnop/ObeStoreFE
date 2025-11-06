@@ -18,7 +18,7 @@ export function Select({
         name={name}
         onChange={onChange}
         disabled={disabled}
-        className={`rounded-md border border-(--color-custom-gray-50) px-2 py-1 text-sm transition outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 ${fullWidth ? 'w-full' : 'w-auto'} ${className}`}
+        className={`border-custom-gray-50 rounded-md border px-2 py-1 text-sm transition outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400 ${fullWidth ? 'w-full' : 'w-auto'} ${className}`}
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>

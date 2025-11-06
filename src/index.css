@@ -1,25 +1,25 @@
 @import 'tailwindcss';
 @import '@fontsource/pretendard';
 
+@theme {
+  --font-pretendard: 'Pretendard', sans-serif;
+
+  --color-primary-700: #291b16;
+  --color-primary-100: #f6efed;
+  --color-primary-500-60: #886554;
+  --color-primary-500-50: #a57865;
+  --color-primary-500-40: #b9917f;
+  --color-primary-500-0: #f6efed;
+  --color-secondary-300: #ce5133;
+  --color-custom-gray-50: #cdd1d5;
+  --color-custom-gray-30: #b1b8be;
+  --color-custom-gray-20: #cdd1d5;
+  --color-custom-gray-10: #e6e8ea;
+}
+
 @layer base {
-  :root {
-    --color-primary-700: #291b16;
-    --color-primary-100: #f6efed;
-    --color-primary-500-60: #886554;
-    --color-primary-500-50: #a57865;
-    --color-primary-500-40: #b9917f;
-    --color-primary-500-0: #fbf7f5;
-    --color-secondary-300: #ce5133;
-    --color-custom-gray-50: #cdd1d5;
-    --color-custom-gray-30: #b1b8be;
-    --color-custom-gray-20: #cdd1d5;
-    --color-custom-gray-10: #e6e8ea;
-
-    --font-pretendard: 'Pretendard', sans-serif;
-  }
-
   body {
-    font-family: var(--font-pretendard);
+    @apply font-pretendard;
   }
 }
 
@@ -29,10 +29,10 @@
   }
 
   .btn-primary {
-    @apply bg-(--color-primary-700) text-white hover:opacity-90;
+    @apply bg-primary-700 text-white hover:opacity-90;
   }
   .btn-primary-hollow {
-    @apply border border-(--color-primary-700) bg-white text-(--color-primary-700) hover:opacity-90;
+    @apply border-primary-700 text-primary-700 border bg-white hover:opacity-90;
   }
 
   .mobile-visible {
@@ -56,6 +56,18 @@
   max-width: 50rem;
 }
 
+.sub-info-half-content-with-wrap {
+  flex-direction: column;
+}
+.sub-info-half-content {
+  width: 100%;
+}
+.sub-info-half-content-with {
+  width: 100%;
+  margin-top: 20px;
+  height: fit-content;
+}
+
 /* 반응형 설정 */
 @media (min-width: 640px) {
   /* sm */
@@ -76,11 +88,30 @@
   .modal {
     width: 50rem;
   }
+  .sub-info-half-content-with {
+    width: calc(100% - 705px);
+    margin-top: 0px;
+    flex-direction: row;
+  }
+  .sub-info-half-content-with-wrap {
+    flex-direction: row;
+  }
 }
 
 @media (min-width: 1280px) {
   /* xl */
   .modal {
     width: 56rem;
+  }
+  .sub-info-half-content-with-wrap {
+    justify-content: space-between;
+  }
+  .sub-info-half-content {
+    width: 100%;
+    max-width: 685px;
+  }
+
+  .sub-info-half-content-with {
+    width: calc(100% - 705px);
   }
 }

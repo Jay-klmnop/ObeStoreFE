@@ -32,7 +32,7 @@ type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancell
 const sampleOrders: Order[] = [
   {
     id: 'ORD-2025-001',
-    userId: 'user1',
+    userId: 'U002',
     orderDate: '25.11.07(월)',
     status: 'delivered',
     totalAmount: 39000,
@@ -55,7 +55,7 @@ const sampleOrders: Order[] = [
   },
   {
     id: 'ORD-2025-002',
-    userId: 'user2',
+    userId: 'U001',
     orderDate: '25.11.08(화)',
     status: 'shipped',
     totalAmount: 23000,
@@ -63,7 +63,7 @@ const sampleOrders: Order[] = [
       {
         productId: 'P002',
         productName: '그린티 에코백',
-        productImage: '',
+        productImage: 'https://via.placeholder.com/120x160.png?text=%EC%A0%9C%ED%92%88+%EC%9D%B4%EB%AF%B8%EC%A7%80',
         quantity: 1,
         price: 23000,
       },

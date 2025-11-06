@@ -53,6 +53,7 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  inputMargin?: string;
 }
 
 export interface CheckboxAloneProps {
@@ -102,6 +103,7 @@ export interface CheckboxProps {
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  inputId?: string;
 }
 
 export interface CheckboxAloneProps {
@@ -143,4 +145,8 @@ export interface ModalProps {
   children: ReactNode;
   buttons?: boolean;
   [property: string]: any;
+}
+
+export interface SubtitleProps {
+  label: string;
 }

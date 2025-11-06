@@ -15,7 +15,7 @@ export default function SearchInput({ value, id, placeholder, fullWidth, onChang
         id={id}
         placeholder={placeholder}
         onChange={handleChange}
-        className={`flex rounded-lg border border-(--color-primary-500-50) px-[.6rem] py-[.8rem] ${fullWidth ? 'w-full' : ''}`}
+        className={`border-primary-500-50 flex rounded-lg border px-[.6rem] py-[.8rem] ${fullWidth ? 'w-full' : ''}`}
       />
     </>
   );

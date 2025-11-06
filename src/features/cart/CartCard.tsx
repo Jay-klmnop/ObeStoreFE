@@ -7,6 +7,7 @@ type CartCardProps = {
   img: string;
   quantity?: number;
   className?: string;
+  price: number;
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -17,6 +18,7 @@ export default function CartCard({
   productName,
   quantity,
   img,
+  price,
   checked,
   onChange,
 }: CartCardProps) {
@@ -30,14 +32,12 @@ export default function CartCard({
           <img src={img} alt='' />
         </div>
         <div>
-          <div className='text-base leading-none font-bold text-(--color-primary-700)'>
-            {brandName}
-          </div>
-          <div className='mt-1 line-clamp-2 text-base font-normal text-ellipsis text-(--color-primary-700)'>
+          <div className='text-color-primary-700 text-base leading-none font-bold'>{brandName}</div>
+          <div className='text-color-primary-700) mt-1 line-clamp-2 text-base font-normal text-ellipsis'>
             {productName}
           </div>
           <div className='mt-1 text-base font-normal'>{quantity}개</div>
-          <div className='mt-1 text-base font-normal'>24,500원</div>
+          <div className='mt-1 text-base font-normal'>{price}</div>
         </div>
       </div>
     </>
