@@ -3,6 +3,7 @@ import { Subtitle } from '@/components/ui/Subtitle';
 import CartList from '@/features/cart/CartList';
 
 export function CartPage() {
+  const queryClient = new QueryClient();
   return (
     <>
       <QueryClientProvider client={queryClient}>
