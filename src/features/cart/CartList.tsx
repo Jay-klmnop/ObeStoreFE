@@ -13,6 +13,7 @@ import {
 } from '@/features/cart/store/useCartStore';
 import CartCard from '@/features/cart/CartCard';
 import { useEffect } from 'react';
+import { useOrderStore } from '../order/store/useOrderStore';
 
 export interface Product {
   id: number;
@@ -35,6 +36,7 @@ export type CartItem = {
 };
 
 export default function CartList() {
+  const { setOrderInfo } = useOrderStore();
   const { data, isLoading, error } = useCartItemsQuery();
   const navigate = useNavigate();
   const {
@@ -88,12 +90,8 @@ export default function CartList() {
   const selectedItems = cartItems.filter((item: any) => item.checked);
   const handlePurchase = () => {
     if (selectedItems.length === 0) return alert('상품을 선택해주세요!');
-    navigate('/order/order', {
-      state: {
-        selectedItems,
-        totalPayment,
-      },
-    });
+    setOrderInfo(selectedItems, totalPayment);
+    navigate('/order/order');
   };
 
   if (isLoading)
