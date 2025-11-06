@@ -1,9 +1,3 @@
-import OrderList from '@/features/order/OrderList';
-
-export default function OrderPage() {
-  return (
-    <>
-      <OrderList />
-    </>
-  );
+export function OrderPage() {
+  return <div>OrderPage</div>;
 }
