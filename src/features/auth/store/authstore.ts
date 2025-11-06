@@ -1,4 +1,4 @@
-import { authAPI } from '@/features/auth';
+import { authLogin, authSignup, authLogout, authRefreshToken } from '@/api';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -29,22 +29,22 @@ export const useAuthStore = create<AuthState>()(
       openAuthModal: (type) => set({ authModalType: type }),
       closeAuthModal: () => set({ authModalType: null }),
       signup: async (email, password) => {
-        await authAPI.signup({ email, password });
+        await authSignup({ email, password });
         await get().login(email, password);
       },
       login: async (email, password) => {
-        const res = await authAPI.login({ email, password });
+        const res = await authLogin({ email, password });
         const { accessToken, refreshToken, user } = res.data;
         set({ accessToken, refreshToken, user });
       },
       logout: async () => {
-        await authAPI.logout();
+        await authLogout();
         set({ accessToken: null, refreshToken: null, user: null });
       },
       refresh: async () => {
         const { refreshToken } = get();
         if (!refreshToken) return;
-        const res = await authAPI.refreshToken({ refreshToken });
+        const res = await authRefreshToken({ refreshToken });
         set({ accessToken: res.data.accessToken });
       },
     }),

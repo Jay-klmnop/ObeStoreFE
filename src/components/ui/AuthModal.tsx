@@ -4,10 +4,11 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
+  className?: string;
   title: string;
 }
 
-export function AuthModal({ isOpen, onClose, children, title }: ModalProps) {
+export function AuthModal({ isOpen, onClose, children, className, title }: ModalProps) {
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -17,15 +18,22 @@ export function AuthModal({ isOpen, onClose, children, title }: ModalProps) {
   };
 
   return (
-    <div className='centralize modal fixed inset-0 z-100 h-3/5' onClick={handleBackdropClick}>
-      <div className='relative w-full max-w-md rounded-lg p-4'>
+    <div
+      className={`centralize bg-primary-700/50 fixed inset-0 z-100 h-full w-full backdrop-blur-sm ${className ?? ''}`}
+      onClick={handleBackdropClick}
+    >
+      <div
+        className='modal auth-modal relative m-10 flex h-4/5 w-full flex-col'
+        role='dialog'
+        aria-modal='true'
+      >
         <div className='flex items-start justify-between'>
-          <h2 className='text-xl font-bold'>{title}</h2>
-          <button onClick={onClose} className='text-2xl font-light'>
+          <h2 className='mt-2 text-xl font-bold'>{title}</h2>
+          <button onClick={onClose} className='text-3xl font-light' aria-label='닫기'>
             &times;
           </button>
         </div>
-        <div className='mt-4'>{children}</div>
+        <div className='centralize mb-8 h-full flex-col gap-6 overflow-y-auto p-4'>{children}</div>
       </div>
     </div>
   );

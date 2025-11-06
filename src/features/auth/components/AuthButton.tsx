@@ -6,5 +6,9 @@ export function AuthButton() {
 
   if (accessToken) return null;
 
-  return <GnbButton label='로그인/회원가입' onClick={() => openAuthModal('login')} />;
+  return (
+    <GnbButton onClick={() => openAuthModal('login')} className='mobile-hidden'>
+      로그인/회원가입
+    </GnbButton>
+  );
 }

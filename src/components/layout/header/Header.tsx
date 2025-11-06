@@ -1,12 +1,21 @@
-import { HeaderLogoIcon } from '@/components/icon';
+import { HeaderLogoIcon, MenuIcon } from '@/components/icon';
 import { HeaderIcons, HeaderNav } from '@/components/layout';
+import { AuthButton } from '@/features/auth';
 
 export function Header() {
   return (
-    <header>
-      <HeaderLogoIcon />
-      <HeaderNav />
-      <HeaderIcons />
+    <header className='fixed top-0 z-100 flex w-full justify-center'>
+      <div className='bg-primary-100 flex h-16 max-w-[1200px] min-w-[360px] grow items-center justify-between px-8'>
+        <div className='flex gap-8'>
+          <MenuIcon className='md:hidden' />
+          <HeaderLogoIcon width={48} />
+          <HeaderNav />
+        </div>
+        <div className='flex h-9 gap-8'>
+          <HeaderIcons />
+          <AuthButton />
+        </div>
+      </div>
     </header>
   );
 }

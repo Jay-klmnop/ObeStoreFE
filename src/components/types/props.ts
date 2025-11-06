@@ -2,7 +2,7 @@ import type { InputHTMLAttributes, ReactNode } from 'react';
 import type { ChangeEvent } from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+  children: ReactNode;
   variant?: 'filled' | 'hollow';
   fullWidth?: boolean;
   px?: number | string; // x축 padding
@@ -12,7 +12,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 import type { HTMLAttributes } from 'react';
 
 export interface IconProps {
-  size: number;
+  size?: number;
   color?: string;
   className?: string;
 }
