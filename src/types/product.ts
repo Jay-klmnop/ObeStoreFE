@@ -19,3 +19,14 @@ export interface ProductOption {
   name: string;
   values: string[];
 }
+
+export interface ProductCardType { 
+  id: number; 
+  product_name: string; 
+  product_brand: string; 
+  product_price: string; 
+  product_rating: string; 
+  product_image: { 
+    thumbnail: string; 
+  }; 
+}
