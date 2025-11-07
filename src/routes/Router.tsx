@@ -11,6 +11,8 @@ import {
   ProductDetailPage,
 } from '@/pages';
 import { Layout } from '@/components/layout';
+import { OrderSuccess } from '@/features/order/OrderSuccess';
+import { OrderFail } from '@/features/order/OrderFail';
 
 export function Router() {
   return (
@@ -21,6 +23,8 @@ export function Router() {
           <Route path='/product/:id' element={<ProductDetailPage />} />
           <Route path='/cart/cart' element={<CartPage />} />
           <Route path='/order/order' element={<OrderPage />} />
+          <Route path='/order/success' element={<OrderSuccess />} />
+          <Route path='/order/fail' element={<OrderFail />} />
           <Route path='/mypage/orderinfo' element={<MyPageOrderInfo />} />
           <Route path='/mypage/orderdetail' element={<MyPageOrderDetail />} />
           <Route path='/mypage/mypage' element={<MyPage />} />

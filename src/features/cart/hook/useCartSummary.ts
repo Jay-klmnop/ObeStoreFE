@@ -7,21 +7,28 @@ import {
   useShippingFee,
   useTotalPayment,
 } from '@/features/cart/store/useCartStore';
+import { useRewardStore } from '@/features/reward/store/useRewardStore';
 
 export function useCartSummary() {
   const checkedItemSum = useCheckedItemSum();
   const discountSum = useDiscountSum();
   const shippingFee = useShippingFee();
-  const totalPayment = useTotalPayment();
+  const baseTotalPayment = useTotalPayment();
   const rewardPoints = useRewardPoints();
   const totalQuantity: number = useSelectedQuantity();
+
+  const { usedPoints } = useRewardStore();
+
+  const totalPayment = useMemo(() => {
+    const result = baseTotalPayment - usedPoints;
+    return result < 0 ? 0 : result; // 마이너스 방지
+  }, [baseTotalPayment, usedPoints]);
 
   const shippingFeeText = useMemo(() => {
     if (totalQuantity === 0) return '0원';
     if (shippingFee === 0) return '무료 배송';
     return `${shippingFee.toLocaleString()}원`;
   }, [totalQuantity, shippingFee]);
-
   return {
     checkedItemSum,
     discountSum,
@@ -30,5 +37,6 @@ export function useCartSummary() {
     totalPayment,
     rewardPoints,
     totalQuantity,
+    usedPoints,
   };
 }
