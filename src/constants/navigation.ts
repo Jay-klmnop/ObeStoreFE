@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { IconProps } from '@/components/types';
-import { SearchIcon, ProfileIcon, HeartIcon, CartIcon } from '@/components/icon';
+import { SearchToggleButton } from '@/features/search';
+import { ProfileIcon, HeartIcon, CartIcon } from '@/components/icon';
 
 export const HEADER_NAV_LINKS = [
   { href: '/products?category=fashion', label: 'FASHION' },
@@ -29,7 +30,7 @@ export const HEADER_ICONS_LINKS: HeaderIconLink[] = [
     type: 'action',
     action: 'openSearchModal',
     label: 'search',
-    Icon: SearchIcon,
+    Icon: SearchToggleButton,
     responsiveClass: 'mobile-visible',
   },
   {

@@ -1,6 +1,7 @@
 import { useSearchStore } from '@/features/search';
 import { useSearchNavigation } from './hooks/useSearchNavigation';
 import type { MouseEvent } from 'react';
+import { SearchIcon } from '@/components/icon';
 
 export function SearchModal() {
   const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal, resetSearch } =
@@ -22,10 +23,13 @@ export function SearchModal() {
       onClick={handleBackdropClick}
     >
       <div className='rounded-bg w-full bg-white p-4'>
-        <div className='relative flex'>
+        <div className='relative flex items-center'>
+          <div className='centralize w-10'>
+            <SearchIcon />
+          </div>
           <input
-            type='text'
-            className='input flex h-10 grow'
+            type='search'
+            className='input ml-4 flex h-10 grow'
             onChange={(e) => setSearchTerm(e.target.value)}
             value={searchTerm}
             autoFocus
@@ -35,7 +39,7 @@ export function SearchModal() {
               closeSearchModal();
               resetSearch();
             }}
-            className='text-primary-700 ml-2 text-2xl font-black'
+            className='text-primary-700 ml-4 text-2xl font-black'
           >
             ✕
           </button>
