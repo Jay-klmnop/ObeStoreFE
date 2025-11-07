@@ -1,46 +1,31 @@
-import { useCartItemsQuery } from '@/features/cart/api/useCartItemsQuery';
+import { useCartQuery } from '@/features/cart/api/useCartQuery';
+import type { CartItem } from '@/types/order';
 import { CheckBox, FilledButton, GnbButton } from '@/components/ui';
 import { useNavigate } from 'react-router-dom';
 import { usdToKrw } from '@/features/cart/api/currency';
-import {
-  useCartStore,
-  useCheckedItemSum,
-  useDiscountSum,
-  useRewardPoints,
-  useSelectedQuantity,
-  useShippingFee,
-  useTotalPayment,
-} from '@/features/cart/store/useCartStore';
+// import { flushSync } from 'react-dom';
 import CartCard from '@/features/cart/CartCard';
 import { useEffect } from 'react';
 import { useOrderStore } from '../order/store/useOrderStore';
-
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  brand?: string;
-  stock?: number;
-  images?: string;
-  checked: boolean;
-}
-
-export type CartItem = {
-  id: string | number;
-  brand: string;
-  title: string;
-  images: string;
-  stock: number; // quantity
-  checked: boolean;
-  price: number;
-};
-
+import { useCartSummary } from '@/features/cart/hook/useCartSummary';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 export default function CartList() {
   const { setOrderInfo } = useOrderStore();
-  const { data, isLoading, error } = useCartItemsQuery();
+  const { data: cartItems = [], isLoading, isError } = useCartQuery();
   const navigate = useNavigate();
+
   const {
-    cartItems,
+    checkedItemSum,
+    discountSum,
+    shippingFee,
+    shippingFeeText,
+    totalPayment,
+    rewardPoints,
+    totalQuantity,
+  } = useCartSummary();
+
+  const {
+    cartItems: storeItems,
     selectAll,
     setCartItems,
     handleSelectAll,
@@ -48,64 +33,48 @@ export default function CartList() {
     removeCheckedItems,
   } = useCartStore();
 
-  const checkedItemSum = useCheckedItemSum();
-  const discountSum = useDiscountSum();
-  const shippingFee = useShippingFee();
-  const totalPayment = useTotalPayment();
-  const rewardPoints = useRewardPoints();
-  const totalQuantity: number = useSelectedQuantity();
-
   useEffect(() => {
-    if (data?.products) {
-      // Zustand store에 초기 cart 데이터 설정
-      setCartItems(
-        data.products.map(
-          (product): CartItem => ({
-            id: String(product.id),
-            brand: product.brand ?? 'none',
-            title: product.title ?? 'none',
-            images:
-              typeof product.images === 'string'
-                ? product.images
-                : Array.isArray(product.images)
-                  ? product.images[0]
-                  : 'http://placehold.co/200x200',
-            price: Math.floor(usdToKrw(product.price)) ?? 0,
-            stock: product.stock ?? 1,
-            checked: product.checked,
-          })
-        )
-      );
-    }
-  }, [data, setCartItems]);
+    if (!cartItems.length) return;
+    const newItems: CartItem[] = cartItems.map((product) => ({
+      id: String(product.id),
+      brand: product.brand ?? 'none',
+      title: product.title ?? 'none',
+      images:
+        typeof product.images === 'string'
+          ? product.images
+          : Array.isArray(product.images)
+            ? product.images[0]
+            : (product.images ?? 'http://placehold.co/200x200'),
+      price: Number.isFinite(usdToKrw(product.price)) ? Math.floor(usdToKrw(product.price)) : 0,
+      stock: product.stock ?? 1,
+      checked: false,
+    }));
+    const isSame = JSON.stringify(storeItems) === JSON.stringify(newItems);
+    if (!isSame) setCartItems(newItems);
+  }, [cartItems, setCartItems]);
 
-  let shippingFeeText = '';
-  if (totalQuantity === 0) {
-    shippingFeeText = '0원'; // 또는 '배송비 없음' 등
-  } else if (shippingFee === 0) {
-    shippingFeeText = '무료 배송';
-  } else {
-    shippingFeeText = `${shippingFee.toLocaleString()}원`;
-  }
-  const selectedItems = cartItems.filter((item: any) => item.checked);
   const handlePurchase = () => {
-    if (selectedItems.length === 0) return alert('상품을 선택해주세요!');
-    setOrderInfo(selectedItems, totalPayment);
+    const selectedItems = storeItems.filter((item: any) => item.checked);
+    if (storeItems.length === 0) return alert('상품을 선택해주세요!');
+    setOrderInfo(
+      selectedItems,
+      totalPayment,
+      checkedItemSum,
+      discountSum,
+      shippingFeeText,
+      totalQuantity
+    );
     navigate('/order/order');
   };
 
-  if (isLoading)
-    return <div className='p-10 text-center'>장바구니 상품 정보를 불러오는 중입니다...</div>;
-  if (error)
-    return (
-      <div className='p-10 text-center text-red-500'>
-        장바구니 정보를 가져오는 데 실패했습니다: {error.message}
-      </div>
-    );
-  console.log(data); // 👈 API 구조 확인용
+  console.log(cartItems); // 👈 API 구조 확인용
   console.log('상품합계:', checkedItemSum);
   console.log('배송비:', shippingFee);
   console.log('총결제금액:', totalPayment);
+
+  if (isLoading) return <div>장바구니 정보를 불러오는 중입니다...</div>;
+  if (isError) return <div>장바구니를 불러오지 못했습니다.</div>;
+
   return (
     <div className='sub-info-half-content-with-wrap flex w-full'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
@@ -118,10 +87,10 @@ export default function CartList() {
             onChange={(e) => handleSelectAll(e.target.checked)}
             className='pdr-3 text-base'
           />
-          <GnbButton label='선택 삭제' onClick={removeCheckedItems} />
+          <GnbButton onClick={removeCheckedItems}>선택 삭제</GnbButton>
         </div>
 
-        {cartItems.map((product) => (
+        {storeItems.map((product) => (
           <CartCard
             key={product.id}
             id={String(product.id)}
@@ -177,12 +146,13 @@ export default function CartList() {
             </li>
           </ul>
           <FilledButton
-            label={`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
             className='mt-7 text-lg font-bold'
             variant='filled'
             fullWidth
             onClick={handlePurchase}
-          />
+          >
+            {`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
+          </FilledButton>
         </div>
       </div>
     </div>
