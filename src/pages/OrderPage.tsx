@@ -8,8 +8,10 @@ export function OrderPage() {
     <>
       <QueryClientProvider client={queryClient}>
         <section className='bg-primary-500-0 w-full px-3.5 py-4.5'>
-          <Subtitle label='결제 목록' />
-          <OrderList />
+          <div className='m-auto max-w-[1200px] min-w-[360px] grow'>
+            <Subtitle label='결제 목록' />
+            <OrderList />
+          </div>
         </section>
       </QueryClientProvider>
     </>

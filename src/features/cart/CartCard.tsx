@@ -9,11 +9,11 @@ type CartCardProps = {
   stock?: number;
   className?: string;
   price: number;
-  checked: boolean;
+  checked?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 // brandName  // productName // img // quantity
-export default function CartCard({
+export function CartCard({
   id,
   brand,
   title,
@@ -27,18 +27,44 @@ export default function CartCard({
     <>
       <div className='my-2.5 flex flex-row items-start justify-start py-2.5 leading-none'>
         <div>
-          <CheckBox id={id} label='' onChange={onChange} checked={checked} className='mr-3' />
+          <CheckBox
+            id={id}
+            label=''
+            onChange={onChange}
+            checked={checked ?? false}
+            className='mr-3'
+          />
         </div>
         <div className='mr-9 w-[200px]'>
           <img src={images} className='w-full' alt='' />
         </div>
         <div>
           <div className='text-color-primary-700 text-base leading-none font-bold'>{brand}</div>
-          <div className='text-color-primary-700) mt-1 line-clamp-2 text-base font-normal text-ellipsis'>
+          <div className='text-color-primary-700) mt-3 line-clamp-2 text-base font-normal text-ellipsis'>
             {title}
           </div>
-          <div className='mt-1 text-base font-normal'>{stock}개</div>
-          <div className='mt-1 text-base font-normal'>{price}원</div>
+          <div className='text-color-primary-700 mt-1 text-base font-normal'>{stock}개</div>
+          <div className='text-color-primary-700 mt-1 text-base font-normal'>{price}원</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export function CartCardNone({ id, brand, title, stock, images, price }: CartCardProps) {
+  return (
+    <>
+      <div className='my-2.5 flex flex-row items-start justify-start py-2.5 leading-none' id={id}>
+        <div className='mr-9 w-[200px]'>
+          <img src={images} className='w-full' alt='' />
+        </div>
+        <div>
+          <div className='text-color-primary-700 text-base leading-none font-bold'>{brand}</div>
+          <div className='text-color-primary-700) mt-3 line-clamp-2 text-base font-normal text-ellipsis'>
+            {title}
+          </div>
+          <div className='text-color-primary-700 mt-1 text-base font-normal'>{stock}개</div>
+          <div className='text-color-primary-700 mt-1 text-base font-normal'>{price}원</div>
         </div>
       </div>
     </>
