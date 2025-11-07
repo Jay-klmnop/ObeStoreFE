@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import type { IconProps } from '@/components/types';
 import { SearchToggleButton } from '@/features/search';
-import { ProfileIcon, HeartIcon, CartIcon } from '@/components/icon';
+import { ProfileIcon, CartIcon, EmptyHeartIcon } from '@/components/icon';
 
 export const HEADER_NAV_LINKS = [
   { href: '/products?category=fashion', label: 'FASHION' },
@@ -44,7 +44,7 @@ export const HEADER_ICONS_LINKS: HeaderIconLink[] = [
     type: 'link',
     href: '/users/favorites',
     label: 'Favorites',
-    Icon: HeartIcon,
+    Icon: EmptyHeartIcon,
     responsiveClass: 'mobile-hidden',
   },
   {
