@@ -27,7 +27,7 @@ type HeaderIconLink =
 export const HEADER_ICONS_LINKS: HeaderIconLink[] = [
   {
     type: 'action',
-    action: 'toggleSearch',
+    action: 'openSearchModal',
     label: 'search',
     Icon: SearchIcon,
     responsiveClass: 'mobile-visible',

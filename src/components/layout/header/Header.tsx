@@ -1,6 +1,7 @@
 import { HeaderLogoIcon, MenuIcon } from '@/components/icon';
 import { HeaderIcons, HeaderNav } from '@/components/layout';
 import { AuthButton } from '@/features/auth';
+import { SearchModal } from '@/features/search';
 
 export function Header() {
   return (
@@ -13,6 +14,7 @@ export function Header() {
         </div>
         <div className='flex h-9 gap-8'>
           <HeaderIcons />
+          <SearchModal />
           <AuthButton />
         </div>
       </div>
