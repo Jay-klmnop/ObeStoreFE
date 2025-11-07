@@ -10,7 +10,7 @@ type CartCardProps = {
   className?: string;
   price: number;
   checked: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 // brandName  // productName // img // quantity
 export default function CartCard({
