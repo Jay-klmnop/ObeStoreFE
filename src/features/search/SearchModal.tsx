@@ -1,5 +1,4 @@
-import { useSearchStore } from '@/features/search';
-import { useSearchNavigation } from './hooks/useSearchNavigation';
+import { useSearchNavigation, useSearchStore } from '@/features/search';
 import type { MouseEvent } from 'react';
 import { SearchIcon } from '@/components/icon';
 
