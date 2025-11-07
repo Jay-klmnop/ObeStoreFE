@@ -1,32 +1,56 @@
-export interface Product {
+export interface ProductType {
   id: number;
-  name: string;
-  price: number;
-  image: string;
-  salePrice?: number;
-  description?: string;
-  category?: string;
-  images?: string[];
-  detailImages?: string[];
-  options?: ProductOption[];
-  reviewCount?: number;
-  rating?: number;
-  salesCount?: number;
-  createdAt?: string;
+  product_name: string;
+  product_value: number;
+  product_stock: number;
+  discount_rate: number;
+  product_rating: number;
+  dc_value: number;
+  created_at: string;
+  updated_at: string;
+  category_id: number;
+  category_name: string;
+  brand_id: number;
+  brand_name: string;
+  product_image: [{ product_card_image: string; product_explain_image: string }];
+  brand_image: [{ brand_image: string }];
 }
 
-export interface ProductOption {
-  name: string;
-  values: string[];
+export interface ProductCardType {
+  id: number;
+  product_name: string;
+  brand_name: string;
+  product_value: string;
+  dc_value: number;
+  product_rating: string;
+  product_image: {
+    product_card_image: string;
+  };
 }
 
-export interface ProductCardType { 
-  id: number; 
-  product_name: string; 
-  product_brand: string; 
-  product_price: string; 
-  product_rating: string; 
-  product_image: { 
-    thumbnail: string; 
-  }; 
+export interface ProductDetailType {
+  id: number;
+  product_name: string;
+  product_value: number;
+  product_stock: number;
+  discount_rate: number;
+  product_rating: number;
+  dc_value: number;
+  category_name: string;
+  brand_name: string;
+  product_image: [{ product_card_image: string; product_explain_image: string }];
+  brand_image: [{ brand_image: string }];
+}
+
+export interface ProductCartType {
+  id: number;
+  product_name: string;
+  product_value: number;
+  discount_rate: number;
+  product_rating: number;
+  dc_value: number;
+  category_name: string;
+  brand_name: string;
+  product_image: [{ product_card_image: string; product_explain_image: string }];
+  brand_image: [{ brand_image: string }];
 }
