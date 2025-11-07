@@ -7,7 +7,7 @@ export function Layout() {
     <div className='flex min-h-screen flex-col'>
       <Header />
       <GlobalModalManager />
-      <main className='grow'>
+      <main className='grow pt-16'>
         <Outlet />
       </main>
       <Footer />
