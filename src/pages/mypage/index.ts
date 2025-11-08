@@ -1,3 +1,4 @@
+export * from './components';
 export * from './MyPage';
 export * from './MyPageAddressInfo';
 export * from './MyPageInfo';
