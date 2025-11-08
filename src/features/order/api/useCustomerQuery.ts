@@ -20,6 +20,7 @@ export interface CustomerOrderInfo {
   orderName: string;
   customerEmail: string;
   customerName: string;
+  customerNickrname: string;
   customerMobilePhone: string;
   customerAddress: string;
 }
@@ -32,6 +33,7 @@ const fetchCustomer = async (): Promise<CustomerOrderInfo> => {
     customerEmail: data.email,
     customerName: `${data.firstName}${data.lastName}`,
     customerMobilePhone: data.phone,
+    customerNickrname: data.username,
     customerAddress: `${data.address.address}${data.address.city}${data.address.postalCode}`,
   };
 };

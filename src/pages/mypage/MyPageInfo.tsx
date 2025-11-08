@@ -1,3 +1,48 @@
+import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
+import { MyPageInfoRow } from '@/pages/mypage/components/MyPageInfoRow';
+import { MypageNav } from '@/pages/mypage/components/MypageNav';
+import { MyPageProfile } from '@/pages/mypage/components/MyPageProfile';
+import { FilledButton, HollowButton } from '@/components/ui';
+import MypageOutside from './components/MypageOutside';
+import { MypageContentsWrap } from './components/MypageContentsWrap';
+
 export function MyPageInfo() {
-  return <div>MyPageInfo</div>;
+  const {
+    data: customer,
+    isLoading: isLoadingCustomer,
+    isError: isErrorCustomer,
+  } = useCustomerQuery();
+  const handleClickWithdraw = () => {};
+  const handleClickEditInfoConfirm = () => {};
+  if (isLoadingCustomer) return <div>나의 정보를 준비 중입니다...</div>;
+  if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
+  return (
+    <MypageOutside>
+      <MypageNav />
+      <MypageContentsWrap>
+        <MyPageProfile />
+        <div className='mt-10'>
+          <p className='flex border-b border-black pb-3 text-lg font-bold'>
+            나의 프로필 / 정보 조회/수정
+          </p>
+          <ul className='mt-7.5 border-t-2 border-black'>
+            <MyPageInfoRow rowTitle={`아이디(이메일)`} rowContent={`${customer?.customerEmail}`} />
+            <MyPageInfoRow rowTitle={`성명`} rowContent={`${customer?.customerName}`} />
+            <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${customer?.customerNickrname}`} />
+            <MyPageInfoRow
+              rowTitle={`비밀번호`}
+              rowContent={<HollowButton>비밀번호 변경</HollowButton>}
+            />
+            <MyPageInfoRow rowTitle={`연락처`} rowContent={`${customer?.customerMobilePhone}`} />
+          </ul>
+          <div className='flex flex-row justify-center pt-15 pb-10'>
+            <HollowButton onClick={handleClickWithdraw}>회원 탈퇴</HollowButton>
+            <FilledButton className='ml-5' onClick={handleClickEditInfoConfirm}>
+              회원 정보 수정
+            </FilledButton>
+          </div>
+        </div>
+      </MypageContentsWrap>
+    </MypageOutside>
+  );
 }
