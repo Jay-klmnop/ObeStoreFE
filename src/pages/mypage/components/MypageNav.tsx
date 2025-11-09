@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom';
 
 export function MypageNav() {
   const handleClickLogout = () => {};
-
   return (
     <div className='mt-10 flex w-full flex-col lg:mt-15 lg:w-[230px] lg:p-4.5'>
       <h2 className='flex text-2xl font-semibold'>Mypage</h2>

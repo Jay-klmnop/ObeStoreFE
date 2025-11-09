@@ -1,0 +1,44 @@
+{
+  "addresses": [
+    {
+      "id": "addr-1",
+      "name": "홍길동",
+      "phone": "010-1234-5678",
+      "address": "서울특별시 강남구 테헤란로 123",
+      "detail": "101호",
+      "isDefault": true
+    },
+    {
+      "id": "addr-2",
+      "name": "김영희",
+      "phone": "010-8765-4321",
+      "address": "부산광역시 해운대구 센텀중앙로 55",
+      "detail": "302동 502호",
+      "isDefault": false
+    },
+    {
+      "id": "addr-3",
+      "name": "박철수",
+      "phone": "010-2222-3333",
+      "address": "대구광역시 수성구 동대구로 99",
+      "detail": "1103호",
+      "isDefault": false
+    },
+    {
+      "id": "addr-4",
+      "name": "이서준",
+      "phone": "010-4444-5555",
+      "address": "인천광역시 연수구 송도과학로 77",
+      "detail": "힐스테이트 302동 802호",
+      "isDefault": false
+    },
+    {
+      "id": "addr-5",
+      "name": "최민아",
+      "phone": "010-7777-9999",
+      "address": "광주광역시 서구 무진대로 45",
+      "detail": "501호",
+      "isDefault": false
+    }
+  ]
+}
