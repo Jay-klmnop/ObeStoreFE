@@ -29,7 +29,7 @@ export function ReviewRating({
   };
 
   return (
-    <div className='flex gap-2 items-center'>
+    <div className='flex items-center gap-2'>
       <Rating
         readonly={readOnly}
         initialRating={rating}
@@ -38,7 +38,7 @@ export function ReviewRating({
         emptySymbol={<FaStar size={size} color={inactiveColor} />}
         fullSymbol={<FaStar size={size} color={activeColor} />}
       />
-      <span className='text-sm text-primary-500-60'>{rating.toFixed(1)} / 5</span>
+      <span className='text-primary-500-60 text-sm'>{rating.toFixed(1)} / 5</span>
     </div>
   );
 }

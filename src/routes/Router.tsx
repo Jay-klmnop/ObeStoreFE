@@ -9,6 +9,7 @@ import {
   MyPageOrderInfo,
   OrderPage,
   ProductDetailPage,
+  ProductsPage,
 } from '@/pages';
 import { Layout } from '@/components/layout';
 import { OrderSuccess } from '@/features/order/OrderSuccess';
@@ -23,6 +24,7 @@ export function Router() {
         <Routes>
           <Route element={<Layout />}>
             <Route path='/' element={<MainPage />} />
+            <Route path='/products' element={<ProductsPage />} />
             <Route path='/product/:id' element={<ProductDetailPage />} />
             <Route path='/cart/cart' element={<CartPage />} />
             <Route path='/order/order' element={<OrderPage />} />

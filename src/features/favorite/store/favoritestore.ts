@@ -1,9 +1,10 @@
-import type { ProductCardType } from '@/types';
+import type { DummyType } from '@/types';
 import { create } from 'zustand';
 
 type FavoriteState = {
-  favoriteProducts: ProductCardType[];
-  toggleFavorite: (product: ProductCardType) => void;
+  favoriteProducts: DummyType[];
+  toggleFavorite: (product: DummyType) => void;
+  //나중에 ProductCardType으로 변경
 };
 
 export const useFavoriteStore = create<FavoriteState>((set) => ({
