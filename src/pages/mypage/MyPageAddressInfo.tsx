@@ -1,7 +1,7 @@
-import { MypageNav } from '@/pages/mypage/components/MypageNav';
-import MypageOutside from '@/pages/mypage/components/MypageOutside';
-import { MypageContentsWrap } from '@/pages/mypage/components/MypageContentsWrap';
-import { MyPageProfile } from './components';
+import { MypageNav } from '@/features/mypage/components/MypageNav';
+import MypageOutside from '@/features/mypage/components/MypageOutside';
+import { MypageContentsWrap } from '@/features/mypage/components/MypageContentsWrap';
+import { MyPageProfile } from '../../features/mypage/components';
 import { FilledButton } from '@/components/ui/button';
 
 export function MyPageAddressInfo() {

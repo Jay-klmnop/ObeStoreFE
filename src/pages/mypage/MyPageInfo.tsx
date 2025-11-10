@@ -1,10 +1,10 @@
 import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
-import { MyPageInfoRow } from '@/pages/mypage/components/MyPageInfoRow';
-import { MypageNav } from '@/pages/mypage/components/MypageNav';
-import { MyPageProfile } from '@/pages/mypage/components/MyPageProfile';
+import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
+import { MypageNav } from '@/features/mypage/components/MypageNav';
+import { MyPageProfile } from '@/features/mypage/components/MyPageProfile';
 import { FilledButton, HollowButton } from '@/components/ui';
-import MypageOutside from './components/MypageOutside';
-import { MypageContentsWrap } from './components/MypageContentsWrap';
+import MypageOutside from '../../features/mypage/components/MypageOutside';
+import { MypageContentsWrap } from '../../features/mypage/components/MypageContentsWrap';
 
 export function MyPageInfo() {
   const {
