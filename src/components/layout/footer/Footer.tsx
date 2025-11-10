@@ -44,9 +44,9 @@ export function Footer() {
     },
   ];
   return (
-    <footer className='px-40 bg-primary-700 py-33'>
+    <footer className='bg-primary-700 container-1200 px-40 py-33'>
       <BrandInfo />
-      <div className='flex gap-3 mt-10'>
+      <div className='mt-10 flex gap-3'>
         {socialLink.map((link) => (
           <a
             key={link.name}
