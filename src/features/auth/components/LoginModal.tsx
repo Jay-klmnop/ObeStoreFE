@@ -39,7 +39,7 @@ export function LoginModal() {
               placeholder='이메일을 입력해주세요'
               onChange={(e) => setEmail(e.target.value)}
               required
-              className='input'
+              className='auth-input'
             />
           </div>
           <div>
@@ -53,7 +53,7 @@ export function LoginModal() {
               placeholder='비밀번호를 입력해주세요'
               onChange={(e) => setPassword(e.target.value)}
               required
-              className='input'
+              className='auth-input'
             />
           </div>
         </div>

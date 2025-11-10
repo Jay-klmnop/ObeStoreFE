@@ -65,7 +65,7 @@ export function SignupForm() {
                 placeholder='이메일을 입력해주세요'
                 {...register('email')}
                 required
-                className='input auth-input'
+                className='auth-input reduced'
               />
               <ButtonBase type='button' className='grow' variant='filled'>
                 중복확인
@@ -84,7 +84,7 @@ export function SignupForm() {
               placeholder='사용자명을 입력해주세요'
               {...register('username')}
               required
-              className='input'
+              className='auth-input'
             />
             {errors.username && (
               <p className='text-secondary-300 text-sm'>{errors.username.message}</p>
@@ -102,7 +102,7 @@ export function SignupForm() {
                 placeholder='닉네임을 입력해주세요'
                 {...register('nickname')}
                 required
-                className='input auth-input'
+                className='auth-input reduced'
               />
               <ButtonBase type='button' className='grow' variant='filled'>
                 중복확인
@@ -123,7 +123,7 @@ export function SignupForm() {
               placeholder='전화번호를 입력해주세요 (010-XXXX-XXXX)'
               {...register('phone')}
               required
-              className='input'
+              className='auth-input'
             />
             {errors.phone && <p className='text-secondary-300 text-sm'>{errors.phone.message}</p>}
           </div>
@@ -138,7 +138,7 @@ export function SignupForm() {
               placeholder='비밀번호를 입력해주세요'
               {...register('password')}
               required
-              className='input'
+              className='auth-input'
             />
             {errors.password && (
               <p className='text-secondary-300 text-sm'>{errors.password.message}</p>
@@ -155,7 +155,7 @@ export function SignupForm() {
               placeholder='비밀번호를 입력해주세요'
               {...register('confirmPassword')}
               required
-              className='input'
+              className='auth-input'
             />
             {errors.confirmPassword && (
               <p className='text-secondary-300 text-sm'>{errors.confirmPassword.message}</p>
