@@ -2,7 +2,7 @@ import { MypageNav } from '@/pages/mypage/components/MypageNav';
 import MypageOutside from '@/pages/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '@/pages/mypage/components/MypageContentsWrap';
 import { MyPageProfile } from './components';
-import { FilledButton } from '@/components/ui';
+import { FilledButton } from '@/components/ui/button';
 
 export function MyPageAddressInfo() {
   return (

@@ -151,12 +151,7 @@ export default function CartList() {
               </span>
             </li>
           </ul>
-          <FilledButton
-            className='mt-7 text-lg font-bold'
-            variant='filled'
-            fullWidth
-            onClick={handlePurchase}
-          >
+          <FilledButton className='mt-7' variant='filled' fullWidth onClick={handlePurchase}>
             {`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
           </FilledButton>
         </div>
