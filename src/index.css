@@ -77,6 +77,10 @@
   .sub-text {
     @apply text-primary-500-60 font-medium;
   }
+
+  .container-1200 {
+    @apply w-full max-w-[1200px] min-w-[360px];
+  }
 }
 
 .modal {
