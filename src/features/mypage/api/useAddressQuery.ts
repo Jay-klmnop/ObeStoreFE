@@ -27,5 +27,16 @@ export const useAddressMutation = () => {
     mutationFn: (newAddr: Omit<Address, 'id'>) => axios.post(API_URL, newAddr),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });
-  return { addAddress };
+
+  const updateAddress = useMutation({
+    mutationFn: (addr: Address) => axios.put(`${API_URL}/${addr.id}`, addr),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
+  });
+
+  const deleteAddress = useMutation({
+    mutationFn: (id: string) => axios.delete(`${API_URL}/${id}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
+  });
+
+  return { addAddress, updateAddress, deleteAddress };
 };
