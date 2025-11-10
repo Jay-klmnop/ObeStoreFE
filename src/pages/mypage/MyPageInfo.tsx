@@ -2,7 +2,7 @@ import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
 import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
 import { MypageNav } from '@/features/mypage/components/MypageNav';
 import { MyPageProfile } from '@/features/mypage/components/MyPageProfile';
-import { FilledButton, HollowButton } from '@/components/ui';
+import { ButtonBase } from '@/components/ui';
 import MypageOutside from '../../features/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '../../features/mypage/components/MypageContentsWrap';
 
@@ -31,15 +31,17 @@ export function MyPageInfo() {
             <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${customer?.customerNickrname}`} />
             <MyPageInfoRow
               rowTitle={`비밀번호`}
-              rowContent={<HollowButton>비밀번호 변경</HollowButton>}
+              rowContent={<ButtonBase variant='hollow'>비밀번호 변경</ButtonBase>}
             />
             <MyPageInfoRow rowTitle={`연락처`} rowContent={`${customer?.customerMobilePhone}`} />
           </ul>
           <div className='flex flex-row justify-center pt-15 pb-10'>
-            <HollowButton onClick={handleClickWithdraw}>회원 탈퇴</HollowButton>
-            <FilledButton className='ml-5' onClick={handleClickEditInfoConfirm}>
+            <ButtonBase onClick={handleClickWithdraw} variant='hollow'>
+              회원 탈퇴
+            </ButtonBase>
+            <ButtonBase className='ml-5' onClick={handleClickEditInfoConfirm} variant='filled'>
               회원 정보 수정
-            </FilledButton>
+            </ButtonBase>
           </div>
         </div>
       </MypageContentsWrap>

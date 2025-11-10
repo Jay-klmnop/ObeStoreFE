@@ -1,4 +1,4 @@
-import { GnbButton } from '@/components/ui';
+import { ButtonBase } from '@/components/ui/button/ButtonBase';
 import { useAuthStore } from '@/features/auth';
 
 export function AuthButton() {
@@ -7,8 +7,8 @@ export function AuthButton() {
   if (accessToken) return null;
 
   return (
-    <GnbButton onClick={() => openAuthModal('login')} className='mobile-hidden'>
+    <ButtonBase onClick={() => openAuthModal('login')} className='hidden lg:flex' variant='gnb'>
       로그인/회원가입
-    </GnbButton>
+    </ButtonBase>
   );
 }

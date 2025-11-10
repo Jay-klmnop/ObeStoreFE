@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/features/auth';
-import { AuthModal, FilledButton } from '@/components/ui';
+import { AuthModal, ButtonBase } from '@/components/ui';
 import { HeaderLogoImgIcon } from '@/components/icon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -67,9 +67,9 @@ export function SignupForm() {
                 required
                 className='input auth-input'
               />
-              <FilledButton type='button' className='grow'>
+              <ButtonBase type='button' className='grow' variant='filled'>
                 중복확인
-              </FilledButton>
+              </ButtonBase>
             </div>
             {errors.email && <p className='text-secondary-300 text-sm'>{errors.email.message}</p>}
           </div>
@@ -104,9 +104,9 @@ export function SignupForm() {
                 required
                 className='input auth-input'
               />
-              <FilledButton type='button' className='grow'>
+              <ButtonBase type='button' className='grow' variant='filled'>
                 중복확인
-              </FilledButton>
+              </ButtonBase>
             </div>
             {errors.nickname && (
               <p className='text-secondary-300 text-sm'>{errors.nickname.message}</p>
@@ -163,9 +163,14 @@ export function SignupForm() {
           </div>
         </div>
         <div className='flex w-full flex-col gap-6'>
-          <FilledButton type='submit' className='auth-button' disabled={isSubmitting}>
+          <ButtonBase
+            type='submit'
+            className='auth-button'
+            disabled={isSubmitting}
+            variant='filled'
+          >
             {isSubmitting ? '회원가입 중...' : '회원가입'}
-          </FilledButton>
+          </ButtonBase>
         </div>
       </form>
       <div className='sub-text flex justify-center gap-2'>
