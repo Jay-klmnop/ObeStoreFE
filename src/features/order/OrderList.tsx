@@ -3,7 +3,7 @@
 import { useCartQuery } from '@/features/cart/api/useCartQuery';
 import { useOrderStore } from './store/useOrderStore';
 // import type { CartItem } from '@/types/order';
-import { FilledButton, GnbButton } from '@/components/ui';
+import { ButtonBase } from '@/components/ui';
 import { CartCardNone } from '../cart';
 import { OrderCheckoutPage } from './OrderCheckoutPage';
 import { useRewardStore } from '@/features/reward/store/useRewardStore';
@@ -57,9 +57,13 @@ export default function OrderList() {
     <div className='sub-info-half-content-with-wrap m-auto flex w-full'>
       <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-5'>
         <div className='relative px-2.5'>
-          <GnbButton className='absolute top-0 right-0' onClick={handleClickEditAddress}>
+          <ButtonBase
+            className='absolute top-0 right-0'
+            onClick={handleClickEditAddress}
+            variant='gnb'
+          >
             배송지 변경
-          </GnbButton>
+          </ButtonBase>
           <div className='flex h-full items-center justify-start py-2'>
             <span className='text-primary-500-90 mr-2.5 flex text-lg font-bold'>
               {customer?.customerName ?? '주문자'}
@@ -214,9 +218,9 @@ export default function OrderList() {
               </span>
             </li>
           </ul>
-          <FilledButton className='mt-7 text-lg font-bold' variant='filled' fullWidth>
+          <ButtonBase className='mt-7 text-lg font-bold' variant='filled' fullWidth>
             결제하기
-          </FilledButton>
+          </ButtonBase>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { MypageNav } from '@/features/mypage/components/MypageNav';
 import MypageOutside from '@/features/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '@/features/mypage/components/MypageContentsWrap';
 import { MyPageProfile } from '../../features/mypage/components';
-import { FilledButton } from '@/components/ui/button';
+import { ButtonBase } from '@/components/ui';
 import { useAddressQuery } from '@/features/mypage/api/useAddressQuery';
 // import { useAddressMutation, useAddressQuery } from '@/features/mypage/api/useAddressQuery';
 
@@ -17,7 +17,7 @@ export function MyPageAddressInfo() {
         <div className='mt-10 pb-5'>
           <p className='flex border-b border-black pb-3 text-lg font-bold'>배송지 정보 조회/수정</p>
           <div className='mt-6 flex justify-end'>
-            <FilledButton>배송지 추가하기</FilledButton>
+            <ButtonBase variant='filled'>배송지 추가하기</ButtonBase>
           </div>
           {addresses.map((addrinfo) => (
             <div

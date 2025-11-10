@@ -1,6 +1,6 @@
 import { useCartQuery } from '@/features/cart/api/useCartQuery';
 import type { CartItem } from '@/types/order';
-import { CheckBox, FilledButton, GnbButton } from '@/components/ui';
+import { CheckBox, ButtonBase } from '@/components/ui';
 import { useNavigate } from 'react-router-dom';
 import { usdToKrw } from '@/features/cart/api/currency';
 import { CartCard } from '@/features/cart/CartCard';
@@ -93,7 +93,9 @@ export default function CartList() {
             onChange={(e) => handleSelectAll(e.target.checked)}
             className='pdr-3 text-base'
           />
-          <GnbButton onClick={removeCheckedItems}>선택 삭제</GnbButton>
+          <ButtonBase onClick={removeCheckedItems} variant='gnb'>
+            선택 삭제
+          </ButtonBase>
         </div>
 
         {storeItems.map((product) => (
@@ -151,9 +153,9 @@ export default function CartList() {
               </span>
             </li>
           </ul>
-          <FilledButton className='mt-7' variant='filled' fullWidth onClick={handlePurchase}>
+          <ButtonBase className='mt-7' variant='filled' fullWidth onClick={handlePurchase}>
             {`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
-          </FilledButton>
+          </ButtonBase>
         </div>
       </div>
     </div>
