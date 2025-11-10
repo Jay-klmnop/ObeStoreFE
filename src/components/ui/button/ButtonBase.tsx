@@ -1,4 +1,3 @@
-// components/ui/ButtonBase.tsx
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { ButtonProps } from '@/components/types';

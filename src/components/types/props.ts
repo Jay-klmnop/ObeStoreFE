@@ -3,7 +3,7 @@ import type { ChangeEvent } from 'react';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'filled' | 'hollow';
+  variant?: 'filled' | 'hollow' | 'gnb';
   fullWidth?: boolean;
   px?: number | string; // x축 padding
   py?: number | string; // y축 padding
