@@ -26,7 +26,7 @@ export function Router() {
             <Route path='/' element={<MainPage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/product/:id' element={<ProductDetailPage />} />
-            <Route path='/cart/cart' element={<CartPage />} />
+            <Route path='/users/cart' element={<CartPage />} />
             <Route path='/order/order' element={<OrderPage />} />
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />

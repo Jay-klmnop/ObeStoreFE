@@ -2,7 +2,7 @@ import { useAddressModalStore } from '@/store/useAddressModalStore';
 import { AddressForm } from './AddressForm';
 
 export function AddressModal() {
-  const { isOpen, closeModal } = useAddressModalStore();
+  const { isOpen, closeModal, editingAddress } = useAddressModalStore();
 
   if (!isOpen) return null;
 
@@ -12,7 +12,7 @@ export function AddressModal() {
     >
       <div className='w-[500px] rounded-lg bg-white p-6'>
         <div className='mb-4 flex items-center justify-between border-b pb-2'>
-          <h2 className='text-lg font-bold'>배송지 추가</h2>
+          <h2 className='text-lg font-bold'> {editingAddress ? '배송지 수정' : '배송지 추가'}</h2>
           <button className='text-3xl font-light' aria-label='닫기' onClick={closeModal}>
             &times;
           </button>

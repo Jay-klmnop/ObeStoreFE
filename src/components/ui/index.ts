@@ -9,4 +9,3 @@ export * from './Select';
 export * from './Spinner';
 export * from './Subtitle';
 export * from './button';
-export * from './input';
