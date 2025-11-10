@@ -4,6 +4,7 @@ import { SearchToggleButton } from '@/features/search';
 import { ProfileIcon, CartIcon, EmptyHeartIcon } from '@/components/icon';
 
 export const HEADER_NAV_LINKS = [
+  { href: '/products', label: 'OBJETS' },
   { href: '/products?category=fashion', label: 'FASHION' },
   { href: '/products?category=living', label: 'LIVING' },
   { href: '/about', label: 'ABOUT' },

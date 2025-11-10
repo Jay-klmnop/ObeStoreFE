@@ -4,5 +4,5 @@ export * from './FavoritePage';
 export * from './MainPage';
 export * from './OrderPage';
 export * from './ProductDetailPage';
-export * from './ProductListPage';
+export * from './ProductsPage';
 export * from './mypage';

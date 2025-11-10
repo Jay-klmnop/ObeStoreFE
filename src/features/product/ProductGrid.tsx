@@ -1,8 +1,8 @@
-import type { ProductType } from '@/types';
+import type { DummyType } from '@/types';
 import { ProductCard } from '@/features/product';
 
 interface ProductGridProps {
-  products: ProductType[];
+  products: DummyType[]; //나중에 ProductCardType으로 변경
 }
 
 export function ProductGrid({ products }: ProductGridProps) {
