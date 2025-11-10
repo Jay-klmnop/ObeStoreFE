@@ -1,11 +1,11 @@
 import { useAddressMutation } from '@/features/mypage';
 import { useAddressModalStore } from '@/store/useAddressModalStore';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ButtonBase } from './button';
 
 export function AddressForm() {
-  const { addAddress } = useAddressMutation();
-  const { closeModal } = useAddressModalStore();
+  const { addAddress, updateAddress } = useAddressMutation();
+  const { closeModal, editingAddress } = useAddressModalStore();
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -13,6 +13,18 @@ export function AddressForm() {
     detail: '',
     isDefault: false,
   });
+
+  useEffect(() => {
+    if (editingAddress) {
+      setForm({
+        name: editingAddress.name,
+        phone: String(editingAddress.phone),
+        address: editingAddress.address,
+        detail: editingAddress.detail,
+        isDefault: editingAddress.isDefault,
+      });
+    }
+  }, [editingAddress]);
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target;
     setForm((prev) => ({
@@ -22,14 +34,21 @@ export function AddressForm() {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addAddress.mutate(
-      { ...form, phone: Number(form.phone) },
-      {
-        onSuccess: () => {
-          closeModal();
-        },
-      }
-    );
+    if (editingAddress) {
+      updateAddress.mutate(
+        { ...editingAddress, ...form, phone: Number(form.phone) },
+        {
+          onSuccess: () => closeModal(),
+        }
+      );
+    } else {
+      addAddress.mutate(
+        { ...form, phone: Number(form.phone) },
+        {
+          onSuccess: () => closeModal(),
+        }
+      );
+    }
   };
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
@@ -76,7 +95,7 @@ export function AddressForm() {
         기본 배송지로 설정
       </label>
       <ButtonBase type='submit' className='rouned text-white' variant='filled'>
-        저장하기
+        {editingAddress ? '수정 완료' : '저장하기'}
       </ButtonBase>
     </form>
   );

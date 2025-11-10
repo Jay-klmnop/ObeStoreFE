@@ -18,7 +18,7 @@ export function MyPageAddressInfo() {
         <div className='mt-10 pb-5'>
           <p className='flex border-b border-black pb-3 text-lg font-bold'>배송지 정보 조회/수정</p>
           <div className='border-primary-500-70 mt-6 flex justify-end border-b pb-6'>
-            <ButtonBase onClick={openModal} variant='filled'>
+            <ButtonBase onClick={() => openModal()} variant='filled'>
               배송지 추가하기
             </ButtonBase>
           </div>
@@ -32,6 +32,15 @@ export function MyPageAddressInfo() {
                 {addrinfo.address} {addrinfo.detail}
               </div>
               <div>{addrinfo.phone}</div>
+              <div className='flex-end flex'>
+                <ButtonBase
+                  variant='hollow'
+                  className='self-end'
+                  onClick={() => openModal(addrinfo)}
+                >
+                  수정
+                </ButtonBase>
+              </div>
             </div>
           ))}
         </div>

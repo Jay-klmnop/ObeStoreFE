@@ -1,6 +1,5 @@
 import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
 import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
-import { MypageNav } from '@/features/mypage/components/MypageNav';
 import { MyPageProfile } from '@/features/mypage/components/MyPageProfile';
 import { ButtonBase } from '@/components/ui';
 import MypageOutside from '../../features/mypage/components/MypageOutside';
@@ -18,7 +17,6 @@ export function MyPageInfo() {
   if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
   return (
     <MypageOutside>
-      <MypageNav />
       <MypageContentsWrap>
         <MyPageProfile />
         <div className='mt-10'>

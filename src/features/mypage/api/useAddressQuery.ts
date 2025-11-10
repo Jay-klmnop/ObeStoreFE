@@ -29,7 +29,7 @@ export const useAddressMutation = () => {
   });
 
   const updateAddress = useMutation({
-    mutationFn: (addr: Address) => axios.put(`${API_URL}/${addr.id}`, addr),
+    mutationFn: (addr: Address) => axios.patch(`${API_URL}/${addr.id}`, addr),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });
 
