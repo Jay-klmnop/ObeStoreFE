@@ -2,12 +2,12 @@ import { Outlet } from 'react-router-dom';
 import { Footer, Header } from '@/components/layout';
 import { GlobalModalManager } from '@/features/auth';
 
-export function Layout() {
+export function RootLayout() {
   return (
-    <div className='flex min-h-screen flex-col'>
+    <div className='flex min-h-screen w-full flex-col items-center'>
       <Header />
       <GlobalModalManager />
-      <main className='grow pt-16'>
+      <main className='container-1200 grow pt-16'>
         <Outlet />
       </main>
       <Footer />
