@@ -1,27 +1,51 @@
-import type { Product, ProductCardType } from '../../types/product';
+import type { ProductType } from '../../types/product';
+import type { DummyType } from '../../types';
 import { ProductCard } from '../product/ProductCard';
 
 interface ProductSectionProps {
   title: string;
-  products: Product[];  
+  products: ProductType[];
   isLoading: boolean;
 }
 
-const convertToProductCardType = (product: Product): ProductCardType => {
+// 추후 ProductCardType으로 변경예정
+const convertToDummyType = (product: ProductType): DummyType => {
   return {
     id: product.id,
-    product_name: product.name,                          
-    product_brand: product.category || 'OBE-STORE',     
-    product_price: String(product.salePrice || product.price),  
-    product_rating: String(product.rating || 4.5),      
-    product_image: {
-      thumbnail: product.image                           
-    }
+    title: product.product_name,
+    description: product.category_name,
+    category: product.category_name,
+    price: product.product_value,
+    discountPercentage: product.discount_rate,
+    rating: product.product_rating,
+    stock: product.product_stock,
+    tags: [],
+    brand: product.brand_name,
+    sku: `SKU-${product.id}`,
+    weight: 0,
+    dimensions: { width: 0, height: 0, depth: 0 },
+    warrantyInformation: '',
+    shippingInformation: '',
+    availabilityStatus: product.product_stock > 0 ? 'In Stock' : 'Out of Stock',
+    reviews: [{}, {}, {}],
+    returnPolicy: '',
+    minimumOrderQuantity: 1,
+    meta: {
+      createdAt: product.created_at,
+      updatedAt: product.updated_at,
+      barcode: '',
+      qrCode: ''
+    },
+    images: [product.product_image[0]?.product_card_image || ''],
+    thumbnail: product.product_image[0]?.product_card_image || ''
   };
 };
 
-const ProductSection = ({ title, products, isLoading }: ProductSectionProps) => {
-  // 로딩 중
+export const ProductSection = ({
+  title,
+  products,
+  isLoading,
+}: ProductSectionProps) => {
   if (isLoading) {
     return (
       <section className="mb-12 md:mb-16">
@@ -39,28 +63,23 @@ const ProductSection = ({ title, products, isLoading }: ProductSectionProps) => 
     );
   }
 
-  // 상품이 없을 때
-  if (products.length === 0) {
+  if (!isLoading && products.length === 0) {
     return (
-      <section className="mb-12 md:mb-16">
+      <section className="mb-12 md:mb-16 text-center">
         <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">{title}</h2>
-        <div className="text-center py-20 text-gray-500 bg-gray-50 rounded-lg">
-          상품이 없습니다.
-        </div>
+        <p className="text-stone-400">현재 표시할 상품이 없습니다.</p>
       </section>
     );
   }
 
-  // 상품이 있을 때
   return (
     <section className="mb-12 md:mb-16">
       <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">{title}</h2>
-      
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
         {products.map((product) => (
-          <ProductCard 
-            key={product.id} 
-            product={convertToProductCardType(product)}
+          <ProductCard
+            key={product.id}
+            product={convertToDummyType(product)}
           />
         ))}
       </div>
