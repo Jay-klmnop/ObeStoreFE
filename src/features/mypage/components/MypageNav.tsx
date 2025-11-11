@@ -5,7 +5,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 export function MypageNav() {
   const { logout } = useAuthStore();
   return (
-    <div className='m-4 flex w-[240px] flex-col gap-4 lg:m-8 lg:gap-8'>
+    <div className='m-4 flex w-60 flex-col gap-4 lg:m-8 lg:gap-8'>
       <h2 className='flex text-2xl font-semibold'>MYPAGE</h2>
       <ul className='flex w-full flex-1 flex-col gap-4 lg:gap-8'>
         <li>

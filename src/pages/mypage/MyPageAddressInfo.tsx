@@ -1,6 +1,5 @@
 import MypageOutside from '@/features/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '@/features/mypage/components/MypageContentsWrap';
-import { MyPageProfile } from '../../features/mypage/components';
 import { ButtonBase } from '@/components/ui/button';
 import { useAddressQuery } from '@/features/mypage/api/useAddressQuery';
 import { useAddressModalStore } from '@/store/useAddressModalStore';
@@ -12,8 +11,7 @@ export function MyPageAddressInfo() {
   return (
     <MypageOutside>
       <MypageContentsWrap>
-        <MyPageProfile />
-        <div className='mt-10 pb-5'>
+        <div className='mt-1 pb-5'>
           <p className='flex border-b border-black pb-3 text-lg font-bold'>배송지 정보 조회/수정</p>
           <div className='border-primary-500-70 mt-6 flex justify-end border-b pb-6'>
             <ButtonBase onClick={() => openModal('add')} variant='filled'>
