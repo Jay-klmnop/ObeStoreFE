@@ -22,12 +22,12 @@ export function ProductCard({ product }: ProductCardProps) {
           <FavoriteIcon product={product} />
         </div>
 
-        <div className='flex h-14 grow flex-col justify-evenly text-xs'>
+        <div className='flex h-14 grow flex-col items-center justify-evenly gap-2 text-xs'>
           <h2>{product.brand}</h2>
           <h3 className='mb-2 font-bold'>{product.title}</h3>
-          <div className='flex justify-between'>
+          <div className='flex items-center justify-between gap-2'>
             <p className='font-bold'>₩{Number(product.price).toLocaleString('ko-KR')}</p>{' '}
-            <ReviewRating initialValue={Number(product.rating)} readOnly size={12} />
+            <ReviewRating initialValue={Number(product.rating)} readOnly size={16} />
           </div>
         </div>
       </div>

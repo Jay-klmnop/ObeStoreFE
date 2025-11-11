@@ -3,7 +3,7 @@ import { IoClose } from 'react-icons/io5';
 
 type ModalSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 
-export function Modal({
+export function ConfirmModal({
   isOpen,
   closeModal,
   children,

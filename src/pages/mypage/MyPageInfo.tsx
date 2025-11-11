@@ -1,18 +1,29 @@
 import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
 import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
 import { MyPageProfile } from '@/features/mypage/components/MyPageProfile';
-import { ButtonBase } from '@/components/ui';
+import { ButtonBase, ConfirmModal } from '@/components/ui';
 import MypageOutside from '../../features/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '../../features/mypage/components/MypageContentsWrap';
+import { useState } from 'react';
 
 export function MyPageInfo() {
+  const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const {
     data: customer,
     isLoading: isLoadingCustomer,
     isError: isErrorCustomer,
   } = useCustomerQuery();
-  const handleClickWithdraw = () => {};
+  const handleClickWithdraw = () => {
+    setWithdrawModalOpen(true);
+  };
+  const handleCloseWithdrawModal = () => {
+    setWithdrawModalOpen(false);
+  };
   const handleClickEditInfoConfirm = () => {};
+
+  const handleDeleteConfirm = () => {
+    setWithdrawModalOpen(false);
+  };
   if (isLoadingCustomer) return <div>나의 정보를 준비 중입니다...</div>;
   if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
   return (
@@ -36,6 +47,16 @@ export function MyPageInfo() {
           <div className='flex flex-row justify-center pt-15 pb-10'>
             <ButtonBase onClick={handleClickWithdraw} variant='hollow'>
               회원 탈퇴
+              <ConfirmModal
+                isOpen={isWithdrawModalOpen}
+                closeModal={handleCloseWithdrawModal}
+                onConfirm={handleDeleteConfirm}
+                onCancel={handleCloseWithdrawModal}
+                buttons={true}
+                size='sm'
+              >
+                <p>정말 회원을 탈퇴하시겠습니까?</p>
+              </ConfirmModal>
             </ButtonBase>
             <ButtonBase className='ml-5' onClick={handleClickEditInfoConfirm} variant='filled'>
               회원 정보 수정
