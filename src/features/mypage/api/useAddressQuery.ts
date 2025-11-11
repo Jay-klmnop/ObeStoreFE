@@ -4,7 +4,7 @@ import axios from 'axios';
 export type Address = {
   id: string;
   name: string;
-  phone: number;
+  phone: string;
   address: string;
   detail: string;
   isDefault: boolean;

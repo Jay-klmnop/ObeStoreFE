@@ -36,18 +36,13 @@ export function AddressForm() {
     e.preventDefault();
     if (editingAddress) {
       updateAddress.mutate(
-        { ...editingAddress, ...form, phone: Number(form.phone) },
+        { ...editingAddress, ...form },
         {
           onSuccess: () => closeModal(),
         }
       );
     } else {
-      addAddress.mutate(
-        { ...form, phone: Number(form.phone) },
-        {
-          onSuccess: () => closeModal(),
-        }
-      );
+      addAddress.mutate({ ...form }, { onSuccess: () => closeModal() });
     }
   };
   return (
