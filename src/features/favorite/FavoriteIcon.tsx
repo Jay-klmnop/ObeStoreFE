@@ -4,9 +4,10 @@ import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon';
 
 interface FavoriteIconProps {
   product: DummyType; //나중에 ProductCardType으로 변경
+  className?: string;
 }
 
-export function FavoriteIcon({ product }: FavoriteIconProps) {
+export function FavoriteIcon({ product, className }: FavoriteIconProps) {
   const { favoriteProducts, toggleFavorite } = useFavoriteStore();
   const isFavorited = favoriteProducts.some((p) => p.id === product.id);
 
@@ -17,7 +18,7 @@ export function FavoriteIcon({ product }: FavoriteIconProps) {
   };
 
   return (
-    <button className='cursor-pointer' onClick={handleClick}>
+    <button className={`cursor-pointer ${className}`} onClick={handleClick}>
       {isFavorited ? (
         <FilledHeartIcon size={20} color='var(--color-secondary-300)' />
       ) : (
