@@ -1,6 +1,5 @@
 import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
 import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
-import { MyPageProfile } from '@/features/mypage/components/MyPageProfile';
 import { ButtonBase, ConfirmModal } from '@/components/ui';
 import MypageOutside from '../../features/mypage/components/MypageOutside';
 import { MypageContentsWrap } from '../../features/mypage/components/MypageContentsWrap';
@@ -29,8 +28,7 @@ export function MyPageInfo() {
   return (
     <MypageOutside>
       <MypageContentsWrap>
-        <MyPageProfile />
-        <div className='mt-10'>
+        <div className='mt-1'>
           <p className='flex border-b border-black pb-3 text-lg font-bold'>
             나의 프로필 / 정보 조회/수정
           </p>
