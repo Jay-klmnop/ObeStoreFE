@@ -1,4 +1,4 @@
-import { authLogin, authSignup, authLogout, authRefreshToken } from '@/api';
+import { authLogin, authSignup, authLogout, authRefreshToken } from '@/features/auth';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
