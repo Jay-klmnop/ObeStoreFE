@@ -143,13 +143,6 @@
   .sub-info-half-content-with-wrap {
     flex-direction: row;
   }
-  .link-button {
-    background-image: var(--bg-image-link-arrow);
-    background-repeat: no-repeat;
-    background-position: right center;
-    background-size: 4px 8px;
-    @apply font-bold;
-  }
 }
 
 @media (min-width: 1280px) {
