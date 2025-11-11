@@ -118,7 +118,7 @@ export default function OrderList() {
               <li>
                 {availablePoints < 5000 ? (
                   <input
-                    type='number'
+                    type='text'
                     value={usedPoints || ''}
                     onChange={handleUsedChange}
                     className='border-custom-gray-20 bg-custom-gray-50 mt-5 w-full rounded-lg border p-2.5'
@@ -127,10 +127,10 @@ export default function OrderList() {
                   />
                 ) : (
                   <input
-                    type='number'
+                    type='text'
                     value={usedPoints || ''}
                     onChange={handleUsedChange}
-                    className='border-primary-500-60 mt-5 w-full rounded-lg border p-2.5'
+                    className='input mt-5 w-full rounded-lg border p-2.5'
                     placeholder='최소 5000원 이상 보유 시 사용 가능'
                   />
                 )}
