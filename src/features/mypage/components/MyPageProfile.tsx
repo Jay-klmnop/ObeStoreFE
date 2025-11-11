@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 export function MyPageProfile() {
   return (
-    <div className='p-2.5'>
-      <Link to='/mypage/info' className='flex items-center'>
+    <div className='p-4 lg:p-8'>
+      <Link to='/mypage/info' className='flex items-center gap-4'>
         <MypageProfileIcon />
-        <p className='ml-2.5 text-lg font-bold'>Nickname</p>
+        <p className='text-lg font-bold'>Nickname</p>
       </Link>
     </div>
   );
