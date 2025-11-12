@@ -40,6 +40,7 @@ export function SignupForm() {
   const onSubmit = async (data: SignupFormData) => {
     try {
       await signup(data.email, data.password);
+      alert('회원가입 완료! 이메일 인증을 위해 메일함을 확인해주세요.');
       closeAuthModal();
     } catch (err: any) {
       console.error('회원가입 실패:', err);
