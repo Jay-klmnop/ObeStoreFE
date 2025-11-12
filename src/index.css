@@ -63,7 +63,7 @@
   }
 
   .input {
-    @apply border-primary-500-50 flex rounded-lg border px-[.6rem] py-[.8rem];
+    @apply border-primary-500-50 flex rounded-lg border px-[.6rem] py-[.8rem] focus:ring-0 focus:outline-none;
   }
 
   .auth-input {

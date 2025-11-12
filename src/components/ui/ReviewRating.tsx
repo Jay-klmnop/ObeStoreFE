@@ -18,8 +18,8 @@ export function ReviewRating({
   readOnly = false,
   size = 28,
   onChange,
-  activeColor = '#B99587',
-  inactiveColor = '#E0E0E0',
+  activeColor = '#b9917f',
+  inactiveColor = '#edddd5',
 }: ReviewRatingProps) {
   const [rating, setRating] = useState<number>(initialValue);
 
@@ -37,8 +37,9 @@ export function ReviewRating({
         onChange={handleChange}
         emptySymbol={<FaStar size={size} color={inactiveColor} />}
         fullSymbol={<FaStar size={size} color={activeColor} />}
+        className='flex items-center pt-1'
       />
-      <span className='text-primary-500-60 text-sm'>({rating.toFixed(1)} / 5)</span>
+      <span className='text-primary-500-60 text-xs font-semibold'>({rating.toFixed(1)} / 5)</span>
     </div>
   );
 }

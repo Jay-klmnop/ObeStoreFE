@@ -32,7 +32,7 @@ export function MyPageInfo() {
   return (
     <MypageOutside>
       <MypageContentsWrap>
-        <div className='mt-10'>
+        <div className='mt-1'>
           <p className='flex border-b border-black pb-3 text-lg font-bold'>
             나의 프로필 / 정보 조회/수정
           </p>
