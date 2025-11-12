@@ -1,11 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-export function useProductsQuery() {
+export function useProductsQuery(sortOption: string = '') {
   return useQuery({
-    queryKey: ['products'],
+    queryKey: ['products', sortOption],
     queryFn: async () => {
-      const res = await axios.get('https://dummyjson.com/products');
+      const res = await axios.get('https://dummyjson.com/products', {
+        params: {
+          ordering: sortOption,
+        },
+      });
       return res.data.products;
     },
   });

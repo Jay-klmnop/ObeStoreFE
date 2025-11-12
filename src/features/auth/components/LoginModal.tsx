@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useAuthStore } from '@/features/auth';
+import { NaverLoginButton, useAuthStore } from '@/features/auth';
 import { AuthModal, ButtonBase } from '@/components/ui';
-import naverIcon from '@/assets/naver-icon.svg';
 import { HeaderLogoImgIcon } from '@/components/icon';
 
 export function LoginModal() {
@@ -59,16 +58,10 @@ export function LoginModal() {
         </div>
         {error && <p className='text-secondary-300 text-sm'>{error}</p>}
         <div className='flex w-full flex-col gap-6'>
-          <ButtonBase className='auth-button' variant='filled'>
+          <ButtonBase className='auth-button' variant='filled' type='submit'>
             로그인
           </ButtonBase>
-          <ButtonBase
-            className='auth-button flex items-center justify-center gap-2'
-            variant='hollow'
-          >
-            <img src={naverIcon} alt='Naver' className='h-10 w-10' />
-            네이버 간편 로그인
-          </ButtonBase>
+          <NaverLoginButton />
         </div>
       </form>
       <div className='sub-text flex justify-center gap-2'>
