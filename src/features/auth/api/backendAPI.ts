@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { API_ENDPOINTS } from '@/features/auth/api';
-import { useAuthStore } from '@/features/auth';
+import { API_ENDPOINTS, useAuthStore } from '@/features/auth';
 
 export const backendAPI = axios.create({
-  baseURL: 'dk yet', // 추후에 백엔드에게 주소 받아와야함
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },

@@ -30,7 +30,7 @@ export function Router() {
             <Route path='/order/order' element={<OrderPage />} />
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
-            <Route path='/mypage' element={<MyPageLayout />}>
+            <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
               <Route path='orderinfo' element={<MyPageOrderInfo />} />
               <Route path='orderdetail' element={<MyPageOrderDetail />} />

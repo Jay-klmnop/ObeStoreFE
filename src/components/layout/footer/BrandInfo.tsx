@@ -1,5 +1,5 @@
 import { FooterLogoIcon } from '@/components/icon/FooterLogoIcon';
-import { Modal } from '@/components/ui';
+import { ConfirmModal } from '@/components/ui';
 import { useState } from 'react';
 import { PrivacyContent } from './policy/PrivacyContent';
 import { ShippingContent } from './policy/ShippingContent';
@@ -30,10 +30,10 @@ export function BrandInfo() {
       <h2>
         <FooterLogoIcon />
       </h2>
-      <p className='mt-4 text-sm text-primary-100'>
+      <p className='text-primary-100 mt-4 text-sm'>
         Obe Store, a place where you can find The Objet for yourself
       </p>
-      <div className='mt-4 cursor-default text-sm leading-6 text-primary-100'>
+      <div className='text-primary-100 mt-4 cursor-default text-sm leading-6'>
         <p>
           대표: {BrandInfoTxts.ceo} | 사업자등록번호 : {BrandInfoTxts.businessNumber}
         </p>
@@ -41,7 +41,7 @@ export function BrandInfo() {
         <p>통신판매업 : {BrandInfoTxts.MailOrderSalesRegistrationNumber}</p>
         <p>이메일 : {BrandInfoTxts.email}</p>
       </div>
-      <div className='mt-4 text-sm text-primary-100'>
+      <div className='text-primary-100 mt-4 text-sm'>
         <ul className='flex gap-10'>
           <li className='cursor-pointer hover:underline' onClick={() => handleOpen('terms')}>
             이용약관
@@ -55,13 +55,13 @@ export function BrandInfo() {
         </ul>
       </div>
 
-      <Modal isOpen={!!openModal} closeModal={closeModal} buttons={false}>
+      <ConfirmModal isOpen={!!openModal} closeModal={closeModal} buttons={false}>
         <div className='max-h-[70vh] overflow-y-auto p-4 text-sm leading-6'>
           {openModal === 'terms' && <TermsContent />}
           {openModal === 'privacy' && <PrivacyContent />}
           {openModal === 'shipping' && <ShippingContent />}
         </div>
-      </Modal>
+      </ConfirmModal>
     </>
   );
 }

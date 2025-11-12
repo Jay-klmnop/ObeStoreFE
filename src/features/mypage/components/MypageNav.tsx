@@ -1,46 +1,54 @@
+import { useAuthStore } from '@/features/auth';
 import { NavLink } from 'react-router-dom';
+import { IoIosArrowForward } from 'react-icons/io';
 
 export function MypageNav() {
-  const handleClickLogout = () => {};
+  const { logout } = useAuthStore();
   return (
-    <div className='mt-10 flex w-full flex-col lg:mt-15 lg:w-[230px] lg:p-4.5'>
-      <h2 className='flex text-2xl font-semibold'>Mypage</h2>
-      <ul className='flex w-full flex-1 flex-row gap-5 lg:flex-col lg:gap-0'>
-        <li className='lg:my-7.5'>
+    <div className='m-4 flex w-[240px] flex-col gap-4 lg:m-8 lg:gap-8'>
+      <h2 className='flex text-2xl font-semibold'>MYPAGE</h2>
+      <ul className='flex w-full flex-1 flex-col gap-4 lg:gap-8'>
+        <li>
           <NavLink
-            to='/mypage/orderinfo'
+            to='/users/orderinfo'
             className={({ isActive }) =>
-              `link-button text-primary-500-80 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'}`
+              `text-primary-500-90 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'} w-full items-center justify-between`
             }
           >
             주문 내역
-          </NavLink>
-        </li>
-
-        <li className='lg:mb-7.5'>
-          <NavLink
-            to='/mypage/info'
-            className={({ isActive }) =>
-              `link-button text-primary-500-80 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'}`
-            }
-          >
-            나의 정보 조회/수정
-          </NavLink>
-        </li>
-
-        <li className='lg:mb-7.5'>
-          <NavLink
-            to='/mypage/addressinfo'
-            className={({ isActive }) =>
-              `link-button text-primary-500-80 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'}`
-            }
-          >
-            배송지 정보 조회/수정
+            <IoIosArrowForward className='hidden lg:flex' />
           </NavLink>
         </li>
 
         <li>
-          <button onClick={handleClickLogout} className='text-primary-500-80 font-bold lg:text-lg'>
+          <NavLink
+            to='/users/info'
+            className={({ isActive }) =>
+              `text-primary-500-90 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'} w-full items-center justify-between`
+            }
+          >
+            나의 정보 조회/수정
+            <IoIosArrowForward className='hidden lg:flex' />
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to='/users/addressinfo'
+            className={({ isActive }) =>
+              `text-primary-500-90 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'} w-full items-center justify-between`
+            }
+          >
+            배송지 정보 조회/수정
+            <IoIosArrowForward className='hidden lg:flex' />
+          </NavLink>
+        </li>
+
+        <li>
+          <button
+            onClick={logout}
+            className='text-primary-500-70 cursor-pointer font-bold lg:text-lg'
+          >
             로그아웃
           </button>
         </li>

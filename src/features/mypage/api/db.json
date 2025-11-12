@@ -3,7 +3,7 @@
     {
       "id": "addr-1",
       "name": "집",
-      "phone": "010-1234-5678",
+      "phone": "010-1234-1234",
       "address": "서울특별시 강남구 테헤란로 123",
       "detail": "101호",
       "isDefault": true
@@ -11,17 +11,17 @@
     {
       "id": "addr-2",
       "name": "회사",
-      "phone": "010-8765-4321",
+      "phone": "010-1234-1234",
       "address": "부산광역시 해운대구 센텀중앙로 55",
       "detail": "302동 502호",
       "isDefault": false
     },
     {
       "id": "addr-3",
-      "name": "인찬이네",
-      "phone": "010-2222-3333",
-      "address": "대구광역시 수성구 동대구로 99",
-      "detail": "1103호",
+      "name": "인찬이네에",
+      "phone": "010-1234-1111",
+      "address": "대구광역시 수성구 동대구로 100",
+      "detail": "1203호",
       "isDefault": false
     },
     {
@@ -38,14 +38,6 @@
       "phone": "010-7777-9999",
       "address": "광주광역시 서구 무진대로 45",
       "detail": "501호",
-      "isDefault": false
-    },
-    {
-      "id": "b422",
-      "name": "집",
-      "phone": null,
-      "address": "하이하이",
-      "detail": "상세주소",
       "isDefault": false
     }
   ]
