@@ -23,13 +23,35 @@ export const useAddressQuery = () =>
 export const useAddressMutation = () => {
   const queryClient = useQueryClient();
 
+  const clearDefaultAddress = async () => {
+    try {
+      const { data: addresses } = await axios.get<Address[]>(API_URL);
+      const defaultAddress = addresses.find((a) => a.isDefault);
+      if (defaultAddress) {
+        await axios.patch(`${API_URL}/${defaultAddress.id}`, { isDefault: false });
+      }
+    } catch (error) {
+      console.error('기본 배송지 초기화 중 오류 발생:', error);
+    }
+  };
+
   const addAddress = useMutation({
-    mutationFn: (newAddr: Omit<Address, 'id'>) => axios.post(API_URL, newAddr),
+    mutationFn: async (newAddr: Omit<Address, 'id'>) => {
+      if (newAddr.isDefault) {
+        await clearDefaultAddress();
+      }
+      return axios.post(API_URL, newAddr);
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });
 
   const updateAddress = useMutation({
-    mutationFn: (addr: Address) => axios.patch(`${API_URL}/${addr.id}`, addr),
+    mutationFn: async (addr: Address) => {
+      if (addr.isDefault) {
+        await clearDefaultAddress();
+      }
+      return axios.patch(`${API_URL}/${addr.id}`, addr);
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });
 
@@ -38,5 +60,5 @@ export const useAddressMutation = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });
 
-  return { addAddress, updateAddress, deleteAddress };
+  return { addAddress, updateAddress, deleteAddress, clearDefaultAddress };
 };
