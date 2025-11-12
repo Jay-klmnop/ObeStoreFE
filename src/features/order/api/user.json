@@ -1,0 +1,204 @@
+{
+  "customers": [
+    {
+      "id": "user-1",
+      "orderId": "ORD-001",
+      "orderName": "토스 티셔츠 외 2건",
+      "customerEmail": "honggildong@example.com",
+      "customerName": "홍길동",
+      "customerNickrname": "길동이",
+      "customerMobilePhone": "010-1234-5678",
+      "customerAddress": "서울특별시 강남구 테헤란로 123"
+    },
+    {
+      "id": "user-2",
+      "orderId": "ORD-002",
+      "orderName": "에어팟 맥스 외 1건",
+      "customerEmail": "kimyuna@example.com",
+      "customerName": "김유나",
+      "customerNickrname": "yunaholic",
+      "customerMobilePhone": "010-2345-6789",
+      "customerAddress": "부산광역시 해운대구 센텀중앙로 55"
+    },
+    {
+      "id": "user-3",
+      "orderId": "ORD-003",
+      "orderName": "스니커즈 외 3건",
+      "customerEmail": "parkchulsoo@example.com",
+      "customerName": "박철수",
+      "customerNickrname": "철수맨",
+      "customerMobilePhone": "010-3456-7890",
+      "customerAddress": "대구광역시 수성구 동대구로 99"
+    },
+    {
+      "id": "user-4",
+      "orderId": "ORD-004",
+      "orderName": "노트북 가방 외 2건",
+      "customerEmail": "leesuhyun@example.com",
+      "customerName": "이수현",
+      "customerNickrname": "soo_h",
+      "customerMobilePhone": "010-4567-8901",
+      "customerAddress": "인천광역시 연수구 송도과학로 77"
+    },
+    {
+      "id": "user-5",
+      "orderId": "ORD-005",
+      "orderName": "무선 키보드 외 1건",
+      "customerEmail": "choiminyoung@example.com",
+      "customerName": "최민영",
+      "customerNickrname": "minyoung_c",
+      "customerMobilePhone": "010-5678-9012",
+      "customerAddress": "광주광역시 서구 무진대로 45"
+    },
+    {
+      "id": "user-6",
+      "orderId": "ORD-006",
+      "orderName": "텀블러 외 4건",
+      "customerEmail": "jungjaewon@example.com",
+      "customerName": "정재원",
+      "customerNickrname": "wonnie",
+      "customerMobilePhone": "010-6789-0123",
+      "customerAddress": "대전광역시 유성구 대학로 28"
+    },
+    {
+      "id": "user-7",
+      "orderId": "ORD-007",
+      "orderName": "무선 이어폰 외 2건",
+      "customerEmail": "ohjiyoon@example.com",
+      "customerName": "오지윤",
+      "customerNickrname": "ji_love",
+      "customerMobilePhone": "010-7890-1234",
+      "customerAddress": "울산광역시 남구 삼산중로 66"
+    },
+    {
+      "id": "user-8",
+      "orderId": "ORD-008",
+      "orderName": "아이패드 케이스 외 1건",
+      "customerEmail": "kangjunho@example.com",
+      "customerName": "강준호",
+      "customerNickrname": "jun_kang",
+      "customerMobilePhone": "010-8901-2345",
+      "customerAddress": "경기도 성남시 분당구 판교로 242"
+    },
+    {
+      "id": "user-9",
+      "orderId": "ORD-009",
+      "orderName": "에코백 외 1건",
+      "customerEmail": "yoonhaeun@example.com",
+      "customerName": "윤하은",
+      "customerNickrname": "haeuny",
+      "customerMobilePhone": "010-9012-3456",
+      "customerAddress": "경기도 수원시 영통구 광교로 88"
+    },
+    {
+      "id": "user-10",
+      "orderId": "ORD-010",
+      "orderName": "플레이스테이션 외 2건",
+      "customerEmail": "songminho@example.com",
+      "customerName": "송민호",
+      "customerNickrname": "mino_artist",
+      "customerMobilePhone": "010-0123-4567",
+      "customerAddress": "서울특별시 마포구 월드컵북로 31"
+    },
+    {
+      "id": "user-11",
+      "orderId": "ORD-011",
+      "orderName": "책상 조명 외 3건",
+      "customerEmail": "jangyura@example.com",
+      "customerName": "장유라",
+      "customerNickrname": "urayura",
+      "customerMobilePhone": "010-2345-8901",
+      "customerAddress": "서울특별시 서초구 반포대로 200"
+    },
+    {
+      "id": "user-12",
+      "orderId": "ORD-012",
+      "orderName": "핸드크림 세트 외 2건",
+      "customerEmail": "baekjihun@example.com",
+      "customerName": "백지훈",
+      "customerNickrname": "jihoonb",
+      "customerMobilePhone": "010-3456-9012",
+      "customerAddress": "부산광역시 남구 용소로 75"
+    },
+    {
+      "id": "user-13",
+      "orderId": "ORD-013",
+      "orderName": "모자 외 1건",
+      "customerEmail": "imseoyoung@example.com",
+      "customerName": "임서영",
+      "customerNickrname": "seoyoung_i",
+      "customerMobilePhone": "010-4567-0123",
+      "customerAddress": "대전광역시 서구 둔산대로 140"
+    },
+    {
+      "id": "user-14",
+      "orderId": "ORD-014",
+      "orderName": "카메라 스트랩 외 2건",
+      "customerEmail": "kimdongwoo@example.com",
+      "customerName": "김동우",
+      "customerNickrname": "dongwookim",
+      "customerMobilePhone": "010-5678-1234",
+      "customerAddress": "인천광역시 중구 공항로 272"
+    },
+    {
+      "id": "user-15",
+      "orderId": "ORD-015",
+      "orderName": "스마트워치 외 1건",
+      "customerEmail": "choiyeri@example.com",
+      "customerName": "최예리",
+      "customerNickrname": "yeric",
+      "customerMobilePhone": "010-6789-2345",
+      "customerAddress": "경기도 용인시 수지구 포은대로 11"
+    },
+    {
+      "id": "user-16",
+      "orderId": "ORD-016",
+      "orderName": "조거팬츠 외 3건",
+      "customerEmail": "hanseungwoo@example.com",
+      "customerName": "한승우",
+      "customerNickrname": "woo_han",
+      "customerMobilePhone": "010-7890-3456",
+      "customerAddress": "경기도 고양시 일산동구 중앙로 101"
+    },
+    {
+      "id": "user-17",
+      "orderId": "ORD-017",
+      "orderName": "운동화 외 2건",
+      "customerEmail": "jungahyoung@example.com",
+      "customerName": "정아영",
+      "customerNickrname": "ahyoungj",
+      "customerMobilePhone": "010-8901-4567",
+      "customerAddress": "서울특별시 종로구 종로1가 45"
+    },
+    {
+      "id": "user-18",
+      "orderId": "ORD-018",
+      "orderName": "가죽 벨트 외 2건",
+      "customerEmail": "parkjunseo@example.com",
+      "customerName": "박준서",
+      "customerNickrname": "junpark",
+      "customerMobilePhone": "010-9012-5678",
+      "customerAddress": "부산광역시 해운대구 마린시티2로 10"
+    },
+    {
+      "id": "user-19",
+      "orderId": "ORD-019",
+      "orderName": "메신저백 외 1건",
+      "customerEmail": "kohaerin@example.com",
+      "customerName": "고해린",
+      "customerNickrname": "haerin_k",
+      "customerMobilePhone": "010-0123-6789",
+      "customerAddress": "서울특별시 강서구 화곡로 52"
+    },
+    {
+      "id": "user-20",
+      "orderId": "ORD-020",
+      "orderName": "패딩 점퍼 외 2건",
+      "customerEmail": "moonjunho@example.com",
+      "customerName": "문준호",
+      "customerNickrname": "junhomoon",
+      "customerMobilePhone": "010-1234-7890",
+      "customerAddress": "경기도 남양주시 다산중앙로 89"
+    }
+  ]
+}
