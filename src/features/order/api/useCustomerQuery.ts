@@ -12,6 +12,7 @@ export interface CustomerOrderInfo {
   customerNickrname: string;
   customerMobilePhone: string;
   customerAddress: string;
+  provider: string;
 }
 
 const API_URL = 'http://localhost:4001/customers';
@@ -28,6 +29,7 @@ const fetchCustomer = async (): Promise<CustomerOrderInfo> => {
     customerNickrname: customer.customerNickrname,
     customerMobilePhone: customer.customerMobilePhone,
     customerAddress: customer.customerAddress,
+    provider: customer.provider,
   };
 };
 
