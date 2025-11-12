@@ -79,7 +79,7 @@ export function AddressForm() {
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
-      <label className='item-centers flex gap-2'>
+      <label className='item-centers flex items-center gap-2'>
         <input
           type='checkbox'
           name='isDefault'
@@ -88,6 +88,7 @@ export function AddressForm() {
           className='border-primary-700'
         />
         기본 배송지로 설정
+        <small className='text-custom-gray-30'>(기본 배송지는 1개만 가능합니다.)</small>
       </label>
       <ButtonBase type='submit' className='rouned text-white' variant='filled'>
         {editingAddress ? '수정 완료' : '저장하기'}

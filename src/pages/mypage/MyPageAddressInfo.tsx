@@ -23,6 +23,14 @@ export function MyPageAddressInfo() {
               key={addrinfo.id}
               className='border-primary-500-20 bg-primary-500-0 text-custom-gray-70 mt-5 rounded-lg border p-3 pt-2 text-lg leading-7'
             >
+              <div className='flex items-center font-bold'>
+                <span>{addrinfo.name}</span>
+                {addrinfo.isDefault && (
+                  <span className='text-primary-500-90 border-primary-500-40 ml-2 rounded border bg-white/60 p-1 text-xs'>
+                    기본 배송지
+                  </span>
+                )}
+              </div>
               <div className='text-1xl font-bold text-black'>{addrinfo.name}</div>
               <div className='mt-2'>
                 {addrinfo.address} {addrinfo.detail}
