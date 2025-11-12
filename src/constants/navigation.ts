@@ -10,7 +10,7 @@ export const HEADER_NAV_LINKS = [
   { href: '/about', label: 'ABOUT' },
 ];
 
-type HeaderIconLink =
+export type HeaderIconLinkType =
   | {
       type: 'action';
       action: string;
@@ -26,32 +26,32 @@ type HeaderIconLink =
       responsiveClass?: string;
     };
 
-export const HEADER_ICONS_LINKS: HeaderIconLink[] = [
+export const HEADER_ICONS_LINKS: HeaderIconLinkType[] = [
   {
     type: 'action',
     action: 'openSearchModal',
-    label: 'search',
+    label: 'SEARCH',
     Icon: SearchToggleButton,
     responsiveClass: 'mobile-visible',
   },
   {
     type: 'link',
     href: '/users',
-    label: 'My Page',
+    label: 'MYPAGE',
     Icon: ProfileIcon,
     responsiveClass: 'mobile-visible',
   },
   {
     type: 'link',
     href: '/users/favorites',
-    label: 'Favorites',
+    label: 'FAVORITES',
     Icon: EmptyHeartIcon,
     responsiveClass: 'mobile-hidden',
   },
   {
     type: 'link',
     href: '/users/cart',
-    label: 'Cart',
+    label: 'CART',
     Icon: CartIcon,
     responsiveClass: 'mobile-hidden',
   },
