@@ -1,4 +1,5 @@
 export * from './AboutPage';
+export * from './CallbackPage';
 export * from './CartPage';
 export * from './FavoritesPage';
 export * from './MainPage';
