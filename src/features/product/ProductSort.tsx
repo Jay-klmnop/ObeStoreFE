@@ -1,0 +1,55 @@
+import { motion, AnimatePresence } from 'framer-motion';
+import { RiArrowDropDownLine } from 'react-icons/ri';
+import { SORT_OPTIONS } from '@/constants/sort';
+import { useToggleMenuStore } from '@/store';
+
+type SortOptionType = string;
+
+interface ProductSortProps {
+  selectedOption: SortOptionType;
+  onChange: (value: SortOptionType) => void;
+}
+
+export function ProductSort({ selectedOption, onChange }: ProductSortProps) {
+  const { isOpen, toggleMenu, closeMenu } = useToggleMenuStore();
+
+  const selectedOptionLabel =
+    SORT_OPTIONS.find((option) => option.value === selectedOption)?.label || SORT_OPTIONS[0].label;
+
+  return (
+    <div className='relative inline-block w-40'>
+      <button
+        onClick={toggleMenu}
+        className='border-primary-500-40 flex w-full items-center justify-between rounded-lg border py-2 pr-1 pl-2 text-sm font-semibold focus:outline-none'
+      >
+        {selectedOptionLabel}
+        <RiArrowDropDownLine size={20} />
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className='absolute z-50 mt-1 w-full rounded-md bg-white shadow-md'
+          >
+            {SORT_OPTIONS.map((option) => (
+              <div
+                key={option.value}
+                className={`hover:bg-primary-500-60/10 cursor-pointer px-3 py-2 text-sm ${
+                  selectedOption === option.value ? 'text-primary-700 font-bold' : ''
+                }`}
+                onClick={() => {
+                  onChange(option.value);
+                  closeMenu();
+                }}
+              >
+                {option.label}
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
