@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { backendAPI } from '@/features/auth';
+import { backendAPI } from '@/api';
 import { useAuthStore } from '@/features/auth';
 
 export function CallbackPage() {
