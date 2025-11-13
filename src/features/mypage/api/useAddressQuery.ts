@@ -8,6 +8,7 @@ export type Address = {
   address: string;
   detail: string;
   isDefault: boolean;
+  etcRequest?: string;
 };
 
 const API_URL = 'http://localhost:4000/addresses';
