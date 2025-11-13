@@ -1,7 +1,7 @@
 import { ProductGrid, ProductSort, useProductsQuery } from '@/features/product';
 import { ErrorMessage, Spinner } from '@/components/ui';
 import { useSearchStore } from '@/features/search';
-import type { DummyType } from '@/types';
+import type { ProductCardType } from '@/types';
 import { useMemo, useState } from 'react';
 
 export function ProductsPage() {
@@ -11,8 +11,8 @@ export function ProductsPage() {
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
-    return products.filter((p: DummyType) =>
-      p.title.toLowerCase().includes(searchTerm.toLowerCase())
+    return products.filter((p: ProductCardType) =>
+      p.product_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [products, searchTerm]);
 

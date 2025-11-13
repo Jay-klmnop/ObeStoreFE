@@ -1,9 +1,9 @@
-import type { DummyType } from '@/types';
+import type { ProductCardType } from '@/types';
 import { useFavoriteStore } from './store';
 import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon';
 
 interface FavoriteIconProps {
-  product: DummyType; //나중에 ProductCardType으로 변경
+  product: ProductCardType;
   className?: string;
 }
 
