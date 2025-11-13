@@ -3,13 +3,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ProductSection } from '../features/home/ProductSection';
 import type { DummyType } from '../types/dummyjson';
 import type { ProductType } from '../types/product';
-import main1 from '../assets/main1.png';
-import main2 from '../assets/main2.png';
-import main3 from '../assets/main3.png';
-import autumnImg from '../assets/Autumn.png';
-import interiorImg from '../assets/Interior.png';
-import ringImg from '../assets/Ring.png';
-import whatsImg from '../assets/Whats.png';
+import main1 from '../assets/main1.jpg';
+import main2 from '../assets/main2.jpg';
+import main3 from '../assets/main3.jpg';
+import autumnImg from '../assets/Autumn.jpg';
+import interiorImg from '../assets/Interior.jpg';
+import ringImg from '../assets/Ring.jpg';
+import whatsImg from '../assets/Whats.jpg';
 
 interface Product {
   id: number;
