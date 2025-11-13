@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import '@fontsource/pretendard';
+@import '@fontsource/pretendard/index.css';
 
 @theme {
   --font-pretendard: 'Pretendard', sans-serif;

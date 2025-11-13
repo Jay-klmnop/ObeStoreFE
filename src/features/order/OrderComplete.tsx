@@ -1,3 +1,31 @@
+import { ButtonBase } from '@/components/ui';
+
 export default function OrderComplete() {
-  return <div>OrderComplete</div>;
+  return (
+    <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
+      <h2 className='text-3xl font-normal'>
+        <b className='font-semibold'>주문</b>이 <b className='font-semibold'>완료</b> 되었습니다!
+      </h2>
+      <p className='mt-12 flex w-full justify-self-start font-black'>25.10.21(화)</p>
+      <div className='mt-3 flex w-full justify-between'>
+        <span className='lg:w-[90px]'>주문 번호</span>
+        <span>202510211618040002</span>
+      </div>
+      <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
+        <span className='lg:w-[90px]'>주문 상품</span>
+        <div className='flex flex-col text-right'>
+          <span>[8팩] 20cm 무지 긴목 장목 양말 외 2건</span>
+          <span>1개</span>
+          <span>15,900원</span>
+        </div>
+      </div>
+      <div className='mt-15 flex gap-3'>
+        <ButtonBase variant='hollow'>주문 상세 보기</ButtonBase>
+        <ButtonBase variant='filled'>메인으로 이동</ButtonBase>
+      </div>
+      <p className='text-custom-gray-100 mt-5 text-base'>
+        주문내역 및 배송에 관한 안내는 <b>[주문 상세 보기]</b> 를 통하여 확인 가능합니다.
+      </p>
+    </div>
+  );
 }
