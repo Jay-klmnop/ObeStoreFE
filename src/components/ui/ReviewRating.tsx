@@ -33,7 +33,7 @@ export function ReviewRating({
       <Rating
         readonly={readOnly}
         initialRating={rating}
-        fractions={10} // ✅ 0.1 단위 지원
+        fractions={2} // 0.5 단위로 변경
         onChange={handleChange}
         emptySymbol={<FaStar size={size} color={inactiveColor} />}
         fullSymbol={<FaStar size={size} color={activeColor} />}
