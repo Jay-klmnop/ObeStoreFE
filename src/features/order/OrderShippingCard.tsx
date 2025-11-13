@@ -1,9 +1,7 @@
-import { ButtonBase } from '@/components/ui';
-import { AddressModal } from '@/components/ui/AddressModal';
+import { AddressModal, ButtonBase } from '@/components/ui';
 import { useAddressModalStore } from '@/store';
-import { useAddressMutation, useAddressQuery } from '../mypage';
+import { type Address, useAddressMutation, useAddressQuery } from '@/features/mypage';
 import { useEffect, useState } from 'react';
-import type { Address } from '../mypage';
 
 export default function OrderShippingCard() {
   const { openModal } = useAddressModalStore();

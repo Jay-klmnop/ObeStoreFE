@@ -1,10 +1,12 @@
-import { useCustomerMutation, useCustomerQuery } from '@/features/order/api/useCustomerQuery';
-import { MyPageInfoRow } from '@/features/mypage/components/MyPageInfoRow';
+import { useCustomerMutation, useCustomerQuery } from '@/features/order';
+import {
+  ChangePasswordModal,
+  MypageContentsWrap,
+  MyPageInfoRow,
+  MypageOutside,
+} from '@/features/mypage';
 import { ButtonBase, ConfirmModal } from '@/components/ui';
-import MypageOutside from '../../features/mypage/components/MypageOutside';
-import { MypageContentsWrap } from '../../features/mypage/components/MypageContentsWrap';
 import { useState } from 'react';
-import { ChangePasswordModal } from '@/features/mypage/components/ChangePasswordModal';
 
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);

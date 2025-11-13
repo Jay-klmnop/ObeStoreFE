@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import axios, { type AxiosResponse } from 'axios';
-import type { CartItem } from '@/types/order';
+import type { CartItem } from '@/types';
 
 interface CartResponse {
   products: CartItem[];

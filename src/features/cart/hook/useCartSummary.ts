@@ -6,8 +6,8 @@ import {
   useSelectedQuantity,
   useShippingFee,
   useTotalPayment,
-} from '@/features/cart/store/useCartStore';
-import { useRewardStore } from '@/features/reward/store/useRewardStore';
+} from '@/features/cart';
+import { useRewardStore } from '@/features/reward/store';
 
 export function useCartSummary() {
   const checkedItemSum = useCheckedItemSum();

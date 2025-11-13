@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { RiArrowDropDownLine } from 'react-icons/ri';
-import { SORT_OPTIONS } from '@/constants/sort';
+import { SORT_OPTIONS } from '@/constants';
 import { useToggleMenuStore } from '@/store';
 
 type SortOptionType = string;

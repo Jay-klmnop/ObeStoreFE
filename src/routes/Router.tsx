@@ -13,10 +13,8 @@ import {
   ProductsPage,
 } from '@/pages';
 import { MyPageLayout, RootLayout } from '@/components/layout';
-import { OrderSuccess } from '@/features/order/OrderSuccess';
-import { OrderFail } from '@/features/order/OrderFail';
+import { OrderComplete, OrderFail, OrderSuccess } from '@/features/order';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import OrderComplete from '@/features/order/OrderComplete';
 
 export function Router() {
   const queryClient = new QueryClient();
@@ -28,8 +26,6 @@ export function Router() {
             <Route path='/' element={<MainPage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/product/:id' element={<ProductDetailPage />} />
-            <Route path='/users/favorites' element={<FavoritesPage />} />
-            <Route path='/users/cart' element={<CartPage />} />
             <Route path='/order/order' element={<OrderPage />} />
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
@@ -40,6 +36,8 @@ export function Router() {
               <Route path='orderdetail' element={<MyPageOrderDetail />} />
               <Route path='addressinfo' element={<MyPageAddressInfo />} />
               <Route path='info' element={<MyPageInfo />} />
+              <Route path='favorites' element={<FavoritesPage />} />
+              <Route path='cart' element={<CartPage />} />
             </Route>
           </Route>
         </Routes>

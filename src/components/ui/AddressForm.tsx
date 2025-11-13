@@ -1,7 +1,7 @@
 import { useAddressMutation } from '@/features/mypage';
-import { useAddressModalStore } from '@/store/useAddressModalStore';
+import { useAddressModalStore } from '@/store';
 import { useEffect, useState } from 'react';
-import { ButtonBase } from './button';
+import { ButtonBase } from '@/components/ui';
 
 export function AddressForm() {
   const { addAddress, updateAddress } = useAddressMutation();
