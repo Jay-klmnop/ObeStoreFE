@@ -3,9 +3,9 @@ import type { Address } from '@/features/mypage/api/useAddressQuery';
 
 interface AddressModalState {
   isOpen: boolean;
-  mode: 'add' | 'edit' | 'delete';
+  mode: 'add' | 'edit' | 'delete' | 'select';
   editingAddress: Address | null;
-  openModal: (mode: 'add' | 'edit' | 'delete', address?: Address) => void;
+  openModal: (mode: 'add' | 'edit' | 'delete' | 'select', address?: Address) => void;
   closeModal: () => void;
 }
 
