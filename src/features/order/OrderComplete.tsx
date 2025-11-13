@@ -1,4 +1,5 @@
 import { ButtonBase } from '@/components/ui';
+import { Link } from 'react-router-dom';
 
 export default function OrderComplete() {
   return (
@@ -6,7 +7,7 @@ export default function OrderComplete() {
       <h2 className='text-3xl font-normal'>
         <b className='font-semibold'>주문</b>이 <b className='font-semibold'>완료</b> 되었습니다!
       </h2>
-      <p className='mt-12 flex w-full justify-self-start font-black'>25.10.21(화)</p>
+      <p className='mt-12 flex w-full justify-self-start font-extrabold'>25.10.21(화)</p>
       <div className='mt-3 flex w-full justify-between'>
         <span className='lg:w-[90px]'>주문 번호</span>
         <span>202510211618040002</span>
@@ -20,10 +21,14 @@ export default function OrderComplete() {
         </div>
       </div>
       <div className='mt-15 flex gap-3'>
-        <ButtonBase variant='hollow'>주문 상세 보기</ButtonBase>
-        <ButtonBase variant='filled'>메인으로 이동</ButtonBase>
+        <ButtonBase variant='hollow'>
+          <Link to='/users/orderinfo'>주문 상세 보기</Link>
+        </ButtonBase>
+        <ButtonBase variant='filled'>
+          <Link to='/'>메인으로 이동</Link>
+        </ButtonBase>
       </div>
-      <p className='text-custom-gray-100 mt-5 text-base'>
+      <p className='text-custom-gray-100 mt-5 cursor-default text-base font-light'>
         주문내역 및 배송에 관한 안내는 <b>[주문 상세 보기]</b> 를 통하여 확인 가능합니다.
       </p>
     </div>
