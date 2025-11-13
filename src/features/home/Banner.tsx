@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import main1 from '@/assets/main1.png';
-import main2 from '@/assets/main2.png';
-import main3 from '@/assets/main3.png';
+import main1 from '@/assets/main1.jpg';
+import main2 from '@/assets/main2.jpg';
+import main3 from '@/assets/main3.jpg';
 
 interface BannerSlide {
   id: number;
@@ -11,19 +11,13 @@ interface BannerSlide {
 
 const bannerSlides: BannerSlide[] = [
   {
-    id: 1,
-    image: main1,
-    alt: '배너 이미지 1'
+    id: 1, image: main1, alt: '배너 이미지 1'
   },
   {
-    id: 2,
-    image: main2,
-    alt: '배너 이미지 2'
+    id: 2, image: main2, alt: '배너 이미지 2'
   },
   {
-    id: 3,
-    image: main3,
-    alt: '배너 이미지 3'
+    id: 3, image: main3, alt: '배너 이미지 3'
   }
 ];
 
