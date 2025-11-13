@@ -1,5 +1,5 @@
 import { ButtonBase } from '@/components/ui';
-import naverIcon from '@/assets/naver-icon.svg';
+import { naverIcon } from '@/assets';
 
 export function NaverLoginButton() {
   const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
