@@ -1,17 +1,33 @@
 import { useAddressModalStore } from '@/store/useAddressModalStore';
 import { AddressForm } from './AddressForm';
-import { useAddressMutation } from '@/features/mypage/api/useAddressQuery';
+import { useAddressMutation, useAddressQuery } from '@/features/mypage/api/useAddressQuery';
 import { ConfirmModal } from './ConfirmModal';
+import { AddressList } from './AddressList';
+import { useEffect } from 'react';
 
-export function AddressModal() {
+export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any) => void }) {
   const { isOpen, mode, closeModal, editingAddress } = useAddressModalStore();
   const { deleteAddress } = useAddressMutation();
+  const { data: addresses = [] } = useAddressQuery();
+
   const handleDeleteConfirm = () => {
     if (!editingAddress) return;
     deleteAddress.mutate(editingAddress.id, {
       onSuccess: () => closeModal(),
     });
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -22,14 +38,27 @@ export function AddressModal() {
         <div className='mb-4 flex items-center justify-between border-b pb-2'>
           <h2 className='text-lg font-bold'>
             {' '}
-            {mode === 'add' ? '배송지 추가' : mode === 'edit' ? '배송지 수정' : '배송지 삭제'}
+            {mode === 'add'
+              ? '배송지 추가'
+              : mode === 'edit'
+                ? '배송지 수정'
+                : mode === 'delete'
+                  ? '배송지 삭제'
+                  : '배송지 선택'}
           </h2>
           <button className='text-3xl font-light' aria-label='닫기' onClick={closeModal}>
             &times;
           </button>
         </div>
-
-        {mode === 'delete' ? (
+        {mode === 'select' ? (
+          <AddressList
+            addresses={addresses}
+            onSelect={(addr) => {
+              onSelectAddress?.(addr); //
+              closeModal();
+            }}
+          />
+        ) : mode === 'delete' ? (
           <ConfirmModal
             isOpen={true}
             closeModal={closeModal}

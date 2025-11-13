@@ -14,6 +14,5 @@ export const useAddressModalStore = create<AddressModalState>((set) => ({
   mode: 'add',
   editingAddress: null,
   openModal: (mode, address) => set({ isOpen: true, mode, editingAddress: address ?? null }),
-
   closeModal: () => set({ isOpen: false, mode: 'add', editingAddress: null }),
 }));
