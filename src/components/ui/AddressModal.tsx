@@ -15,10 +15,10 @@ export function AddressModal() {
   if (!isOpen) return null;
 
   return (
-    <div
-      className={`centralize bg-primary-700/50 fixed inset-0 z-100 h-full w-full backdrop-blur-sm`}
-    >
-      <div className='w-[500px] rounded-lg bg-white p-6'>
+    <div className='centralize bg-primary-700/50 fixed inset-0 z-90 flex h-full w-full items-center justify-center overflow-hidden backdrop-blur-sm'>
+      <div
+        className={`${mode === 'select' ? 'h-[530px]' : ''} w-[800px] items-center overflow-y-auto rounded-lg bg-white p-6`}
+      >
         <div className='mb-4 flex items-center justify-between border-b pb-2'>
           <h2 className='text-lg font-bold'>
             {' '}
