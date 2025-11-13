@@ -1,15 +1,14 @@
-// import { FilledButton } from '@/components/ui';
-// import { useOrderStore } from './store/useOrderStore';
 import { useCartQuery } from '@/features/cart/api/useCartQuery';
 import { useOrderStore } from './store/useOrderStore';
-// import type { CartItem } from '@/types/order';
 import { ButtonBase } from '@/components/ui';
 import { CartCardNone } from '../cart';
 import { OrderCheckoutPage } from './OrderCheckoutPage';
 import { useRewardStore } from '@/features/reward/store/useRewardStore';
-import { useEffect } from 'react';
-import { useCustomerQuery } from './api/useCustomerQuery';
+import { useEffect, useState } from 'react';
 import { useCartSummary } from '../cart/hook/useCartSummary';
+import { useAddressQuery } from '../mypage';
+import { AddressModal } from '@/components/ui/AddressModal';
+import { useAddressModalStore } from '@/store';
 
 export default function OrderList() {
   const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
@@ -18,40 +17,38 @@ export default function OrderList() {
   const { orderItems, checkedItemSum, discountSum, shippingFeeText, totalQuantity } =
     useOrderStore();
   const { totalPayment } = useCartSummary();
+
   useEffect(() => {
     const earned = Math.floor(checkedItemSum * 0.01);
     setEarnedPoints(earned);
   }, [checkedItemSum, setEarnedPoints]);
 
-  // const finalPayment = Math.max(baseTotalPayment - usedPoints, 0);
+  const { data: addresses = [] } = useAddressQuery();
+  const { openModal } = useAddressModalStore();
+  const [selectedAddress, setSelectedAddress] = useState(addresses[0] ?? null);
 
-  const {
-    data: customer,
-    isLoading: isLoadingCustomer,
-    isError: isErrorCustomer,
-  } = useCustomerQuery();
-
-  const handleClickEditAddress = () => {
-    console.log('배송지 변경입니다');
+  const handleSelectAddress = (addr: any) => {
+    setSelectedAddress(addr);
   };
+
   const handleUsedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     if (value > availablePoints) return alert('보유 적립금을 초과했습니다!');
     setUsedPoints(value);
   };
 
-  const isLoading = isLoadingCart || isLoadingCustomer;
-  const isError = isErrorCart || isErrorCustomer;
+  const isLoading = isLoadingCart;
+  const isError = isErrorCart;
 
   if (isLoading) return <div>결제 정보를 준비 중입니다...</div>;
   if (isError || !cartItems) return <div>결제에 필요한 장바구니 정보를 찾을 수 없습니다.</div>;
   console.log(`----데이터 확인----Start---`);
-  console.log(`${customer?.orderId}`);
-  console.log(`${customer?.orderName}`);
-  console.log(`${customer?.customerMobilePhone}`);
-  console.log(`${customer?.customerEmail}`);
-  console.log(`${customer?.customerAddress}`);
-  console.log(`총 결제금액 ${totalPayment}`);
+  // console.log(`${customer?.orderId}`);
+  // console.log(`${customer?.orderName}`);
+  // console.log(`${customer?.customerMobilePhone}`);
+  // console.log(`${customer?.customerEmail}`);
+  // console.log(`${customer?.customerAddress}`);
+  // console.log(`총 결제금액 ${totalPayment}`);
   console.log(`----데이터 확인----End---`);
   return (
     <div className='sub-info-half-content-with-wrap m-auto flex w-full'>
@@ -59,36 +56,58 @@ export default function OrderList() {
         <div className='relative px-2.5'>
           <ButtonBase
             className='absolute top-0 right-0'
-            onClick={handleClickEditAddress}
+            onClick={() => openModal('select')}
             variant='gnb'
           >
             배송지 변경
           </ButtonBase>
+          <AddressModal onSelectAddress={handleSelectAddress} />
           <div className='flex h-full items-center justify-start py-2'>
             <span className='text-primary-500-90 mr-2.5 flex text-lg font-bold'>
-              {customer?.customerName ?? '주문자'}
+              {selectedAddress ? (
+                <span>{selectedAddress.name}</span>
+              ) : addresses.length > 0 ? (
+                <span>{addresses[0].name}</span>
+              ) : (
+                <span>사용자 정보가 없습니다.</span>
+              )}
             </span>
-            <small className='border-primary-500-70 text-primary-500-70 rounded-sm border px-1 py-1'>
-              기본 배송지
-            </small>
+            {selectedAddress?.isDefault && (
+              <small className='border-primary-500-70 text-primary-500-70 rounded-sm border px-1 py-1'>
+                기본 배송지
+              </small>
+            )}
           </div>
           <div className='text-primary-500-90 flex flex-col py-2.5'>
-            <span>코딩시 개발동 윈도우로 345</span>
-            <span>{customer?.customerMobilePhone ?? 'none'}</span>
+            {selectedAddress ? (
+              <>
+                <span>
+                  {selectedAddress.address} {selectedAddress.detail}
+                </span>
+                <span>{selectedAddress.phone}</span>
+              </>
+            ) : addresses.length > 0 ? (
+              <>
+                <span>
+                  {addresses[0].address} {addresses[0].detail}
+                </span>
+                <span>{addresses[0].phone}</span>
+              </>
+            ) : (
+              <span>등록된 배송지가 없습니다.</span>
+            )}
           </div>
           <div>
             <textarea
               name=''
               id=''
               placeholder='배송시 요청사항:'
+              // onChange={handleRequestShipping}
               className='border-primary-500-70 text-primary-500-70 h-26 w-full resize-none rounded-lg border p-2.5'
             ></textarea>
           </div>
           <div className='flex items-center justify-between p-2.5'>
             <div className='text-primary-500-90 text-lg font-bold'>주문 상품 {totalQuantity}개</div>
-            <small className='border-primary-500-70 text-primary-500-70 rounded-sm border px-1 py-1'>
-              3일 내로 배송
-            </small>
           </div>
           <div>
             {orderItems.map((product) => (

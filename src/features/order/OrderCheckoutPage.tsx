@@ -100,7 +100,7 @@ export function OrderCheckoutPage() {
                   const checked = event.target.checked;
                   setAmount((prev) => ({
                     ...prev,
-                    value: checked ? prev.value - 5_000 : prev.value + 5_000, // ✅ 금액 수정 부분
+                    value: checked ? prev.value - 5_000 : prev.value + 5_000,
                   }));
                 }}
               />
