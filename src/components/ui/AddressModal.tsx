@@ -35,7 +35,7 @@ export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any
       <div
         className={`${mode === 'select' ? 'h-[530px]' : ''} w-[800px] items-center overflow-y-auto rounded-lg bg-white p-6`}
       >
-        <div className='pb-2∂ mb-4 flex items-center justify-between border-b'>
+        <div className='mb-4 flex items-center justify-between border-b pb-2'>
           <h2 className='text-lg font-bold'>
             {' '}
             {mode === 'add'
