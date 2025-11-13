@@ -8,7 +8,7 @@ export type Address = {
   address: string;
   detail: string;
   isDefault: boolean;
-  etcRequest?: string;
+  deliveryRequest?: string;
 };
 
 const API_URL = 'http://localhost:4000/addresses';
@@ -48,10 +48,12 @@ export const useAddressMutation = () => {
 
   const updateAddress = useMutation({
     mutationFn: async (addr: Address) => {
-      if (addr.isDefault) {
+      const { id, ...rest } = addr;
+
+      if (rest.isDefault) {
         await clearDefaultAddress();
       }
-      return axios.patch(`${API_URL}/${addr.id}`, addr);
+      return axios.patch(`${API_URL}/${id}`, rest);
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
   });

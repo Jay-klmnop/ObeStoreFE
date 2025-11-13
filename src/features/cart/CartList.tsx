@@ -82,8 +82,8 @@ export default function CartList() {
   if (isError) return <div>장바구니를 불러오지 못했습니다.</div>;
 
   return (
-    <div className='sub-info-half-content-with-wrap flex w-full'>
-      <div className='sub-info-half-content w-[600px] bg-white px-7.5 py-2.5'>
+    <div className='m-auto flex w-full flex-col lg:flex-row lg:justify-between'>
+      <div className='w-full bg-white px-7.5 py-5 lg:w-[calc(100%-470px)]'>
         <div className='flex justify-between py-5'>
           <CheckBox
             id='cart-select-all'
@@ -120,7 +120,7 @@ export default function CartList() {
           />
         ))}
       </div>
-      <div className='sub-info-half-content-with bg-white px-7.5 py-2.5'>
+      <div className='mt-5 w-full bg-white px-7.5 py-5 lg:mt-0 lg:w-[450px]'>
         <div className='py-5'>
           <h3 className='text-lg font-bold'>구매 금액</h3>
           <ul className='mt-3 text-base leading-7'>
