@@ -200,7 +200,7 @@ export const MainPage = () => {
             {categoryCards.map((item, index) => (
               <div
                 key={index}
-                className='group relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-white shadow-sm'
+                className='group relative aspect-3/2 cursor-pointer overflow-hidden rounded-lg bg-white shadow-sm'
               >
                 <img
                   src={item.img}
