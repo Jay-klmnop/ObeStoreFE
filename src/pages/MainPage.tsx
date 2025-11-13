@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ProductSection } from '../features/home/ProductSection';
-import type { DummyType } from '../types/dummyjson';
-import type { ProductType } from '../types/product';
-import main1 from '../assets/main1.jpg';
-import main2 from '../assets/main2.jpg';
-import main3 from '../assets/main3.jpg';
-import autumnImg from '../assets/Autumn.jpg';
-import interiorImg from '../assets/Interior.jpg';
-import ringImg from '../assets/Ring.jpg';
-import whatsImg from '../assets/Whats.jpg';
+import { ProductSection } from '@/features/home/ProductSection';
+import type { DummyType } from '@/types/dummyjson';
+import type { ProductType } from '@/types/product';
+import { main1, main2, main3, autumn, interior, jewelry, whats } from '@/assets';
 
 interface Product {
   id: number;
@@ -143,20 +137,20 @@ export const MainPage = () => {
   const handleMouseLeave = () => setIsAutoPlaying(true);
 
   const categoryCards = [
-    { img: whatsImg, title: 'Whats In My Bag' },
-    { img: autumnImg, title: 'Autumn Special Objects' },
-    { img: ringImg, title: 'October Ring Collection' },
-    { img: interiorImg, title: 'Interior Choices' },
+    { img: whats, title: 'Whats In My Bag' },
+    { img: autumn, title: 'Autumn Special Objects' },
+    { img: jewelry, title: 'October Ring Collection' },
+    { img: interior, title: 'Interior Choices' },
   ];
 
   return (
-    <div className="min-h-screen bg-[#f6efed] font-pretendard">
+    <div className='font-pretendard min-h-screen bg-[#f6efed]'>
       <section
-        className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden"
+        className='relative h-[300px] w-full overflow-hidden md:h-[400px] lg:h-[500px]'
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="relative w-full h-full">
+        <div className='relative h-full w-full'>
           {bannerImages.map((img, index) => (
             <div
               key={index}
@@ -167,72 +161,70 @@ export const MainPage = () => {
               <img
                 src={img}
                 alt={`OBE STORE Banner ${index + 1}`}
-                className="w-full h-full object-cover"
+                className='h-full w-full object-cover'
               />
-              <div className="absolute inset-0 bg-amber-900/5 mix-blend-multiply pointer-events-none" />
+              <div className='pointer-events-none absolute inset-0 bg-amber-900/5 mix-blend-multiply' />
             </div>
           ))}
         </div>
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors z-10"
-          aria-label="Previous Slide"
+          className='absolute top-1/2 left-4 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 transition-colors hover:bg-white'
+          aria-label='Previous Slide'
         >
           ←
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors z-10"
-          aria-label="Next Slide"
+          className='absolute top-1/2 right-4 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 transition-colors hover:bg-white'
+          aria-label='Next Slide'
         >
           →
         </button>
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <div className='absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 gap-2'>
           {bannerImages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all duration-300 border border-stone-400/50 ${
-                index === currentSlide
-                  ? 'bg-stone-700 w-8'
-                  : 'bg-white/70 w-2 hover:bg-white'
+              className={`h-2 rounded-full border border-stone-400/50 transition-all duration-300 ${
+                index === currentSlide ? 'w-8 bg-stone-700' : 'w-2 bg-white/70 hover:bg-white'
               }`}
             />
           ))}
         </div>
       </section>
 
-      <div className="container mx-auto px-4 py-8 md:py-12 lg:py-16">
-        <section className="mb-12 md:mb-16 lg:mb-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
+      <div className='container mx-auto px-4 py-8 md:py-12 lg:py-16'>
+        <section className='mb-12 md:mb-16 lg:mb-20'>
+          <div className='grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 lg:gap-6'>
             {categoryCards.map((item, index) => (
               <div
                 key={index}
-                className="relative aspect-square overflow-hidden rounded-lg cursor-pointer group bg-white shadow-sm"
+                className='group relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-white shadow-sm'
               >
                 <img
                   src={item.img}
                   alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                <div className='absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10'></div>
               </div>
             ))}
           </div>
         </section>
 
         <ProductSection
-          title="Objets"
+          title='Objets'
           products={allProducts.map(convertToProductType)}
           isLoading={loading}
         />
         <ProductSection
-          title="New Items"
+          title='New Items'
           products={newProducts.map(convertToProductType)}
           isLoading={loading}
         />
         <ProductSection
-          title="Sale Items"
+          title='Sale Items'
           products={saleProducts.map(convertToProductType)}
           isLoading={loading}
         />

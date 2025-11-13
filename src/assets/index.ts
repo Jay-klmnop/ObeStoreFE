@@ -1,0 +1,12 @@
+export { default as autumn } from './Autumn.webp';
+export { default as interior } from './Interior.webp';
+export { default as jewelry } from './Jewelry.webp';
+export { default as whats } from './Whats.webp';
+export { default as linkArrow } from './link-arrow.png';
+export { default as logoFooter } from './logo-footer.svg';
+export { default as logoImg } from './logo-img.svg';
+export { default as logo } from './logo.svg';
+export { default as main1 } from './main1.webp';
+export { default as main2 } from './main2.webp';
+export { default as main3 } from './main3.webp';
+export { default as naverIcon } from './naver-icon.svg';
