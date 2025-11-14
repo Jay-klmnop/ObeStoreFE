@@ -16,6 +16,7 @@ import {
 import { MyPageLayout, RootLayout } from '@/components/layout';
 import { OrderComplete, OrderFail, OrderSuccess } from '@/features/order';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { OrderResult } from '@/features/order/OrderResult';
 
 export function Router() {
   const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ export function Router() {
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/complete' element={<OrderComplete />} />
+            <Route path='/order/result' element={<OrderResult />} />
             <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
               <Route path='orderinfo' element={<MyPageOrderInfo />} />
