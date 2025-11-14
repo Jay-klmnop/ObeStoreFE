@@ -37,7 +37,7 @@ export const ProductSection = ({ title, products, isLoading }: ProductSectionPro
   return (
     <section className='mb-12 md:mb-16'>
       <h2 className='mb-4 text-2xl font-bold md:mb-6 md:text-3xl'>{title}</h2>
-      <div className='m-4 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8 self-stretch'>
+      <div className='m-4 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-8 self-stretch'>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
