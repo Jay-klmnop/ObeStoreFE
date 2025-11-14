@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ProductSection } from '@/features/home/ProductSection';
+import { ProductSection, useProductsQuery } from '@/features/product';
 import { main1, main2, main3, autumn, interior, jewelry, whats } from '@/assets';
-import { useProductsQuery } from '@/features/product';
 
 export const MainPage = () => {
   const { data: newProducts = [], isLoading: isLoadingNew } = useProductsQuery({
-    hasReview: true,
+    hasReview: false,
     sortOption: 'created_at',
   });
 
@@ -56,7 +55,7 @@ export const MainPage = () => {
   return (
     <div className='font-pretendard min-h-screen bg-[#f6efed]'>
       <section
-        className='relative h-[300px] w-full overflow-hidden md:h-[400px] lg:h-[500px]'
+        className='relative h-[400px] w-full overflow-hidden md:h-[500px] lg:h-[600px]'
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -96,17 +95,17 @@ export const MainPage = () => {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full border border-stone-400/50 transition-all duration-300 ${
-                index === currentSlide ? 'w-8 bg-stone-700' : 'w-2 bg-white/70 hover:bg-white'
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === currentSlide ? 'bg-primary-500-90 w-8' : 'w-2 bg-white/70 hover:bg-white'
               }`}
             />
           ))}
         </div>
       </section>
 
-      <div className='container mx-auto px-4 py-8 md:py-12 lg:py-16'>
+      <div className='mx-auto px-8 py-8 md:py-12 lg:py-16'>
         <section className='mb-12 md:mb-16 lg:mb-20'>
-          <div className='grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 lg:gap-6'>
+          <div className='grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6'>
             {categoryCards.map((item, index) => (
               <div
                 key={index}
