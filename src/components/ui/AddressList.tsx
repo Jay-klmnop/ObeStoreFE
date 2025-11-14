@@ -1,11 +1,12 @@
 import { useAddressModalStore } from '@/store';
-import { ButtonBase } from './button';
+import { ButtonBase } from '@/components/ui';
 import { type Address } from '@/features/mypage';
 
 export interface AddressListProps {
   addresses: Address[];
   onSelect?: (addrinfo: Address) => void;
 }
+
 export function AddressList({ addresses, onSelect }: AddressListProps) {
   const { openModal } = useAddressModalStore();
   return (

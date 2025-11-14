@@ -1,8 +1,6 @@
-import { useAddressModalStore } from '@/store/useAddressModalStore';
-import { AddressForm } from './AddressForm';
+import { useAddressModalStore } from '@/store';
+import { AddressForm, AddressList, ConfirmModal } from '@/components/ui';
 import { useAddressMutation, useAddressQuery } from '@/features/mypage/api/useAddressQuery';
-import { ConfirmModal } from './ConfirmModal';
-import { AddressList } from './AddressList';
 import { useEffect } from 'react';
 
 export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any) => void }) {

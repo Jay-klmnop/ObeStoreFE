@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ProfileIcon } from '@/components/icon/ProfileIcon';
+import { ProfileIcon } from '@/components/icon';
 
 interface OrderProduct {
   productId: string;
@@ -69,133 +69,131 @@ export const MyPageOrderDetail = () => {
   const order = sampleOrder;
 
   return (
-    <div className="min-h-screen bg-[#f6efed] font-pretendard">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex gap-8">
-          <aside className="w-48 shrink-0">
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-xl font-bold mb-8">Mypage</h2>
-              <nav className="space-y-4">
+    <div className='font-pretendard min-h-screen bg-[#f6efed]'>
+      <div className='container mx-auto px-4 py-8'>
+        <div className='flex gap-8'>
+          <aside className='w-48 shrink-0'>
+            <div className='rounded-lg bg-white p-6 shadow-sm'>
+              <h2 className='mb-8 text-xl font-bold'>Mypage</h2>
+              <nav className='space-y-4'>
                 <button
                   onClick={() => navigate('/mypage/orders')}
-                  className="block w-full text-left py-2 text-sm font-bold text-black">
+                  className='block w-full py-2 text-left text-sm font-bold text-black'
+                >
                   주문 내역
                 </button>
-                <button className="block w-full text-left py-2 text-sm text-gray-600 hover:text-black transition-colors">
+                <button className='block w-full py-2 text-left text-sm text-gray-600 transition-colors hover:text-black'>
                   최근 본 상품
                 </button>
-                <button className="block w-full text-left py-2 text-sm text-gray-600 hover:text-black transition-colors">
+                <button className='block w-full py-2 text-left text-sm text-gray-600 transition-colors hover:text-black'>
                   로그아웃
                 </button>
               </nav>
             </div>
           </aside>
 
-          <main className="flex-1">
-            <div className="bg-white rounded-lg shadow-sm">
-              <div className="p-6 border-b">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+          <main className='flex-1'>
+            <div className='rounded-lg bg-white shadow-sm'>
+              <div className='border-b p-6'>
+                <div className='flex items-center space-x-3'>
+                  <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-200'>
                     <ProfileIcon size={20} />
                   </div>
-                  <span className="font-medium text-gray-800">서준이의 마켓</span>
+                  <span className='font-medium text-gray-800'>서준이의 마켓</span>
                 </div>
               </div>
 
-              <div className="p-6">
-                <h2 className="text-lg font-bold mb-6">주문 상세 내역</h2>
+              <div className='p-6'>
+                <h2 className='mb-6 text-lg font-bold'>주문 상세 내역</h2>
 
-                <div className="mb-6">
-                  <h3 className="text-base font-bold mb-3">{order.orderDate}</h3>
-                  <div className="text-sm text-gray-600">
+                <div className='mb-6'>
+                  <h3 className='mb-3 text-base font-bold'>{order.orderDate}</h3>
+                  <div className='text-sm text-gray-600'>
                     <span>주문번호</span>
-                    <span className="ml-4">{order.orderNumber}</span>
+                    <span className='ml-4'>{order.orderNumber}</span>
                   </div>
                 </div>
 
-                <div className="mb-6 p-4 bg-stone-50 rounded">
-                  <h4 className="font-bold mb-2">{order.recipient.name}</h4>
-                  <div className="text-sm text-gray-600 space-y-1">
+                <div className='mb-6 rounded bg-stone-50 p-4'>
+                  <h4 className='mb-2 font-bold'>{order.recipient.name}</h4>
+                  <div className='space-y-1 text-sm text-gray-600'>
                     <p>{order.recipient.address}</p>
                     <p>{order.recipient.phone}</p>
                     {order.recipient.memo && (
-                      <p className="text-xs text-gray-500 mt-2">{order.recipient.memo}</p>
+                      <p className='mt-2 text-xs text-gray-500'>{order.recipient.memo}</p>
                     )}
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <h3 className="text-sm font-semibold mb-3">
+                <div className='mb-6'>
+                  <h3 className='mb-3 text-sm font-semibold'>
                     주문 상품 {order.products.length}개
                   </h3>
                   {order.products.map((product) => (
                     <div
                       key={product.productId}
-                      className="flex items-start space-x-4 p-4 border rounded"
+                      className='flex items-start space-x-4 rounded border p-4'
                     >
-                      <div className="w-20 h-20 bg-gray-200 rounded shrink-0 flex items-center justify-center overflow-hidden">
+                      <div className='flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded bg-gray-200'>
                         <img
                           src={product.productImage}
                           alt={product.productName}
-                          className="w-full h-full object-cover"
+                          className='h-full w-full object-cover'
                         />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm mb-1">{product.productName}</p>
-                        <p className="text-xs text-gray-500">{product.options}</p>
-                        <p className="text-sm font-bold mt-2">
-                          {product.price.toLocaleString()}원
-                        </p>
+                      <div className='flex-1'>
+                        <p className='mb-1 text-sm'>{product.productName}</p>
+                        <p className='text-xs text-gray-500'>{product.options}</p>
+                        <p className='mt-2 text-sm font-bold'>{product.price.toLocaleString()}원</p>
                       </div>
-                      <button className="px-4 py-2 border rounded text-sm hover:bg-gray-50">
+                      <button className='rounded border px-4 py-2 text-sm hover:bg-gray-50'>
                         취소 신청
                       </button>
                     </div>
                   ))}
                 </div>
 
-                <div className="mb-6">
-                  <h3 className="text-sm font-semibold mb-3">결제정보</h3>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">상품 금액</span>
+                <div className='mb-6'>
+                  <h3 className='mb-3 text-sm font-semibold'>결제정보</h3>
+                  <div className='space-y-2 text-sm'>
+                    <div className='flex justify-between'>
+                      <span className='text-gray-600'>상품 금액</span>
                       <span>{order.payment.productAmount.toLocaleString()}원</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">할인 금액</span>
-                      <span className="text-red-600">
+                    <div className='flex justify-between'>
+                      <span className='text-gray-600'>할인 금액</span>
+                      <span className='text-red-600'>
                         -{order.payment.discount.toLocaleString()}원
                       </span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">배송비</span>
+                    <div className='flex justify-between'>
+                      <span className='text-gray-600'>배송비</span>
                       <span>
                         {order.payment.shippingFee === 0
                           ? '무료배송'
                           : `${order.payment.shippingFee.toLocaleString()}원`}
                       </span>
                     </div>
-                    <div className="flex justify-between pt-3 border-t font-bold">
+                    <div className='flex justify-between border-t pt-3 font-bold'>
                       <span>결제 금액</span>
-                      <span className="text-lg">
+                      <span className='text-lg'>
                         {order.payment.totalAmount.toLocaleString()}원
                       </span>
                     </div>
-                    <div className="flex justify-between text-gray-600">
+                    <div className='flex justify-between text-gray-600'>
                       <span>결제 수단</span>
                       <span>{order.payment.method}</span>
                     </div>
                     {order.payment.date && (
-                      <p className="text-xs text-gray-500 mt-2">
-                        할인내역 | {order.payment.date}
-                      </p>
+                      <p className='mt-2 text-xs text-gray-500'>할인내역 | {order.payment.date}</p>
                     )}
                   </div>
                 </div>
 
                 <button
                   onClick={() => navigate('/mypage/orders')}
-                  className="w-full py-3 bg-[#2B0E08] text-white rounded hover:bg-[#4A1A13] transition-colors">
+                  className='w-full rounded bg-[#2B0E08] py-3 text-white transition-colors hover:bg-[#4A1A13]'
+                >
                   주문 내역으로 이동
                 </button>
               </div>

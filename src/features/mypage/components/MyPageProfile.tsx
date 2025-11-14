@@ -1,4 +1,4 @@
-import { MypageProfileIcon } from '@/components/icon/MypageProfileIcon';
+import { MypageProfileIcon } from '@/components/icon';
 import { Link } from 'react-router-dom';
 
 export function MyPageProfile() {

@@ -1,7 +1,7 @@
 import { ConfirmModal } from '@/components/ui';
-import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
+import { useCustomerQuery } from '@/features/order';
 import { useState } from 'react';
-import { useChagePasswordMutation } from '@/features/mypage/api/useChagePasswordMutation';
+import { useChangePasswordMutation } from '@/features/mypage';
 
 export function ChangePasswordModal({
   isOpen,
@@ -14,7 +14,7 @@ export function ChangePasswordModal({
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const { data: customer } = useCustomerQuery();
-  const { mutate: changePassword } = useChagePasswordMutation();
+  const { mutate: changePassword } = useChangePasswordMutation();
 
   const handleChangePassword = () => {
     if (!customer) return;

@@ -1,4 +1,4 @@
-import { ButtonBase } from '@/components/ui/button/ButtonBase';
+import { ButtonBase } from '@/components/ui';
 import { useAuthStore } from '@/features/auth';
 
 export function AuthButton() {

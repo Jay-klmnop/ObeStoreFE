@@ -7,7 +7,7 @@ import {
 } from '@/components/icon';
 import type { IconProps } from '@/components/types';
 import type { JSX } from 'react';
-import { BrandInfo } from '@/components/layout/footer';
+import { BrandInfo } from '@/components/layout';
 
 type socialLink = {
   name: string;

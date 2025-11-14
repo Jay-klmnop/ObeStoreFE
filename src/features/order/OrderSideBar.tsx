@@ -1,7 +1,7 @@
 import { ButtonBase } from '@/components/ui';
 import { useCartSummary } from '../cart/hook/useCartSummary';
-import { useOrderStore } from './store/useOrderStore';
-import { useRewardStore } from '../reward/store/useRewardStore';
+import { useOrderStore } from '@/features/order';
+import { useRewardStore } from '@/features/reward/store';
 
 export function OrderSideBar() {
   const { checkedItemSum, discountSum, shippingFeeText } = useOrderStore();
