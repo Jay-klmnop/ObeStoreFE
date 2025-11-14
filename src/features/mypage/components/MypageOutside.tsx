@@ -4,7 +4,7 @@ type MypageOutsideProps = {
   children: ReactNode;
 };
 
-export default function MypageOutside({ children }: MypageOutsideProps) {
+export function MypageOutside({ children }: MypageOutsideProps) {
   return (
     <section className='w-full'>
       <div className='grow flex-col lg:flex-row'>{children}</div>
