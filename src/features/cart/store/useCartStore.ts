@@ -59,13 +59,13 @@ export const useCheckedItemSum = () =>
     Math.floor(
       state.cartItems
         .filter((i) => i.checked)
-        .reduce((acc, item) => acc + item.price * item.stock, 0)
+        .reduce((acc, item) => acc + item.price * item.amount, 0)
     )
   );
 
 export function useSelectedQuantity() {
   return useCartStore((state) =>
-    state.cartItems.filter((i) => i.checked).reduce((acc, item) => acc + item.stock, 0)
+    state.cartItems.filter((i) => i.checked).reduce((acc, item) => acc + item.amount, 0)
   );
 }
 
@@ -76,7 +76,7 @@ export const useDiscountSum = () => {
 export const useShippingFee = () => {
   return useCartStore((state) => {
     const checkedItems = state.cartItems.filter((i) => i.checked);
-    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.stock, 0);
+    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.amount, 0);
 
     const total = Math.floor(sum);
     // 선택된 상품이 0개면 배송비 없음
@@ -91,7 +91,7 @@ export const useShippingFee = () => {
 export const useTotalPayment = () => {
   return useCartStore((state) => {
     const checkedItems = state.cartItems.filter((i) => i.checked);
-    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.stock, 0);
+    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.amount, 0);
     const total = Math.floor(sum);
 
     if (checkedItems.length === 0) return 0;
@@ -103,6 +103,6 @@ export const useTotalPayment = () => {
 export const useRewardPoints = () =>
   useCartStore((state) => {
     const checkedItems = state.cartItems.filter((i) => i.checked);
-    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.stock, 0);
+    const sum = checkedItems.reduce((acc, item) => acc + item.price * item.amount, 0);
     return Math.floor(sum * REWARD_RATE);
   });

@@ -15,10 +15,10 @@ interface RewardState {
 }
 
 export const useRewardStore = create<RewardState>((set) => ({
-  availablePoints: 6000,
+  availablePoints: 0,
   usedPoints: 0,
   earnedPoints: 0,
-  totalPoints: 6000, // 누적 적립금 (옵션)
+  totalPoints: 0, // 누적 적립금 (옵션)
 
   setAvailablePoints: (value) => set({ availablePoints: value }),
   setUsedPoints: (value) => set({ usedPoints: value }),

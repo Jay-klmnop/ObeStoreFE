@@ -42,18 +42,18 @@ export function OrderList() {
               <CartCardNone
                 key={product.id}
                 id={String(product.id)}
-                brand={product.brand ?? 'none'}
-                title={product.title ?? 'none'}
-                images={
-                  typeof product.images === 'string'
-                    ? product.images
-                    : Array.isArray(product.images)
-                      ? product.images[0]
-                      : 'http://placehold.co/200x200'
-                }
-                stock={product.stock}
-                checked={product.checked}
+                product_name={product.product_name}
                 price={product.price}
+                // images={
+                //   typeof product.images === 'string'
+                //     ? product.images
+                //     : Array.isArray(product.images)
+                //       ? product.images[0]
+                //       : 'http://placehold.co/200x200'
+                // }
+                amount={product.amount}
+                checked={product.checked}
+                cart={product.cart}
               />
             ))}
           </div>
