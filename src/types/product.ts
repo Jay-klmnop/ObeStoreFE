@@ -89,7 +89,12 @@ export interface ProductDetailType {
   dc_value: number;
   category_name: string;
   brand_name: string;
-  product_image: [{ product_card_image: string; product_explain_image: string }];
-  brand_image: [{ brand_image: string }];
+  product_image: [
+    { product_card_image: string;
+      product_explain_image: string },
+    ];
+  brand_image: [
+    { brand_image: string },
+  ];
   favorite_count?: number;
 }
