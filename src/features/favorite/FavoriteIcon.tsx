@@ -20,9 +20,9 @@ export function FavoriteIcon({ product, className }: FavoriteIconProps) {
   return (
     <button className={`cursor-pointer ${className}`} onClick={handleClick}>
       {isFavorited ? (
-        <FilledHeartIcon size={20} color='var(--color-secondary-300)' />
+        <FilledHeartIcon size={28} color='var(--color-secondary-300)' />
       ) : (
-        <EmptyHeartIcon size={20} color='var(--color-secondary-300)' />
+        <EmptyHeartIcon size={28} color='var(--color-secondary-300)' />
       )}
     </button>
   );
