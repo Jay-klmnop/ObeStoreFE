@@ -1,15 +1,12 @@
-import { useCartQuery } from '@/features/cart/api/useCartQuery';
-import type { CartItem } from '@/types/order';
+import { CartCard, useCartQuery, useCartStore, useCartSummary, usdToKrw } from '@/features/cart';
+import type { CartItem } from '@/types';
 import { CheckBox, ButtonBase } from '@/components/ui';
 import { useNavigate } from 'react-router-dom';
-import { usdToKrw } from '@/features/cart/api/currency';
-import { CartCard } from '@/features/cart/CartCard';
 import { useEffect } from 'react';
-import { useOrderStore } from '../order/store/useOrderStore';
-import { useCartSummary } from '@/features/cart/hook/useCartSummary';
-import { useCartStore } from '@/features/cart/store/useCartStore';
-import { useRewardStore } from '../reward/store/useRewardStore';
-export default function CartList() {
+import { useOrderStore } from '@/features/order';
+import { useRewardStore } from '@/features/reward/store';
+
+export function CartList() {
   const { setOrderInfo } = useOrderStore();
   const { data: cartItems = [], isLoading, isError } = useCartQuery();
   const navigate = useNavigate();
