@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { ProductSection } from '@/features/home/ProductSection';
+import { ProductSection, useProductsQuery } from '@/features/product';
 import { main1, main2, main3, autumn, interior, jewelry, whats } from '@/assets';
-import { useProductsQuery } from '@/features/product';
 
 export const MainPage = () => {
   const { data: newProducts = [], isLoading: isLoadingNew } = useProductsQuery({
