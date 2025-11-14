@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { socialNaverLogin } from '@/features/auth';
+import { useAuthStore } from '@/features/auth';
+import axios from 'axios';
 
 export function CallbackPage() {
   const navigate = useNavigate();
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -12,16 +15,22 @@ export function CallbackPage() {
 
     if (!code || !state) {
       alert('로그인 실패');
-      navigate('/');
+      navigate('/auth/login');
       return;
     }
 
-    socialNaverLogin({ code, state })
-      .then(() => {
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/auth/naver/callback`, {
+        params: { code, state },
+        withCredentials: true,
+      })
+      .then((res) => {
+        const { accessToken, user } = res.data;
+        setToken(accessToken);
+        setUser(user);
         navigate('/');
       })
       .catch(() => {
-        alert('네이버 로그인 실패');
         navigate('/login');
       });
   }, []);
