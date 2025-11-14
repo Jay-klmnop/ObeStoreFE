@@ -1,3 +1,4 @@
+import type { ProductType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -14,7 +15,7 @@ export function useProductsQuery({
   hasDiscount,
   sortOption,
 }: UseProductsParams = {}) {
-  return useQuery({
+  return useQuery<ProductType[]>({
     queryKey: ['products', category ?? 'all', hasReview, hasDiscount, sortOption],
     queryFn: async () => {
       const params: Record<string, any> = {};
