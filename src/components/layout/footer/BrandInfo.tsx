@@ -40,7 +40,7 @@ export function BrandInfo() {
         <p>이메일 : {BrandInfoTxts.email}</p>
       </div>
       <div className='text-primary-100 mt-4 text-sm'>
-        <ul className='flex gap-10'>
+        <ul className='flex gap-4 lg:gap-10'>
           <li className='cursor-pointer hover:underline' onClick={() => handleOpen('terms')}>
             이용약관
           </li>
