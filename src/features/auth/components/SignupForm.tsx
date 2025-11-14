@@ -50,8 +50,8 @@ export function SignupForm() {
 
   return (
     <AuthModal isOpen={authModalType === 'signup'} onClose={closeAuthModal} title='회원가입'>
-      <div className='mt-40 flex w-full justify-center'>
-        <HeaderLogoImgIcon />
+      <div className='mt-60 flex w-full justify-center'>
+        <HeaderLogoImgIcon width={160} height={160} />
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='flex w-full flex-col gap-6'>
         <div className='flex w-full flex-col gap-2'>
