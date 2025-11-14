@@ -25,7 +25,7 @@ export function useProductsQuery({
       if (sortOption) params.ordering = sortOption;
 
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`, { params });
-      return res.data.results ?? [];
+      return res.data ?? [];
     },
   });
 }
