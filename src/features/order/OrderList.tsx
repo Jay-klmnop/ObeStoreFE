@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { OrderSideBar } from './OrderSideBar';
 import OrderShippingCard from './OrderShippingCard';
 
-export default function OrderList() {
+export function OrderList() {
   const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
   const { availablePoints, usedPoints, setUsedPoints, setEarnedPoints } = useRewardStore();
   const { orderItems, checkedItemSum, totalQuantity } = useOrderStore();

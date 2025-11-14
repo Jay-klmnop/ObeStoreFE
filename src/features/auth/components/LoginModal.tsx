@@ -23,7 +23,7 @@ export function LoginModal() {
   return (
     <AuthModal isOpen={authModalType === 'login'} onClose={closeAuthModal} title='로그인'>
       <div className='flex w-full justify-center'>
-        <HeaderLogoImgIcon />
+        <HeaderLogoImgIcon width={160} height={160} />
       </div>
       <form onSubmit={handleLogin} className='flex w-full flex-col gap-6'>
         <div className='flex w-full flex-col gap-2'>

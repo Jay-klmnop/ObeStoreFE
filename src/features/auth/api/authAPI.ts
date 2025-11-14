@@ -1,4 +1,5 @@
-import { API_ENDPOINTS, backendAPI } from '@/features/auth';
+import { backendAPI } from '@/api';
+import { API_ENDPOINTS } from '@/features/auth';
 
 export const authLogin = (data: { email: string; password: string }) =>
   backendAPI.post(API_ENDPOINTS.LOGIN, data);

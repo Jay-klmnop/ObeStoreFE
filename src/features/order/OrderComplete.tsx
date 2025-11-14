@@ -1,7 +1,7 @@
 import { ButtonBase } from '@/components/ui';
 import { Link } from 'react-router-dom';
 
-export default function OrderComplete() {
+export function OrderComplete() {
   return (
     <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
       <h2 className='text-3xl font-normal'>
