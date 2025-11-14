@@ -54,3 +54,25 @@ export interface ProductCartType {
   product_image: [{ product_card_image: string; product_explain_image: string }];
   brand_image: [{ brand_image: string }];
 }
+
+export interface ProductReviewType {
+  id: number;
+  review_title: string;
+  product_id: number;
+  user: number;
+  nickname: string;
+  review_image: [
+    {
+      review_image: string;
+    },
+  ];
+  review_keyword: [
+    {
+      keyword_name: string;
+    },
+  ];
+  content: string;
+  rating: number;
+  created_at: string;
+  updated_at: string;
+}

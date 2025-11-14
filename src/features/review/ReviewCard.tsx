@@ -1,16 +1,16 @@
-import type { ReviewType } from '@/types';
+import type { ProductReviewType } from '@/types';
 import { ReviewKeywords, ReviewProfile } from '@/features/review';
 
 interface ReviewCardProps {
-  review: ReviewType;
+  review: ProductReviewType;
 }
 
 export function ReviewCard({ review }: ReviewCardProps) {
   return (
     <article className='border-primary-500-40 rounded-2xl border bg-white p-4'>
-      <ReviewProfile reviewerName={review.reviewerName} date={review.date} rating={review.rating} />
-      <ReviewKeywords keywords={review.keywords} />
-      <p className='text-primary-500-90 mt-3 text-sm leading-relaxed'>{review.comment}</p>
+      <ReviewProfile nickname={review.nickname} date={review.created_at} rating={review.rating} />
+      <ReviewKeywords keywords={review.review_keyword.map((k) => k.keyword_name)} />
+      <p className='text-primary-500-90 mt-3 text-sm leading-relaxed'>{review.content}</p>
     </article>
   );
 }
