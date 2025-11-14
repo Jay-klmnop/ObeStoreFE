@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react';
 export function ProductsPage() {
   const { searchTerm } = useSearchStore();
   const [sortOption, setSortOption] = useState('');
-  const { data: products, isLoading, isError } = useProductsQuery(sortOption);
+  const { data: products, isLoading, isError } = useProductsQuery({ sortOption });
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
