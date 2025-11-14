@@ -3,7 +3,7 @@ import { naverIcon } from '@/assets';
 
 export function NaverLoginButton() {
   const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
-  const REDIRECT_URI = `${import.meta.env.VITE_FRONT_URL}/auth/naver/callback`;
+  const REDIRECT_URI = `${import.meta.env.VITE_API_URL}/auth/naver/callback`;
   const STATE = crypto.randomUUID();
 
   const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${STATE}`;
