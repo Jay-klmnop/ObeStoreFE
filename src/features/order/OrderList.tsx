@@ -1,8 +1,7 @@
 import { useCartQuery } from '@/features/cart/api/useCartQuery';
-import { useOrderStore } from './store/useOrderStore';
+import { OrderCheckoutPage, useOrderStore } from '@/features/order';
 import { CartCardNone } from '../cart';
-import { OrderCheckoutPage } from './OrderCheckoutPage';
-import { useRewardStore } from '@/features/reward/store/useRewardStore';
+import { useRewardStore } from '@/features/reward/store';
 import { useEffect } from 'react';
 
 import { OrderSideBar } from './OrderSideBar';

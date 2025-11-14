@@ -1,10 +1,6 @@
-import MypageOutside from '@/features/mypage/components/MypageOutside';
-import { MypageContentsWrap } from '@/features/mypage/components/MypageContentsWrap';
-import { ButtonBase } from '@/components/ui/button';
-import { useAddressQuery } from '@/features/mypage/api/useAddressQuery';
-import { useAddressModalStore } from '@/store/useAddressModalStore';
-import { AddressModal } from '@/components/ui/AddressModal';
-import { AddressList } from '@/components/ui/AddressList';
+import { MypageContentsWrap, MypageOutside, useAddressQuery } from '@/features/mypage';
+import { useAddressModalStore } from '@/store';
+import { AddressList, AddressModal, ButtonBase } from '@/components/ui';
 
 export function MyPageAddressInfo() {
   const { data: addresses = [] } = useAddressQuery();

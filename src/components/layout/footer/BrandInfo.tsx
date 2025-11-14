@@ -1,9 +1,7 @@
-import { FooterLogoIcon } from '@/components/icon/FooterLogoIcon';
+import { FooterLogoIcon } from '@/components/icon';
 import { ConfirmModal } from '@/components/ui';
 import { useState } from 'react';
-import { PrivacyContent } from './policy/PrivacyContent';
-import { ShippingContent } from './policy/ShippingContent';
-import { TermsContent } from './policy/TermContent';
+import { PrivacyContent, ShippingContent, TermsContent } from '@/components/layout';
 
 type BrandInfoTxtsType = {
   ceo: string;

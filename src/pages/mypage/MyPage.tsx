@@ -1,5 +1,5 @@
 import { useFavoriteStore } from '@/features/favorite';
-import { useRewardStore } from '@/features/reward/store/useRewardStore';
+import { useRewardStore } from '@/features/reward/store';
 import { IoIosArrowForward } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 

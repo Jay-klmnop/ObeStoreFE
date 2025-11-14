@@ -1,5 +1,5 @@
-import { Subtitle } from '@/components/ui/Subtitle';
-import OrderList from '@/features/order/OrderList';
+import { Subtitle } from '@/components/ui';
+import { OrderList } from '@/features/order';
 
 export function OrderPage() {
   return (
