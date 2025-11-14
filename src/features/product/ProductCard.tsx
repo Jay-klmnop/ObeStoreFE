@@ -13,7 +13,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className='flex max-h-[600px] min-h-96 min-w-60 flex-col items-center justify-center gap-4 text-center'>
         <div className='relative flex h-full w-full flex-col'>
           <img
-            src={product.product_image.product_card_image}
+            src={product.product_image[0]?.product_card_image}
             alt={product.product_name}
             className='h-auto w-full min-w-32 object-cover object-top'
             width={300}
