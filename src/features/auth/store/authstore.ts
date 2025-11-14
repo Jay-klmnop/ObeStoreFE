@@ -10,6 +10,7 @@ interface AuthState {
   user: any | null;
   authModalType: AuthModalType;
   setToken: (accessToken: string) => void;
+  setUser: (user: any) => void;
   openAuthModal: (type: AuthModalType) => void;
   closeAuthModal: () => void;
   signup: (email: string, password: string) => Promise<void>;
@@ -26,6 +27,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       authModalType: null,
       setToken: (accessToken) => set({ accessToken }),
+      setUser: (user) => set({ user }),
       openAuthModal: (type) => set({ authModalType: type }),
       closeAuthModal: () => set({ authModalType: null }),
       signup: async (email, password) => {
