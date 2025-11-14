@@ -25,7 +25,7 @@ export interface ProductCardType {
   product_rating: string;
   product_image: {
     product_card_image: string;
-  };
+  }[];
 }
 
 export interface ProductDetailType {
