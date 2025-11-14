@@ -1,7 +1,7 @@
-import { backendAPI } from '@/features/auth/api/backendAPI';
+import { backendAPI } from '@/api';
 import { useMutation } from '@tanstack/react-query';
 
-export const useChagePasswordMutation = () => {
+export const useChangePasswordMutation = () => {
   return useMutation({
     mutationFn: async (body: { currentPassword: string; newPassword: string }) => {
       const res = await backendAPI.patch('/user/me/password', body);
