@@ -1,110 +1,20 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { ProductSection } from '@/features/home/ProductSection';
-import type { DummyType } from '@/types/dummyjson';
-import type { ProductType } from '@/types/product';
 import { main1, main2, main3, autumn, interior, jewelry, whats } from '@/assets';
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  salePrice?: number;
-  description?: string;
-  category?: string;
-  images?: string[];
-  detailImages?: string[];
-  reviewCount?: number;
-  rating?: number;
-  salesCount?: number;
-  createdAt?: string;
-}
-
-const convertToProduct = (dummy: DummyType): Product => ({
-  id: dummy.id,
-  name: dummy.title,
-  price: Math.round(dummy.price * 1300),
-  salePrice: Math.round(dummy.price * 1300 * (1 - dummy.discountPercentage / 100)),
-  image: dummy.thumbnail,
-  description: dummy.description,
-  category: dummy.category,
-  images: dummy.images,
-  detailImages: dummy.images,
-  reviewCount: dummy.reviews?.length || 0,
-  rating: dummy.rating,
-  salesCount: dummy.stock,
-  createdAt: dummy.meta?.createdAt || new Date().toISOString(),
-});
-
-const convertToProductType = (product: Product): ProductType => ({
-  id: product.id,
-  product_name: product.name,
-  product_value: product.price,
-  product_stock: product.salesCount || 0,
-  discount_rate: product.salePrice
-    ? Math.round(((product.price - product.salePrice) / product.price) * 100) //소수점 반올림
-    : 0,
-  product_rating: product.rating || 0,
-  dc_value: product.salePrice || product.price,
-  created_at: product.createdAt || new Date().toISOString(),
-  updated_at: product.createdAt || new Date().toISOString(),
-  category_id: 1,
-  category_name: product.category || '',
-  brand_id: 1,
-  brand_name: product.category || '',
-  product_image: [
-    {
-      product_card_image: product.image,
-      product_explain_image: product.image,
-    },
-  ],
-  brand_image: [{ brand_image: '' }],
-});
-
-const fetchProducts = async (category?: string, limit?: number): Promise<Product[]> => {
-  const url = category
-    ? `https://dummyjson.com/products/category/${category}`
-    : `https://dummyjson.com/products?limit=${limit || 20}`;
-  const response = await fetch(url);
-  if (!response.ok) throw new Error('Failed to fetch products');
-  const data = await response.json();
-  return data.products.map(convertToProduct);
-};
+import { useProductsQuery } from '@/features/product';
 
 export const MainPage = () => {
-  const { data: newProducts = [], isLoading: isLoadingNew } = useQuery({
-    queryKey: ['products', 'new'],
-    queryFn: async () => {
-      const products = await fetchProducts('furniture');
-      return products.slice(0, 10);
-    },
-    staleTime: 5 * 60 * 1000,
+  const { data: newProducts = [], isLoading: isLoadingNew } = useProductsQuery({
+    hasReview: true,
+    sortOption: 'created_at',
   });
 
-  const { data: saleProducts = [], isLoading: isLoadingSale } = useQuery({
-    queryKey: ['products', 'sale'],
-    queryFn: async () => {
-      const products = await fetchProducts('beauty');
-      return products
-        .filter((p) => p.salePrice && p.salePrice < p.price)
-        .sort((a, b) => {
-          const discountA = ((a.price - (a.salePrice || a.price)) / a.price) * 100;
-          const discountB = ((b.price - (b.salePrice || b.price)) / b.price) * 100;
-          return discountB - discountA;
-        })
-        .slice(0, 10);
-    },
-    staleTime: 5 * 60 * 1000,
+  const { data: saleProducts = [], isLoading: isLoadingSale } = useProductsQuery({
+    hasDiscount: true,
+    sortOption: '-dc_rate',
   });
-
-  const { data: allProducts = [], isLoading: isLoadingAll } = useQuery({
-    queryKey: ['products', 'all'],
-    queryFn: async () => {
-      const products = await fetchProducts(undefined, 30);
-      return products.slice(0, 10);
-    },
-    staleTime: 5 * 60 * 1000,
+  const { data: allProducts = [], isLoading: isLoadingAll } = useProductsQuery({
+    sortOption: '-created_at',
   });
 
   const loading = isLoadingNew || isLoadingSale || isLoadingAll;
@@ -213,21 +123,9 @@ export const MainPage = () => {
           </div>
         </section>
 
-        <ProductSection
-          title='Objets'
-          products={allProducts.map(convertToProductType)}
-          isLoading={loading}
-        />
-        <ProductSection
-          title='New Items'
-          products={newProducts.map(convertToProductType)}
-          isLoading={loading}
-        />
-        <ProductSection
-          title='Sale Items'
-          products={saleProducts.map(convertToProductType)}
-          isLoading={loading}
-        />
+        <ProductSection title='Objets' products={allProducts} isLoading={loading} />
+        <ProductSection title='New Items' products={newProducts} isLoading={loading} />
+        <ProductSection title='Sale Items' products={saleProducts} isLoading={loading} />
       </div>
     </div>
   );
