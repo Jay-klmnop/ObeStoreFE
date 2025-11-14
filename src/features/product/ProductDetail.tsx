@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Home } from 'lucide-react';
 import type { ProductDetailType, ProductReviewType } from '@/types';
 import { ReviewGrid } from '@/features/review';
 import { ButtonBase } from '@/components/ui/ButtonBase';
@@ -36,6 +35,7 @@ export function ProductDetail({ product, reviews, reviewsLoading, reviewsError }
   return (
     <article className='mx-auto max-w-7xl'>
       <div className='grid grid-cols-1 gap-8 p-6 lg:grid-cols-2'>
+
         <section>
           <div className='overflow-hidden bg-white'>
             <img
@@ -47,12 +47,16 @@ export function ProductDetail({ product, reviews, reviewsLoading, reviewsError }
         </section>
 
         <section className='space-y-4'>
-          <div className='flex items-center gap-2 text-sm text-primary-500-80'>
-            <Home className='h-4 w-4' />
-            <span className='font-medium'>{product.brand_name}</span>
-          </div>
 
-          <h1 className='text-xl font-medium text-primary-500-90'>{product.product_name}</h1>
+          <section className='space-y-4'>
+            <div className='text-sm text-primary-500-80'>
+              <span className='font-medium'>{product.brand_name}</span>
+            </div>
+          </section>
+
+          <h1 className='text-xl font-medium text-primary-500-90'>
+            {product.product_name}
+          </h1>
 
           {product.product_rating && (
             <div className='flex items-center gap-2 text-sm text-primary-500-80'>
@@ -155,10 +159,14 @@ export function ProductDetail({ product, reviews, reviewsLoading, reviewsError }
                       className='h-full w-full object-contain' 
                     />
                   ) : (
-                    <div className='text-2xl font-bold text-primary-700'>{product.brand_name}</div>
+                    <div className='text-2xl font-bold text-primary-700'>
+                      {product.brand_name}
+                    </div>
                   )}
                 </div>
-                <h2 className='text-xl font-bold text-primary-500-90'>{product.product_name}</h2>
+                <h2 className='text-xl font-bold text-primary-500-90'>
+                  {product.product_name}
+                </h2>
               </section>
             )}
 
