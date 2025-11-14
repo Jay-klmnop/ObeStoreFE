@@ -19,7 +19,7 @@ export function MyPage() {
           <p>2개</p>
         </div>
         <div className='flex flex-col p-4'>
-          <NavLink to='users/favorites' className='flex items-center gap-4 font-bold'>
+          <NavLink to='/users/favorites' className='flex items-center gap-4 font-bold'>
             찜한 상품
             <IoIosArrowForward />
           </NavLink>
