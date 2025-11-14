@@ -1,4 +1,4 @@
-import { CartCard, useCartQuery, useCartStore, useCartSummary, usdToKrw } from '@/features/cart';
+import { CartCard, useCartQuery, useCartStore, useCartSummary } from '@/features/cart';
 import type { CartItem } from '@/types';
 import { CheckBox, ButtonBase } from '@/components/ui';
 import { useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ export function CartList() {
   const {
     checkedItemSum,
     discountSum,
-    shippingFee,
+    //shippingFee,
     shippingFeeText,
     totalPayment,
     rewardPoints,
@@ -40,16 +40,16 @@ export function CartList() {
     if (!cartItems.length) return;
     const newItems: CartItem[] = cartItems.map((product) => ({
       id: String(product.id),
-      brand: product.brand ?? 'none',
-      title: product.title ?? 'none',
-      images:
-        typeof product.images === 'string'
-          ? product.images
-          : Array.isArray(product.images)
-            ? product.images[0]
-            : (product.images ?? 'http://placehold.co/200x200'),
-      price: Number.isFinite(usdToKrw(product.price)) ? Math.floor(usdToKrw(product.price)) : 0,
-      stock: product.stock ?? 1,
+      product_name: product.product_name ?? 'none',
+      // images:
+      //   typeof product.images === 'string'
+      //     ? product.images
+      //     : Array.isArray(product.images)
+      //       ? product.images[0]
+      //       : (product.images ?? 'http://placehold.co/200x200'),
+      price: Math.floor(product.price),
+      amount: product.amount ?? 0,
+      cart: product.cart,
       checked: false,
     }));
     const isSame = JSON.stringify(storeItems) === JSON.stringify(newItems);
@@ -71,9 +71,6 @@ export function CartList() {
   };
 
   console.log(cartItems); // 👈 API 구조 확인용
-  console.log('상품합계:', checkedItemSum);
-  console.log('배송비:', shippingFee);
-  console.log('총결제금액:', totalPayment);
 
   if (isLoading) return <div>장바구니 정보를 불러오는 중입니다...</div>;
   if (isError) return <div>장바구니를 불러오지 못했습니다.</div>;
@@ -99,21 +96,19 @@ export function CartList() {
           <CartCard
             key={product.id}
             id={String(product.id)}
-            brand={product.brand ?? 'none'}
-            title={product.title ?? 'none'}
-            images={
-              typeof product.images === 'string'
-                ? product.images
-                : Array.isArray(product.images)
-                  ? product.images[0]
-                  : 'http://placehold.co/200x200'
-            }
-            stock={product.stock}
-            checked={product.checked}
+            product_name={product.product_name}
             price={product.price}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleItemCheck(String(product.id), e.target.checked)
-            }
+            // images={
+            //   typeof product.images === 'string'
+            //     ? product.images
+            //     : Array.isArray(product.images)
+            //       ? product.images[0]
+            //       : 'http://placehold.co/200x200'
+            // }
+            amount={product.amount}
+            checked={product.checked}
+            cart={product.cart} // 여기는 CartCardProps에 추가해야 함
+            onChange={(e) => handleItemCheck(String(product.id), e.target.checked)}
           />
         ))}
       </div>

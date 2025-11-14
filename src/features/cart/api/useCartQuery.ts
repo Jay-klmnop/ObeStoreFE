@@ -1,17 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import axios, { type AxiosResponse } from 'axios';
+import { type AxiosResponse } from 'axios';
 import type { CartItem } from '@/types';
+import { backendAPI } from '@/api';
 
 interface CartResponse {
-  products: CartItem[];
-  total: number;
-  skip: number;
-  limit: number;
+  id: number;
+  items: CartItem[];
+  price: number;
+  total_price: number;
+  user: number;
 }
 
 const fetchCart = async (): Promise<CartItem[]> => {
-  const response: AxiosResponse<CartResponse> = await axios.get('https://dummyjson.com/products');
-  return response.data.products;
+  const response: AxiosResponse<CartResponse> = await backendAPI.get('/carts');
+  const carts = response.data;
+
+  if (!Array.isArray(carts) || carts.length === 0) return [];
+
+  return carts[0].items ?? [];
 };
 
 export const useCartQuery = () => {
