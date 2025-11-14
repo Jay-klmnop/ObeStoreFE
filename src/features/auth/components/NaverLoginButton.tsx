@@ -1,15 +1,12 @@
 import { ButtonBase } from '@/components/ui';
 import { naverIcon } from '@/assets';
+import { API_ENDPOINTS } from '../api';
 
 export function NaverLoginButton() {
-  const NAVER_CLIENT_ID = import.meta.env.VITE_NAVER_CLIENT_ID;
-  const REDIRECT_URI = `${import.meta.env.VITE_API_URL}/auth/naver/callback`;
-  const STATE = crypto.randomUUID();
-
-  const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${STATE}`;
+  const NAVER_LOGIN_URL = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.NAVER_LOGIN}`;
 
   const handleLogin = () => {
-    window.location.href = NAVER_AUTH_URL;
+    window.location.href = NAVER_LOGIN_URL;
   };
 
   return (
