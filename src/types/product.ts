@@ -14,48 +14,48 @@ export interface ProductType {
   brand_name: string;
   product_image: [{ product_card_image: string; product_explain_image: string }];
   brand_image: [{ brand_image: string }];
+  favorite_count?: number;
 }
 
-export interface ProductCardType {
-  id: number;
-  product_name: string;
-  brand_name: string;
-  product_value: string;
-  dc_value: number;
-  product_rating: string;
-  product_image: [
-    {
-      product_card_image: string;
-    },
-  ];
+export interface ProductCardType
+  extends Pick<
+    ProductType,
+    'id' | 'product_name' | 'brand_name' | 'product_value' | 'dc_value' | 'product_rating'
+  > {
+  product_image: { product_card_image: string }[];
 }
 
-export interface ProductDetailType {
-  id: number;
-  product_name: string;
-  product_value: number;
-  product_stock: number;
-  discount_rate: number;
-  product_rating: number;
-  dc_value: number;
-  category_name: string;
-  brand_name: string;
-  product_image: [{ product_card_image: string; product_explain_image: string }];
-  brand_image: [{ brand_image: string }];
-}
+export interface ProductDetailType
+  extends Pick<
+    ProductType,
+    | 'id'
+    | 'product_name'
+    | 'product_value'
+    | 'product_stock'
+    | 'discount_rate'
+    | 'product_rating'
+    | 'dc_value'
+    | 'category_name'
+    | 'brand_name'
+    | 'product_image'
+    | 'brand_image'
+    | 'favorite_count'
+  > {}
 
-export interface ProductCartType {
-  id: number;
-  product_name: string;
-  product_value: number;
-  discount_rate: number;
-  product_rating: number;
-  dc_value: number;
-  category_name: string;
-  brand_name: string;
-  product_image: [{ product_card_image: string; product_explain_image: string }];
-  brand_image: [{ brand_image: string }];
-}
+export interface ProductCartType
+  extends Pick<
+    ProductType,
+    | 'id'
+    | 'product_name'
+    | 'product_value'
+    | 'discount_rate'
+    | 'product_rating'
+    | 'dc_value'
+    | 'category_name'
+    | 'brand_name'
+    | 'product_image'
+    | 'brand_image'
+  > {}
 
 export interface ProductReviewType {
   id: number;
@@ -77,24 +77,4 @@ export interface ProductReviewType {
   rating: number;
   created_at: string;
   updated_at: string;
-}
-
-export interface ProductDetailType {
-  id: number;
-  product_name: string;
-  product_value: number;
-  product_stock: number;
-  discount_rate: number;
-  product_rating: number;
-  dc_value: number;
-  category_name: string;
-  brand_name: string;
-  product_image: [
-    { product_card_image: string;
-      product_explain_image: string },
-    ];
-  brand_image: [
-    { brand_image: string },
-  ];
-  favorite_count?: number;
 }
