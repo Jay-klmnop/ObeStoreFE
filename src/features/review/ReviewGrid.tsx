@@ -1,8 +1,8 @@
-import type { ReviewType } from '@/types';
+import type { ProductReviewType } from '@/types';
 import { ReviewCard } from '@/features/review';
 
 interface ReviewGridProps {
-  reviews: ReviewType[];
+  reviews: ProductReviewType[];
 }
 
 export function ReviewGrid({ reviews }: ReviewGridProps) {
