@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
+  AboutPage,
   CartPage,
   FavoritesPage,
   MainPage,
@@ -26,6 +27,7 @@ export function Router() {
         <Routes>
           <Route element={<RootLayout />}>
             <Route path='/' element={<MainPage />} />
+            <Route path='about' element={<AboutPage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/product/:id' element={<ProductDetailPage />} />
             <Route path='/users/favorites' element={<FavoritesPage />} />
