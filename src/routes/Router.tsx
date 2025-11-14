@@ -34,14 +34,14 @@ export function Router() {
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/complete' element={<OrderComplete />} />
             <Route path='/order/result' element={<OrderResult />} />
+            <Route path='/users/favorites' element={<FavoritesPage />} />
+            <Route path='/users/cart' element={<CartPage />} />
             <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
               <Route path='orderinfo' element={<MyPageOrderInfo />} />
               <Route path='orderdetail' element={<MyPageOrderDetail />} />
               <Route path='addressinfo' element={<MyPageAddressInfo />} />
               <Route path='info' element={<MyPageInfo />} />
-              <Route path='favorites' element={<FavoritesPage />} />
-              <Route path='cart' element={<CartPage />} />
             </Route>
           </Route>
         </Routes>
