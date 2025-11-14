@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { useOrderStore } from '@/features/order';
 import { useRewardStore } from '@/features/reward/store';
 
-export default function CartList() {
+export function CartList() {
   const { setOrderInfo } = useOrderStore();
   const { data: cartItems = [], isLoading, isError } = useCartQuery();
   const navigate = useNavigate();
