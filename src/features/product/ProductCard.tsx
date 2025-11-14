@@ -10,16 +10,16 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link to={`/products/${product.id}`}>
-      <div className='flex max-h-[600px] min-h-96 min-w-60 flex-col items-center justify-center gap-4 text-center'>
-        <div className='relative flex h-full w-full flex-col'>
+      <div className='flex max-h-[810px] min-h-96 max-w-[490px] min-w-60 flex-col items-center justify-center gap-4 text-center'>
+        <div className='relative aspect-3/4 max-h-[730px] w-full'>
           <img
             src={product.product_image[0]?.product_card_image}
             alt={product.product_name}
-            className='h-auto w-full min-w-32 object-cover object-top'
+            className='max-h-[730px] w-auto object-cover object-top'
             width={300}
             height={400}
           />
-          <FavoriteIcon product={product} className='absolute right-2 bottom-2' />
+          <FavoriteIcon product={product} className='absolute right-4 bottom-4' />
         </div>
 
         <div className='flex h-20 w-full grow flex-col justify-evenly gap-2 text-left text-xs'>
