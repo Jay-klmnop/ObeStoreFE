@@ -4,4 +4,5 @@ export const API_ENDPOINTS = {
   LOGOUT: '/auth/logout',
   REFRESH_TOKEN: '/token/refresh',
   NAVER_LOGIN: '/auth/naver/login',
+  EMAIL_CHECK: '/users/email/exist',
 };

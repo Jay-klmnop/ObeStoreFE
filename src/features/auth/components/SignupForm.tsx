@@ -1,9 +1,10 @@
-import { useAuthStore } from '@/features/auth';
+import { checkEmail, useAuthStore } from '@/features/auth';
 import { AuthModal, ButtonBase } from '@/components/ui';
 import { HeaderLogoImgIcon } from '@/components/icon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 const signupSchema = z
   .object({
@@ -28,14 +29,32 @@ const signupSchema = z
 export type SignupFormData = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
+  const [emailCheckMessage, setEmailCheckMessage] = useState<string | null>(null);
+  const [emailCheckSuccess, setEmailCheckSuccess] = useState<boolean | null>(null);
   const { signup, openAuthModal, closeAuthModal, authModalType } = useAuthStore();
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+      email: '',
+      username: '',
+      nickname: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
+    },
   });
+
+  const email = watch('email');
+
+  useEffect(() => {
+    setEmailCheckSuccess(null);
+    setEmailCheckMessage(null);
+  }, [email]);
 
   const onSubmit = async (data: SignupFormData) => {
     try {
@@ -45,6 +64,23 @@ export function SignupForm() {
     } catch (err: any) {
       console.error('회원가입 실패:', err);
       alert(err.response?.data?.message || '회원가입 실패. 다시 시도해주세요.');
+    }
+  };
+
+  const handleEmailCheck = async () => {
+    if (!email) {
+      setEmailCheckMessage('이메일을 입력해주세요');
+      setEmailCheckSuccess(false);
+      return;
+    }
+
+    try {
+      const res = await checkEmail(email);
+      setEmailCheckMessage(res.detail);
+      setEmailCheckSuccess(res.available);
+    } catch (err: any) {
+      setEmailCheckMessage(err.response?.data?.detail || '이메일 확인에 실패했습니다');
+      setEmailCheckSuccess(false);
     }
   };
 
@@ -68,11 +104,25 @@ export function SignupForm() {
                 required
                 className='auth-input reduced'
               />
-              <ButtonBase type='button' className='grow' variant='filled'>
+              <ButtonBase
+                type='button'
+                className='grow'
+                variant='filled'
+                onClick={handleEmailCheck}
+              >
                 중복확인
               </ButtonBase>
             </div>
             {errors.email && <p className='text-secondary-300 text-sm'>{errors.email.message}</p>}
+            {emailCheckMessage && (
+              <p
+                className={`${
+                  emailCheckSuccess ? 'text-primary-500-50' : 'text-secondary-300'
+                } text-sm`}
+              >
+                {emailCheckMessage}
+              </p>
+            )}
           </div>
 
           <div>
@@ -105,9 +155,6 @@ export function SignupForm() {
                 required
                 className='auth-input reduced'
               />
-              <ButtonBase type='button' className='grow' variant='filled'>
-                중복확인
-              </ButtonBase>
             </div>
             {errors.nickname && (
               <p className='text-secondary-300 text-sm'>{errors.nickname.message}</p>
