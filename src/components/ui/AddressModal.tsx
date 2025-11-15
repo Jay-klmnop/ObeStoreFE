@@ -6,11 +6,11 @@ import { useEffect } from 'react';
 export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any) => void }) {
   const { isOpen, mode, closeModal, editingAddress } = useAddressModalStore();
   const { deleteAddress } = useAddressMutation();
-  const { data: addresses = [] } = useAddressQuery();
+  const { data } = useAddressQuery();
+  const addresses = data ?? [];
 
   const handleDeleteConfirm = () => {
-    if (!editingAddress) return;
-    deleteAddress.mutate(editingAddress.id, {
+    deleteAddress.mutate(undefined, {
       onSuccess: () => closeModal(),
     });
   };
@@ -65,7 +65,7 @@ export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any
             buttons={true}
           >
             <p className='text-center text-gray-700'>
-              <strong>{editingAddress?.name}</strong> 배송지를 정말 삭제하시겠습니까?
+              <strong>{editingAddress?.address_name}</strong> 배송지를 정말 삭제하시겠습니까?
             </p>
           </ConfirmModal>
         ) : (

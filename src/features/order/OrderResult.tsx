@@ -45,10 +45,10 @@ export function OrderResult() {
     if (!result) return;
 
     if (result.status === 'success' && result.orderNumber) {
-      // ⭐ 주문 완료 페이지로 이동
+      //  주문 완료 페이지로 이동
       navigate(`/order/complete?orderNumber=${result.orderNumber}`);
     } else {
-      // ❌ 실패 → 실패 안내 페이지 or 메인 이동
+      //  실패 → 실패 안내 페이지 or 메인 이동
       navigate(`/order/fail?code=${result.code}&message=${result.message}`);
     }
   }, [result, navigate]);
