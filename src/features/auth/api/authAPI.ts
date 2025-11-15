@@ -16,3 +16,10 @@ export const authLogout = () => backendAPI.post(API_ENDPOINTS.LOGOUT);
 
 export const authRefreshToken = (data: { refreshToken: string }) =>
   backendAPI.post(API_ENDPOINTS.REFRESH_TOKEN, data);
+
+export const checkEmail = async (email: string) => {
+  const res = await backendAPI.get(API_ENDPOINTS.EMAIL_CHECK, {
+    params: { email },
+  });
+  return res.data;
+};
