@@ -25,7 +25,7 @@ const signupSchema = z
     path: ['confirmPassword'],
   });
 
-type SignupFormData = z.infer<typeof signupSchema>;
+export type SignupFormData = z.infer<typeof signupSchema>;
 
 export function SignupForm() {
   const { signup, openAuthModal, closeAuthModal, authModalType } = useAuthStore();
@@ -39,7 +39,7 @@ export function SignupForm() {
 
   const onSubmit = async (data: SignupFormData) => {
     try {
-      await signup(data.email, data.password);
+      await signup(data);
       alert('회원가입 완료! 이메일 인증을 위해 메일함을 확인해주세요.');
       closeAuthModal();
     } catch (err: any) {
