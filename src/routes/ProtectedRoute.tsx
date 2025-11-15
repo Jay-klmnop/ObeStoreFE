@@ -1,18 +1,18 @@
-import { useAuthStore } from '@/features/auth';
-import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+// import { useAuthStore } from '@/features/auth';
+// import { useEffect } from 'react';
+// import { Outlet } from 'react-router-dom';
 
-export function ProtectedRoute() {
-  const isLoggedIn = useAuthStore((state) => !!state.accessToken);
-  const openAuthModal = useAuthStore((state) => state.openAuthModal);
+// export function ProtectedRoute() {
+//   const isLoggedIn = useAuthStore((state) => !!state.accessToken);
+//   const openAuthModal = useAuthStore((state) => state.openAuthModal);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      openAuthModal('login');
-    }
-  }, [isLoggedIn, openAuthModal]);
+//   useEffect(() => {
+//     if (!isLoggedIn) {
+//       openAuthModal('login');
+//     }
+//   }, [isLoggedIn, openAuthModal]);
 
-  if (!isLoggedIn) return null;
+//   if (!isLoggedIn) return null;
 
-  return <Outlet />;
-}
+//   return <Outlet />;
+// }

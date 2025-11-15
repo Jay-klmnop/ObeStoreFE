@@ -9,6 +9,15 @@ interface OrderState {
   discountSum: number;
   shippingFeeText: string;
   totalQuantity: number;
+
+  shippingFee: number;
+  selectedAddressId: number | null;
+  deliveryRequest: string;
+
+  setSelectedAddressId: (id: number) => void;
+  setDeliveryRequest: (req: string) => void;
+  setShippingFee: (fee: number) => void;
+
   updateDiscount: (discount: number) => void;
   updateShippingFee: (text: string) => void;
   clearOrder: () => void;
@@ -31,6 +40,15 @@ export const useOrderStore = create<OrderState>()(
       discountSum: 0,
       shippingFeeText: '',
       totalQuantity: 0,
+
+      shippingFee: 3500,
+      selectedAddressId: null,
+      deliveryRequest: '',
+
+      setSelectedAddressId: (id) => set({ selectedAddressId: id }),
+      setDeliveryRequest: (req) => set({ deliveryRequest: req }),
+      setShippingFee: (fee) => set({ shippingFee: fee }),
+
       setOrderInfo: (items, total, checkedSum, discount, shippingText, totalQuan) =>
         set({
           orderItems: items,

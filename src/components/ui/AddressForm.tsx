@@ -1,27 +1,52 @@
-import { useAddressMutation } from '@/features/mypage';
+import { useAddressMutation, type Address } from '@/features/mypage';
 import { useAddressModalStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { ButtonBase } from '@/components/ui';
 
+export interface FormAddress {
+  id: number;
+  address_name: string;
+  recipient: string; // 추가
+  recipient_phone: string;
+  address: string;
+  detail_address: string;
+  isDefault: boolean;
+}
+
+const toAddressPayload = (form: FormAddress): Address => ({
+  id: form.id,
+  address_name: form.address_name,
+  recipient: form.recipient, // 수정
+  recipient_phone: form.recipient_phone,
+  post_code: '00000',
+  address: form.address,
+  detail_address: form.detail_address,
+  isDefault: form.isDefault,
+});
+
 export function AddressForm() {
   const { addAddress, updateAddress } = useAddressMutation();
   const { closeModal, editingAddress } = useAddressModalStore();
-  const [form, setForm] = useState({
-    name: '',
-    phone: '',
+  const [form, setForm] = useState<FormAddress>({
+    id: 0,
+    address_name: '',
+    recipient: '',
+    recipient_phone: '',
     address: '',
-    detail: '',
+    detail_address: '',
     isDefault: false,
   });
 
   useEffect(() => {
     if (editingAddress) {
       setForm({
-        name: editingAddress.name,
-        phone: String(editingAddress.phone),
+        id: editingAddress.id,
+        address_name: editingAddress.address_name,
+        recipient: editingAddress.recipient,
+        recipient_phone: editingAddress.recipient_phone,
         address: editingAddress.address,
-        detail: editingAddress.detail,
-        isDefault: editingAddress.isDefault,
+        detail_address: editingAddress.detail_address,
+        isDefault: editingAddress.isDefault ?? false, // 🔥 localStorage default 반영
       });
     }
   }, [editingAddress]);
@@ -34,32 +59,44 @@ export function AddressForm() {
   };
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const payload = toAddressPayload(form);
+    // 🔥 localStorage 기본 배송지 저장
+    localStorage.setItem('defaultAddress', String(payload.isDefault));
+
     if (editingAddress) {
-      updateAddress.mutate(
-        { ...editingAddress, ...form },
-        {
-          onSuccess: () => closeModal(),
-        }
-      );
+      updateAddress.mutate(payload, {
+        onSuccess: () => closeModal(),
+      });
     } else {
-      addAddress.mutate({ ...form }, { onSuccess: () => closeModal() });
+      addAddress.mutate(payload, {
+        onSuccess: () => closeModal(),
+      });
     }
   };
+
   return (
     <form onSubmit={handleSubmit} className='flex flex-col justify-center gap-4'>
       <input
         type='text'
-        name='name'
+        name='recipient'
+        placeholder='수령인 이름'
+        value={form.recipient}
+        onChange={handleChangeInput}
+      />
+      <input
+        type='text'
+        name='address_name'
         placeholder='배송지명'
-        value={form.name}
+        value={form.address_name}
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
       <input
         type='text'
-        name='phone'
+        name='recipient_phone'
         placeholder='전화번호'
-        value={form.phone}
+        value={form.recipient_phone}
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
@@ -73,9 +110,9 @@ export function AddressForm() {
       />
       <input
         type='text'
-        name='detail'
+        name='detail_address'
         placeholder='상세주소'
-        value={form.detail}
+        value={form.detail_address}
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
@@ -83,9 +120,8 @@ export function AddressForm() {
         <input
           type='checkbox'
           name='isDefault'
-          checked={form.isDefault}
+          checked={form.isDefault} // ⭐ value 연동 필수
           onChange={handleChangeInput}
-          className='border-primary-700'
         />
         기본 배송지로 설정
         <small className='text-custom-gray-30'>(기본 배송지는 1개만 가능합니다.)</small>

@@ -1,67 +1,85 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
+import { backendAPI } from '@/api';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export type Address = {
-  id: string;
-  name: string;
-  phone: string;
+  id: number;
+  address_name: string;
+  recipient: string;
+  recipient_phone: string;
+  post_code: string;
   address: string;
-  detail: string;
-  isDefault: boolean;
+  detail_address: string;
+  //
+  isDefault?: boolean;
   deliveryRequest?: string;
 };
 
-const API_URL = 'http://localhost:4000/addresses';
+//  Address[] → Address 로 변경 (백엔드는 단일 주소만 반환)
 export const useAddressQuery = () =>
   useQuery<Address[]>({
-    queryKey: ['addresses'],
+    queryKey: ['user-address'],
     queryFn: async () => {
-      const response = await axios.get(API_URL);
-      return response.data;
+      const response = await backendAPI.get('/users/me/address');
+      const data = response.data;
+
+      console.log('📦 [GET] /users/me/address 응답:', data);
+
+      if (!Array.isArray(data) || data.length === 0) return [];
+
+      const savedAddress = data[0];
+
+      const isDefault = localStorage.getItem('defaultAddress') === 'true';
+      const deliveryRequest = localStorage.getItem('deliveryRequest') || '';
+
+      return [
+        {
+          ...savedAddress,
+          isDefault,
+          deliveryRequest,
+        },
+      ];
     },
   });
 
 export const useAddressMutation = () => {
   const queryClient = useQueryClient();
 
-  const clearDefaultAddress = async () => {
-    try {
-      const { data: addresses } = await axios.get<Address[]>(API_URL);
-      const defaultAddress = addresses.find((a) => a.isDefault);
-      if (defaultAddress) {
-        await axios.patch(`${API_URL}/${defaultAddress.id}`, { isDefault: false });
-      }
-    } catch (error) {
-      console.error('기본 배송지 초기화 중 오류 발생:', error);
-    }
-  };
+  const extractBody = (addr: Address) => ({
+    id: addr.id,
+    address_name: addr.address_name,
+    recipient: addr.recipient,
+    recipient_phone: addr.recipient_phone,
+    post_code: addr.post_code,
+    address: addr.address,
+    detail_address: addr.detail_address,
+  });
 
   const addAddress = useMutation({
-    mutationFn: async (newAddr: Omit<Address, 'id'>) => {
-      if (newAddr.isDefault) {
-        await clearDefaultAddress();
-      }
-      return axios.post(API_URL, newAddr);
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
+    mutationFn: (addr: Address) => backendAPI.post('/users/me/address', extractBody(addr)),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user-address'] }),
   });
 
   const updateAddress = useMutation({
-    mutationFn: async (addr: Address) => {
-      const { id, ...rest } = addr;
+    mutationFn: (addr: Address) => {
+      console.log('🧐 PATCH 호출 전 addr:', addr);
+      console.log('🛑 PATCH addr.id:', addr.id);
 
-      if (rest.isDefault) {
-        await clearDefaultAddress();
+      if (!addr.id) {
+        console.error('❌ ERROR: addr.id가 없습니다. PATCH 중단!');
       }
-      return axios.patch(`${API_URL}/${id}`, rest);
+
+      return backendAPI.patch(`/users/me/address?id=${addr.id}`, extractBody(addr));
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user-address'] }),
   });
-
   const deleteAddress = useMutation({
-    mutationFn: (id: string) => axios.delete(`${API_URL}/${id}`),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['addresses'] }),
+    mutationFn: () => backendAPI.delete('/users/me/address'),
+    onSuccess: () => {
+      localStorage.removeItem('defaultAddress');
+      localStorage.removeItem('deliveryRequest');
+      queryClient.invalidateQueries({ queryKey: ['user-address'] });
+    },
   });
 
-  return { addAddress, updateAddress, deleteAddress, clearDefaultAddress };
+  return { addAddress, updateAddress, deleteAddress };
 };

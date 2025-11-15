@@ -2,11 +2,32 @@ import { ButtonBase } from '@/components/ui';
 import { useCartSummary } from '../cart/hook/useCartSummary';
 import { useOrderStore } from '@/features/order';
 import { useRewardStore } from '@/features/reward/store';
+import { usePayment } from './hook/usePayment';
 
-export function OrderSideBar() {
+export function OrderSideBar({
+  selectedAddressId,
+  discountAmount,
+  deliveryAmount,
+  deliveryRequest,
+}: {
+  selectedAddressId: number | null;
+  discountAmount: number;
+  deliveryAmount: number;
+  deliveryRequest: string;
+}) {
   const { checkedItemSum, discountSum, shippingFeeText } = useOrderStore();
   const { usedPoints, earnedPoints } = useRewardStore();
   const { totalPayment } = useCartSummary();
+  const { handlePayClick } = usePayment();
+  const onClickPayment = () => {
+    handlePayClick({
+      selectedAddressId,
+      usedPoint: usedPoints,
+      discountAmount,
+      deliveryAmount,
+      deliveryRequest,
+    });
+  };
   return (
     <div className='mt-5 w-full bg-white px-7.5 py-5 lg:mt-0 lg:w-[450px]'>
       <div className='py-5'>
@@ -81,7 +102,12 @@ export function OrderSideBar() {
             </span>
           </li>
         </ul>
-        <ButtonBase className='mt-7 text-lg font-bold' variant='filled' fullWidth>
+        <ButtonBase
+          className='mt-7 text-lg font-bold'
+          variant='filled'
+          fullWidth
+          onClick={onClickPayment}
+        >
           결제하기
         </ButtonBase>
       </div>

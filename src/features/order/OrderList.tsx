@@ -1,5 +1,5 @@
 import { useCartQuery } from '@/features/cart/api/useCartQuery';
-import { OrderCheckoutPage, useOrderStore } from '@/features/order';
+import { useOrderStore } from '@/features/order';
 import { CartCardNone } from '../cart';
 import { useRewardStore } from '@/features/reward/store';
 import { useEffect } from 'react';
@@ -10,7 +10,15 @@ import OrderShippingCard from './OrderShippingCard';
 export function OrderList() {
   const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
   const { availablePoints, usedPoints, setUsedPoints, setEarnedPoints } = useRewardStore();
-  const { orderItems, checkedItemSum, totalQuantity } = useOrderStore();
+  const {
+    orderItems,
+    checkedItemSum,
+    totalQuantity,
+    discountSum,
+    shippingFee,
+    selectedAddressId,
+    deliveryRequest,
+  } = useOrderStore();
 
   const handleUsedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -86,13 +94,15 @@ export function OrderList() {
           </div>
           <div className='pb-10'>
             <div className='text-primary-500-90 text-lg font-bold'>결제 수단</div>
-            <div>
-              <OrderCheckoutPage />
-            </div>
           </div>
         </div>
       </div>
-      <OrderSideBar />
+      <OrderSideBar
+        selectedAddressId={selectedAddressId}
+        discountAmount={discountSum}
+        deliveryAmount={shippingFee}
+        deliveryRequest={deliveryRequest}
+      />
     </div>
   );
 }
