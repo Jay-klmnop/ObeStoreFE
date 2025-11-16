@@ -6,11 +6,11 @@ import { useEffect } from 'react';
 export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any) => void }) {
   const { isOpen, mode, closeModal, editingAddress } = useAddressModalStore();
   const { deleteAddress } = useAddressMutation();
-  const { data } = useAddressQuery();
-  const addresses = data ?? [];
+  const { data: addresses = [] } = useAddressQuery();
 
   const handleDeleteConfirm = () => {
-    deleteAddress.mutate(undefined, {
+    if (!editingAddress) return;
+    deleteAddress.mutate(editingAddress.id, {
       onSuccess: () => closeModal(),
     });
   };
@@ -27,51 +27,49 @@ export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  return (
-    <div className='centralize bg-primary-700/50 fixed inset-0 z-90 flex h-full w-full items-center justify-center overflow-hidden backdrop-blur-sm'>
-      <div
-        className={`${mode === 'select' ? 'h-[530px]' : ''} w-[800px] items-center overflow-y-auto rounded-lg bg-white p-6`}
+  if (mode === 'delete') {
+    return (
+      <ConfirmModal
+        isOpen={true}
+        closeModal={closeModal}
+        onConfirm={handleDeleteConfirm}
+        onCancel={closeModal}
+        buttons={true}
       >
-        <div className='mb-4 flex items-center justify-between border-b pb-2'>
-          <h2 className='text-lg font-bold'>
-            {' '}
-            {mode === 'add'
-              ? '배송지 추가'
-              : mode === 'edit'
-                ? '배송지 수정'
-                : mode === 'delete'
-                  ? '배송지 삭제'
-                  : '배송지 선택'}
-          </h2>
-          <button className='text-3xl font-light' aria-label='닫기' onClick={closeModal}>
-            &times;
-          </button>
+        <p className='text-center text-gray-700'>
+          <strong>{editingAddress?.address_name}</strong> 배송지를 정말 삭제하시겠습니까?
+        </p>
+      </ConfirmModal>
+    );
+  }
+  return (
+    <>
+      <div className='centralize bg-primary-700/50 fixed inset-0 z-90 flex h-full w-full items-center justify-center overflow-hidden backdrop-blur-sm'>
+        <div
+          className={`${mode === 'select' ? 'h-[530px]' : ''} w-[800px] items-center overflow-y-auto rounded-lg bg-white p-6`}
+        >
+          <div className='mb-4 flex items-center justify-between border-b pb-2'>
+            <h2 className='text-lg font-bold'>
+              {' '}
+              {mode === 'add' ? '배송지 추가' : mode === 'edit' ? '배송지 수정' : '배송지 선택'}
+            </h2>
+            <button className='text-3xl font-light' aria-label='닫기' onClick={closeModal}>
+              &times;
+            </button>
+          </div>
+          {mode === 'select' ? (
+            <AddressList
+              addresses={addresses}
+              onSelect={(addr) => {
+                onSelectAddress?.(addr); //
+                closeModal();
+              }}
+            />
+          ) : (
+            <AddressForm />
+          )}
         </div>
-        {mode === 'select' ? (
-          <AddressList
-            addresses={addresses}
-            onSelect={(addr) => {
-              onSelectAddress?.(addr); //
-              closeModal();
-            }}
-          />
-        ) : mode === 'delete' ? (
-          <ConfirmModal
-            isOpen={true}
-            closeModal={closeModal}
-            onConfirm={handleDeleteConfirm}
-            onCancel={closeModal}
-            buttons={true}
-          >
-            <p className='text-center text-gray-700'>
-              <strong>{editingAddress?.address_name}</strong> 배송지를 정말 삭제하시겠습니까?
-            </p>
-          </ConfirmModal>
-        ) : (
-          <AddressForm />
-        )}
       </div>
-    </div>
+    </>
   );
 }

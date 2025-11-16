@@ -1,6 +1,7 @@
 import { useAddressModalStore } from '@/store';
 import { ButtonBase } from '@/components/ui';
 import { type Address } from '@/features/mypage';
+import { useLocation } from 'react-router-dom';
 
 export interface AddressListProps {
   addresses: Address[];
@@ -8,6 +9,9 @@ export interface AddressListProps {
 }
 
 export function AddressList({ addresses, onSelect }: AddressListProps) {
+  const location = useLocation();
+  const isOrderPage = location.pathname === '/order/order';
+
   const { openModal } = useAddressModalStore();
   return (
     <>
@@ -18,7 +22,7 @@ export function AddressList({ addresses, onSelect }: AddressListProps) {
         >
           <div className='flex items-center font-bold'>
             <span>{addrinfo.address_name}</span>
-            {addrinfo.isDefault && (
+            {addrinfo.is_default && (
               <span className='text-primary-500-90 border-primary-500-40 ml-2 rounded border bg-white/60 p-1 text-xs'>
                 기본 배송지
               </span>
@@ -30,7 +34,7 @@ export function AddressList({ addresses, onSelect }: AddressListProps) {
           </div>
           <div>{addrinfo.recipient_phone}</div>
           <div className='border-red flex justify-end gap-2'>
-            <ButtonBase onClick={() => onSelect?.(addrinfo)}>선택</ButtonBase>
+            {isOrderPage && <ButtonBase onClick={() => onSelect?.(addrinfo)}>선택</ButtonBase>}
             <ButtonBase
               variant='gnb'
               className='w-15 self-end'

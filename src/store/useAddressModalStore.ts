@@ -1,18 +1,31 @@
 import { create } from 'zustand';
-import type { Address } from '@/features/mypage/api/useAddressQuery';
+
+type Mode = 'select' | 'add' | 'edit' | 'delete';
 
 interface AddressModalState {
   isOpen: boolean;
-  mode: 'add' | 'edit' | 'delete' | 'select';
-  editingAddress: Address | null;
-  openModal: (mode: 'add' | 'edit' | 'delete' | 'select', address?: Address) => void;
+  mode: Mode;
+  editingAddress: any | null;
+
+  openModal: (mode: Mode, address?: any | null) => void;
   closeModal: () => void;
 }
 
 export const useAddressModalStore = create<AddressModalState>((set) => ({
   isOpen: false,
-  mode: 'add',
+  mode: 'select',
   editingAddress: null,
-  openModal: (mode, address) => set({ isOpen: true, mode, editingAddress: address ?? null }),
-  closeModal: () => set({ isOpen: false, mode: 'add', editingAddress: null }),
+
+  openModal: (mode, address = null) =>
+    set({
+      isOpen: true,
+      mode,
+      editingAddress: address,
+    }),
+
+  closeModal: () =>
+    set({
+      isOpen: false,
+      editingAddress: null,
+    }),
 }));

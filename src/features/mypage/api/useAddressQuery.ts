@@ -2,17 +2,26 @@ import { backendAPI } from '@/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export type Address = {
-  id: number;
+  id?: number;
   address_name: string;
   recipient: string;
   recipient_phone: string;
   post_code: string;
   address: string;
   detail_address: string;
-  //
-  isDefault?: boolean;
+  is_default?: boolean;
   deliveryRequest?: string;
 };
+
+export interface AddFormAddress {
+  address_name: string;
+  recipient: string;
+  recipient_phone: string;
+  post_code: string;
+  address: string;
+  detail_address: string;
+  is_default?: boolean;
+}
 
 //  Address[] → Address 로 변경 (백엔드는 단일 주소만 반환)
 export const useAddressQuery = () =>
@@ -26,58 +35,44 @@ export const useAddressQuery = () =>
 
       if (!Array.isArray(data) || data.length === 0) return [];
 
-      const savedAddress = data[0];
-
-      const isDefault = localStorage.getItem('defaultAddress') === 'true';
+      // const isDefault = localStorage.getItem('defaultAddress') === 'true';
       const deliveryRequest = localStorage.getItem('deliveryRequest') || '';
 
-      return [
-        {
-          ...savedAddress,
-          isDefault,
-          deliveryRequest,
-        },
-      ];
+      return data.map((addr) => ({
+        ...addr,
+        deliveryRequest,
+      }));
     },
   });
 
 export const useAddressMutation = () => {
   const queryClient = useQueryClient();
 
-  const extractBody = (addr: Address) => ({
-    id: addr.id,
-    address_name: addr.address_name,
-    recipient: addr.recipient,
-    recipient_phone: addr.recipient_phone,
-    post_code: addr.post_code,
-    address: addr.address,
-    detail_address: addr.detail_address,
-  });
+  const applyInvalidate = () => queryClient.invalidateQueries({ queryKey: ['user-address'] });
 
   const addAddress = useMutation({
-    mutationFn: (addr: Address) => backendAPI.post('/users/me/address', extractBody(addr)),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user-address'] }),
+    mutationFn: (body: AddFormAddress) => {
+      return backendAPI.post('/users/me/address', body);
+    },
+    onSuccess: applyInvalidate,
   });
 
   const updateAddress = useMutation({
-    mutationFn: (addr: Address) => {
-      console.log('🧐 PATCH 호출 전 addr:', addr);
-      console.log('🛑 PATCH addr.id:', addr.id);
-
-      if (!addr.id) {
-        console.error('❌ ERROR: addr.id가 없습니다. PATCH 중단!');
-      }
-
-      return backendAPI.patch(`/users/me/address?id=${addr.id}`, extractBody(addr));
+    mutationFn: (body: Address) => {
+      console.log('🧐 PATCH 호출 전 addr:', body);
+      console.log('🛑 PATCH addr.id:', body.id);
+      if (!body.id) throw new Error('잘못된 요청입니다. ID가 존재하지 않습니다.');
+      return backendAPI.patch(`/users/me/address?id=${body.id}`, body);
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['user-address'] }),
+    onSuccess: applyInvalidate,
   });
+
   const deleteAddress = useMutation({
-    mutationFn: () => backendAPI.delete('/users/me/address'),
+    mutationFn: (id: number) => backendAPI.delete(`/users/me/address?id=${id}`),
     onSuccess: () => {
       localStorage.removeItem('defaultAddress');
       localStorage.removeItem('deliveryRequest');
-      queryClient.invalidateQueries({ queryKey: ['user-address'] });
+      applyInvalidate();
     },
   });
 

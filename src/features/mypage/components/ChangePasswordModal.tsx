@@ -1,7 +1,25 @@
 import { ConfirmModal } from '@/components/ui';
-import { useCustomerQuery } from '@/features/order';
-import { useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { useChangePasswordMutation } from '@/features/mypage';
+// 📌 SignupForm과 동일한 비밀번호 정책
+const passwordSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, '비밀번호는 8자 이상이어야 합니다.')
+      .regex(/[A-Z]/, '대문자를 하나 이상 포함해야 합니다.')
+      .regex(/[a-z]/, '소문자를 하나 이상 포함해야 합니다.')
+      .regex(/[0-9]/, '숫자를 하나 이상 포함해야 합니다.')
+      .regex(/[^A-Za-z0-9]/, '특수문자를 하나 이상 포함해야 합니다.'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword'],
+  });
+type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export function ChangePasswordModal({
   isOpen,
@@ -10,91 +28,80 @@ export function ChangePasswordModal({
   isOpen: boolean;
   closeModal: () => void;
 }) {
-  const [currentPassword, setCurrentPassword] = useState<string>('');
-  const [newPassword, setNewPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const { data: customer } = useCustomerQuery();
-  const { mutate: changePassword } = useChangePasswordMutation();
-
-  const handleChangePassword = () => {
-    if (!customer) return;
-
-    if (currentPassword !== (customer as any).password) {
-      alert('현재 비밀번호가 올바르지 않습니다.');
-      return;
-    }
-
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=<>?{}[\]~])[A-Za-z\d!@#$%^&*()_\-+=<>?{}[\]~]{8,}$/;
-
-    if (!passwordRegex.test(newPassword)) {
-      alert('새 비밀번호는 8자 이상이며, 대소문자/숫자/특수문자를 모두 포함해야 합니다.');
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
-      return;
-    }
-
+  const mutation = useChangePasswordMutation();
+  if (!mutation) return null;
+  const { mutate: changePassword, isPending } = mutation;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<PasswordFormData>({
+    resolver: zodResolver(passwordSchema),
+    defaultValues: { password: '', confirmPassword: '' },
+  });
+  const onSubmit = (data: PasswordFormData) => {
     changePassword(
-      { currentPassword, newPassword },
+      { password: data.password },
       {
         onSuccess: () => {
-          alert('비밀번호가 성공적으로 변경되었습니다.');
-          setCurrentPassword('');
-          setNewPassword('');
-          setConfirmPassword('');
+          alert('비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.');
+          reset();
           closeModal();
         },
         onError: (err: any) => {
-          alert(err.response?.data?.message || '비밀번호 변경 실패');
+          alert(err?.response?.data?.message || '비밀번호 변경에 실패했습니다.');
         },
       }
     );
   };
-
-  const handleCancelChangePassword = () => {
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmPassword('');
+  const handleCancel = () => {
+    reset();
     closeModal();
   };
+  if (!isOpen) return null;
   return (
-    <>
-      <ConfirmModal
-        isOpen={isOpen}
-        closeModal={closeModal}
-        onConfirm={handleChangePassword}
-        onCancel={handleCancelChangePassword}
-        buttons={true}
-        size='lg'
-      >
-        <div className='flex flex-col gap-4'>
-          <label className='text-sm font-semibold'>현재 비밀번호</label>
+    <ConfirmModal
+      isOpen={isOpen}
+      closeModal={closeModal}
+      onConfirm={handleSubmit(onSubmit)}
+      onCancel={handleCancel}
+      buttons
+      size='lg'
+      confirmDisabled={isSubmitting || isPending}
+    >
+      {' '}
+      <div className='flex flex-col gap-4'>
+        {' '}
+        {/* 새 비밀번호 */}{' '}
+        <div className='flex flex-col'>
+          {' '}
+          <label className='text-sm font-semibold'>새 비밀번호</label>{' '}
           <input
             type='password'
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder='8자 이상, 대/소문자+숫자+특수문자 포함'
+            {...register('password')}
             className='rounded border p-2'
-          />
-          <label className='text-sm font-semibold'>새 비밀번호</label>
+          />{' '}
+          {errors.password && (
+            <p className='text-sm text-red-500'>{errors.password.message}</p>
+          )}{' '}
+        </div>{' '}
+        {/* 비밀번호 확인 */}{' '}
+        <div className='flex flex-col'>
+          {' '}
+          <label className='text-sm font-semibold'>비밀번호 확인</label>{' '}
           <input
             type='password'
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder='비밀번호를 다시 입력해주세요'
+            {...register('confirmPassword')}
             className='rounded border p-2'
-          />
-          <label className='text-sm font-semibold'>비밀번호 확인</label>
-          <input
-            type='password'
-            placeholder='비밀번호 확인'
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className='rounded border p-2'
-          />
-        </div>
-      </ConfirmModal>
-    </>
+          />{' '}
+          {errors.confirmPassword && (
+            <p className='text-sm text-red-500'>{errors.confirmPassword.message}</p>
+          )}{' '}
+        </div>{' '}
+      </div>{' '}
+    </ConfirmModal>
   );
 }
