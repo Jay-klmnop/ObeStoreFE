@@ -51,6 +51,7 @@ export function CartList() {
       amount: product.amount ?? 0,
       cart: product.cart,
       checked: false,
+      product_card_image: product.product_card_image,
     }));
     const isSame = JSON.stringify(storeItems) === JSON.stringify(newItems);
     if (!isSame) setCartItems(newItems);
@@ -109,6 +110,7 @@ export function CartList() {
             checked={product.checked}
             cart={product.cart} // 여기는 CartCardProps에 추가해야 함
             onChange={(e) => handleItemCheck(String(product.id), e.target.checked)}
+            product_card_image={product.product_card_image}
           />
         ))}
       </div>

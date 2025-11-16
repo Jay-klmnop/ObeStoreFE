@@ -24,13 +24,22 @@ export function MyPageInfo() {
   const handleClickEditInfoConfirm = () => setEditModalOpen(true);
   const handleCloseEditModal = () => setEditModalOpen(false);
   const handleDeleteConfirm = () => {
-    if (!customer?.id) return;
-    deleteCustomer.mutate(customer.id);
+    console.log('🔍 customer:', customer);
+    console.log('🧨 탈퇴 버튼 클릭됨');
+
+    deleteCustomer.mutate(undefined, {
+      onSuccess: () => {
+        console.log('🎉 탈퇴 성공');
+      },
+      onError: (err) => {
+        console.log('❌ 탈퇴 실패', err);
+      },
+    });
+
     setWithdrawModalOpen(false);
   };
-
-  const provider = customer?.provider ?? 'local';
-  const isSocialLogin = provider !== 'local';
+  const provider = customer?.provider ?? 'email';
+  const isSocialLogin = provider !== 'email';
   if (isLoadingCustomer) return <div>나의 정보를 준비 중입니다...</div>;
   if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
   return (
@@ -41,9 +50,9 @@ export function MyPageInfo() {
             나의 프로필 / 정보 조회/수정
           </p>
           <ul className='mt-7.5 border-t-2 border-black'>
-            <MyPageInfoRow rowTitle={`아이디(이메일)`} rowContent={`${customer?.customerEmail}`} />
-            <MyPageInfoRow rowTitle={`성명`} rowContent={`${customer?.customerName}`} />
-            <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${customer?.customerNickrname}`} />
+            <MyPageInfoRow rowTitle={`아이디(이메일)`} rowContent={`${customer?.email}`} />
+            <MyPageInfoRow rowTitle={`성명`} rowContent={`${customer?.username}`} />
+            <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${customer?.nickname}`} />
 
             {isSocialLogin ? (
               <div className='border-b border-gray-200 py-6 text-center text-gray-700'>
@@ -64,7 +73,7 @@ export function MyPageInfo() {
                 }
               />
             )}
-            <MyPageInfoRow rowTitle={`연락처`} rowContent={`${customer?.customerMobilePhone}`} />
+            <MyPageInfoRow rowTitle={`연락처`} rowContent={`${customer?.phone_number}`} />
           </ul>
           <div className='flex flex-row justify-center pt-15 pb-10'>
             <ButtonBase onClick={handleClickWithdraw} variant='hollow'>

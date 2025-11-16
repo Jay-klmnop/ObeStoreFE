@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { ButtonBase } from '@/components/ui';
 
 export interface FormAddress {
-  id: number;
+  id?: number;
   address_name: string;
   recipient: string; // 추가
   recipient_phone: string;
   address: string;
   detail_address: string;
-  isDefault: boolean;
+  is_default: boolean;
 }
 
 const toAddressPayload = (form: FormAddress): Address => ({
@@ -21,7 +21,7 @@ const toAddressPayload = (form: FormAddress): Address => ({
   post_code: '00000',
   address: form.address,
   detail_address: form.detail_address,
-  isDefault: form.isDefault,
+  is_default: form.is_default,
 });
 
 export function AddressForm() {
@@ -34,19 +34,30 @@ export function AddressForm() {
     recipient_phone: '',
     address: '',
     detail_address: '',
-    isDefault: false,
+    is_default: false,
   });
 
   useEffect(() => {
     if (editingAddress) {
       setForm({
-        id: editingAddress.id,
         address_name: editingAddress.address_name,
         recipient: editingAddress.recipient,
         recipient_phone: editingAddress.recipient_phone,
+
         address: editingAddress.address,
         detail_address: editingAddress.detail_address,
-        isDefault: editingAddress.isDefault ?? false, // 🔥 localStorage default 반영
+        is_default: editingAddress.is_default ?? false,
+      });
+    } else {
+      // ⭐ 추가(add) 모드일 때 form 리셋
+      setForm({
+        address_name: '',
+        recipient: '',
+        recipient_phone: '',
+
+        address: '',
+        detail_address: '',
+        is_default: false,
       });
     }
   }, [editingAddress]);
@@ -62,7 +73,7 @@ export function AddressForm() {
 
     const payload = toAddressPayload(form);
     // 🔥 localStorage 기본 배송지 저장
-    localStorage.setItem('defaultAddress', String(payload.isDefault));
+    localStorage.setItem('defaultAddress', String(payload.is_default));
 
     if (editingAddress) {
       updateAddress.mutate(payload, {
@@ -83,6 +94,7 @@ export function AddressForm() {
         placeholder='수령인 이름'
         value={form.recipient}
         onChange={handleChangeInput}
+        className='border-primary-500-70 rounded-lg border p-2'
       />
       <input
         type='text'
@@ -119,8 +131,8 @@ export function AddressForm() {
       <label className='item-centers flex items-center gap-2'>
         <input
           type='checkbox'
-          name='isDefault'
-          checked={form.isDefault} // ⭐ value 연동 필수
+          name='is_default'
+          checked={form.is_default} // ⭐ value 연동 필수
           onChange={handleChangeInput}
         />
         기본 배송지로 설정

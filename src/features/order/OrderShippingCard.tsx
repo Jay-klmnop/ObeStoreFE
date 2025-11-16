@@ -18,13 +18,13 @@ export default function OrderShippingCard() {
   // 초기 선택 설정
   useEffect(() => {
     if (addresses.length > 0 && !selectedId) {
-      setSelectedId(addresses[0].id);
+      setSelectedId(addresses[0].id ?? null); // ← 수정
       setDeliveryRequest(addresses[0].deliveryRequest || '');
     }
   }, [addresses]);
 
   const handleSelectAddress = (addr: Address) => {
-    setSelectedId(addr.id);
+    setSelectedId(addr.id ?? null); // ← 수정
     setDeliveryRequest(addr.deliveryRequest || '');
   };
 
@@ -51,6 +51,7 @@ export default function OrderShippingCard() {
   console.log('selectedKey:', selectedId);
   return (
     <>
+      <ButtonBase onClick={() => openModal('add')}>추가</ButtonBase>
       <ButtonBase
         className='absolute top-0 right-0'
         onClick={() => openModal('select')}
@@ -64,7 +65,7 @@ export default function OrderShippingCard() {
           {selectedAddress ? selectedAddress.address_name : '등록된 배송지가 없습니다.'}
         </span>
 
-        {selectedAddress?.isDefault && (
+        {selectedAddress?.is_default && (
           <small className='border-primary-500-70 text-primary-500-70 rounded-sm border px-1 py-1'>
             기본 배송지
           </small>
