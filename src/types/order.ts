@@ -29,4 +29,5 @@ export interface CartItem {
 
   // FE에서 쓰는 체크박스 상태
   checked: boolean;
+  product_card_image: string;
 }

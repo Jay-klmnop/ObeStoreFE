@@ -1,36 +1,20 @@
+import { backendAPI } from '@/api';
 import { useAuthStore } from '@/features/auth';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export interface CustomerOrderInfo {
-  id: string;
-  orderId: string;
-  orderName: string;
-  customerEmail: string;
-  customerName: string;
-  customerNickrname: string;
-  customerMobilePhone: string;
-  customerAddress: string;
-  provider: string;
+  id?: string;
+  email: string;
+  username: string;
+  nickname: string;
+  phone_number: string;
+  provider?: string;
 }
 
-const API_URL = 'http://localhost:4001/customers';
-
 const fetchCustomer = async (): Promise<CustomerOrderInfo> => {
-  const { data } = await axios.get<CustomerOrderInfo[]>(API_URL);
-  const customer = data[0];
-  return {
-    id: customer.id,
-    orderId: customer.orderId,
-    orderName: customer.orderName,
-    customerEmail: customer.customerEmail,
-    customerName: customer.customerName,
-    customerNickrname: customer.customerNickrname,
-    customerMobilePhone: customer.customerMobilePhone,
-    customerAddress: customer.customerAddress,
-    provider: customer.provider,
-  };
+  const { data } = await backendAPI.get<CustomerOrderInfo>('/users/me');
+  return data;
 };
 
 export const useCustomerQuery = () => {
@@ -47,8 +31,8 @@ export const useCustomerMutation = () => {
   const { logout } = useAuthStore();
   // 회원 정보 수정
   const updateCustomer = useMutation({
-    mutationFn: async (updatedData: Partial<CustomerOrderInfo> & { id: string }) => {
-      const res = await axios.patch(`${API_URL}/${updatedData.id}`, updatedData);
+    mutationFn: async (updatedData: Partial<CustomerOrderInfo>) => {
+      const res = await backendAPI.patch('/users/me', updatedData);
       return res.data;
     },
     onSuccess: () => {
@@ -61,10 +45,27 @@ export const useCustomerMutation = () => {
     },
   });
 
+  // 비밀번호 변경 (password only)
+  const changePassword = useMutation({
+    mutationFn: async (payload: { password: string }) => {
+      const res = await backendAPI.patch('/users/me', payload);
+      return res.data;
+    },
+    onSuccess: () => {
+      alert('비밀번호가 변경되었습니다. 다시 로그인 해주세요.');
+      logout();
+      navigate('/login');
+    },
+    onError: (error) => {
+      console.error('비밀번호 변경 실패:', error);
+      alert('비밀번호 변경 중 문제가 발생했습니다.');
+    },
+  });
+
   // 회원 탈퇴
   const deleteCustomer = useMutation({
-    mutationFn: async (id: string) => {
-      await axios.delete(`${API_URL}/${id}`);
+    mutationFn: async () => {
+      await backendAPI.delete('/users/me');
     },
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ['customer'] });
@@ -77,6 +78,5 @@ export const useCustomerMutation = () => {
       alert('회원 탈퇴 중 오류가 발생했습니다.');
     },
   });
-
-  return { updateCustomer, deleteCustomer };
+  return { updateCustomer, changePassword, deleteCustomer };
 };
