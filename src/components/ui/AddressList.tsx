@@ -22,13 +22,15 @@ export function AddressList({ addresses, onSelect }: AddressListProps) {
         >
           <div className='flex items-center font-bold'>
             <span>{addrinfo.address_name}</span>
-            {addrinfo.is_default && (
+            {addrinfo.is_default === true && (
               <span className='text-primary-500-90 border-primary-500-40 ml-2 rounded border bg-white/60 p-1 text-xs'>
                 기본 배송지
               </span>
             )}
           </div>
+          <div>DEBUG is_default: {String(addrinfo.is_default)}</div>
           <div className='text-1xl font-bold text-black'>{addrinfo.address_name}</div>
+          <div className='text-1xl font-bold text-black'>{addrinfo.recipient}</div>
           <div className='mt-2'>
             {addrinfo.address} {addrinfo.detail_address}
           </div>
