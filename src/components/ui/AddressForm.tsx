@@ -40,10 +40,10 @@ export function AddressForm() {
   useEffect(() => {
     if (editingAddress) {
       setForm({
+        id: editingAddress.id,
         address_name: editingAddress.address_name,
         recipient: editingAddress.recipient,
         recipient_phone: editingAddress.recipient_phone,
-
         address: editingAddress.address,
         detail_address: editingAddress.detail_address,
         is_default: editingAddress.is_default ?? false,
@@ -54,7 +54,6 @@ export function AddressForm() {
         address_name: '',
         recipient: '',
         recipient_phone: '',
-
         address: '',
         detail_address: '',
         is_default: false,
@@ -72,35 +71,36 @@ export function AddressForm() {
     e.preventDefault();
 
     const payload = toAddressPayload(form);
-    // 🔥 localStorage 기본 배송지 저장
-    localStorage.setItem('defaultAddress', String(payload.is_default));
 
-    if (editingAddress) {
-      updateAddress.mutate(payload, {
-        onSuccess: () => closeModal(),
-      });
-    } else {
-      addAddress.mutate(payload, {
-        onSuccess: () => closeModal(),
-      });
+    console.log('📨 SEND PAYLOAD:', payload);
+    // ADD
+    if (!editingAddress) {
+      const { is_default, ...rest } = payload; // is_default 제거
+      addAddress.mutate(rest, { onSuccess: () => closeModal() });
+      return;
     }
+
+    // UPDATE
+    updateAddress.mutate(payload, {
+      onSuccess: () => closeModal(),
+    });
   };
 
   return (
     <form onSubmit={handleSubmit} className='flex flex-col justify-center gap-4'>
       <input
         type='text'
-        name='recipient'
-        placeholder='수령인 이름'
-        value={form.recipient}
+        name='address_name'
+        placeholder='배송지명'
+        value={form.address_name}
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
       <input
         type='text'
-        name='address_name'
-        placeholder='배송지명'
-        value={form.address_name}
+        name='recipient'
+        placeholder='수령인 이름'
+        value={form.recipient}
         onChange={handleChangeInput}
         className='border-primary-500-70 rounded-lg border p-2'
       />
@@ -132,7 +132,7 @@ export function AddressForm() {
         <input
           type='checkbox'
           name='is_default'
-          checked={form.is_default} // ⭐ value 연동 필수
+          checked={form.is_default}
           onChange={handleChangeInput}
         />
         기본 배송지로 설정

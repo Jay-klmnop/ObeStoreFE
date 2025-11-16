@@ -1,33 +1,17 @@
-import { ButtonBase } from '@/components/ui';
-import { useCartSummary } from '../cart/hook/useCartSummary';
-import { useOrderStore } from '@/features/order';
-import { useRewardStore } from '@/features/reward/store';
-import { usePayment } from './hook/usePayment';
-
-export function OrderSideBar({
-  selectedAddressId,
-  discountAmount,
-  deliveryAmount,
-  deliveryRequest,
-}: {
-  selectedAddressId: number | null;
-  discountAmount: number;
-  deliveryAmount: number;
-  deliveryRequest: string;
-}) {
-  const { checkedItemSum, discountSum, shippingFeeText } = useOrderStore();
-  const { usedPoints, earnedPoints } = useRewardStore();
-  const { totalPayment } = useCartSummary();
-  const { handlePayClick } = usePayment();
-  const onClickPayment = () => {
-    handlePayClick({
-      selectedAddressId,
-      usedPoint: usedPoints,
-      discountAmount,
-      deliveryAmount,
-      deliveryRequest,
-    });
-  };
+import PaymentButton from './PaymentButton';
+export function OrderSideBar() {
+  // const { checkedItemSum, discountSum, shippingFeeText } = useOrderStore();
+  // const { usedPoints, earnedPoints } = useRewardStore();
+  // const { totalPayment } = useCartSummary();
+  // const onClickPayment = () => {
+  //   // handlePayClick({
+  //   //   selectedAddressId,
+  //   //   usedPoint: usedPoints,
+  //   //   discountAmount,
+  //   //   deliveryAmount,
+  //   //   deliveryRequest,
+  //   // });
+  // };
   return (
     <div className='mt-5 w-full bg-white px-7.5 py-5 lg:mt-0 lg:w-[450px]'>
       <div className='py-5'>
@@ -36,29 +20,29 @@ export function OrderSideBar({
           <li className='flex justify-between'>
             <span>상품 금액</span>
             <span>
-              <span>{checkedItemSum.toLocaleString()}</span>원
+              <span></span>원
             </span>
           </li>
           <li className='flex justify-between'>
             <span>할인 금액</span>
             <span>
-              <span>-{discountSum.toLocaleString()}</span>원
+              <span>-</span>원
             </span>
           </li>
           <li className='flex justify-between'>
             <span>적립 사용 금액</span>
             <span>
-              <span>-{usedPoints.toLocaleString()}</span>원
+              <span>-</span>원
             </span>
           </li>
           <li className='flex justify-between'>
             <span>배송비</span>
-            <span>{shippingFeeText || '무료배송'}</span>
+            <span></span>
           </li>
           <li className='mt-4 flex justify-between'>
             <span className='font-semibold'>총 결제 금액</span>
             <span className='font-semibold'>
-              <span className='font-semibold'>{totalPayment.toLocaleString()}</span>원
+              <span className='font-semibold'></span>원
             </span>
           </li>
         </ul>
@@ -67,7 +51,7 @@ export function OrderSideBar({
           <li className='flex justify-between'>
             <span>1% 적립(구매 금액 기준)</span>
             <span>
-              <span>{earnedPoints.toLocaleString()}</span>원
+              <span></span>원
             </span>
           </li>
           <li className='bg-primary-500-80 mt-3 flex flex-col justify-between rounded-md px-6 py-3'>
@@ -102,14 +86,15 @@ export function OrderSideBar({
             </span>
           </li>
         </ul>
-        <ButtonBase
+        {/* <ButtonBase
           className='mt-7 text-lg font-bold'
           variant='filled'
           fullWidth
           onClick={onClickPayment}
         >
           결제하기
-        </ButtonBase>
+        </ButtonBase> */}
+        <PaymentButton />
       </div>
     </div>
   );

@@ -10,55 +10,50 @@ export default function OrderShippingCard() {
 
   const addresses: Address[] = data ?? [];
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [deliveryRequest, setDeliveryRequest] = useState('');
-
-  // 선택된 주소 계산
-  const selectedAddress = addresses.find((addr) => addr.id === selectedId) ?? addresses[0] ?? null;
 
   // 초기 선택 설정
   useEffect(() => {
-    if (addresses.length > 0 && !selectedId) {
-      setSelectedId(addresses[0].id ?? null); // ← 수정
-      setDeliveryRequest(addresses[0].deliveryRequest || '');
+    if (addresses.length === 0) return;
+
+    const defaultAddress = addresses.find((a) => a.is_default);
+
+    if (defaultAddress) {
+      setSelectedId(defaultAddress.id ?? null);
+      return;
     }
+
+    setSelectedId(addresses[0].id ?? null);
   }, [addresses]);
 
+  const selectedAddress = addresses.find((addr) => addr.id === selectedId) ?? addresses[0] ?? null;
+
   const handleSelectAddress = (addr: Address) => {
-    setSelectedId(addr.id ?? null); // ← 수정
-    setDeliveryRequest(addr.deliveryRequest || '');
-  };
+    setSelectedId(addr.id ?? null);
 
-  const handleDeliveryRequest = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDeliveryRequest(e.target.value);
-  };
-
-  const handleSaveDeliveryRequest = () => {
-    if (!selectedAddress) return;
-
+    // 서버로 기본 배송지 적용 PATCH
     updateAddress.mutate(
       {
-        ...selectedAddress,
-        deliveryRequest,
+        ...addr,
+        is_default: true,
       },
       {
         onSuccess: () => {
-          alert('배송 요청사항이 저장되었습니다.');
+          console.log('📌 기본 배송지 변경 완료 (Order Page)');
         },
       }
     );
   };
+
   console.log('addresses:', addresses);
   console.log('selectedKey:', selectedId);
   return (
     <>
-      <ButtonBase onClick={() => openModal('add')}>추가</ButtonBase>
-      <ButtonBase
-        className='absolute top-0 right-0'
-        onClick={() => openModal('select')}
-        variant='gnb'
-      >
-        배송지 변경
-      </ButtonBase>
+      <div className='absolute top-0 right-0 flex gap-2'>
+        <ButtonBase onClick={() => openModal('add')}>추가</ButtonBase>
+        <ButtonBase onClick={() => openModal('select')} variant='gnb'>
+          배송지 변경
+        </ButtonBase>
+      </div>
       <AddressModal onSelectAddress={handleSelectAddress} />
       <div className='flex h-full items-center justify-start py-2'>
         <span className='text-primary-500-90 mr-2.5 text-lg font-bold'>
@@ -89,23 +84,6 @@ export default function OrderShippingCard() {
         ) : (
           <span>등록된 배송지가 없습니다.</span>
         )}
-      </div>
-      <div>
-        <textarea
-          placeholder='배송시 요청사항(100자 이내)'
-          value={deliveryRequest}
-          maxLength={100}
-          onChange={handleDeliveryRequest}
-          title='배송시 요청사항(100자 이내)'
-          className='border-primary-500-70 text-primary-500-70 h-26 w-full resize-none rounded-lg border p-2.5'
-        ></textarea>
-        <ButtonBase
-          variant='hollow'
-          className='mt-2 flex justify-self-end px-3 py-1 text-sm'
-          onClick={handleSaveDeliveryRequest}
-        >
-          배송 요청사항 저장
-        </ButtonBase>
       </div>
     </>
   );

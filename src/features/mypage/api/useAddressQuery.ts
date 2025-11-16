@@ -10,7 +10,6 @@ export type Address = {
   address: string;
   detail_address: string;
   is_default?: boolean;
-  deliveryRequest?: string;
 };
 
 export interface AddFormAddress {
@@ -20,7 +19,6 @@ export interface AddFormAddress {
   post_code: string;
   address: string;
   detail_address: string;
-  is_default?: boolean;
 }
 
 //  Address[] → Address 로 변경 (백엔드는 단일 주소만 반환)
@@ -30,17 +28,11 @@ export const useAddressQuery = () =>
     queryFn: async () => {
       const response = await backendAPI.get('/users/me/address');
       const data = response.data;
-
       console.log('📦 [GET] /users/me/address 응답:', data);
-
       if (!Array.isArray(data) || data.length === 0) return [];
-
-      // const isDefault = localStorage.getItem('defaultAddress') === 'true';
-      const deliveryRequest = localStorage.getItem('deliveryRequest') || '';
 
       return data.map((addr) => ({
         ...addr,
-        deliveryRequest,
       }));
     },
   });
@@ -52,6 +44,7 @@ export const useAddressMutation = () => {
 
   const addAddress = useMutation({
     mutationFn: (body: AddFormAddress) => {
+      console.log('get:: addr:', body);
       return backendAPI.post('/users/me/address', body);
     },
     onSuccess: applyInvalidate,
@@ -62,6 +55,9 @@ export const useAddressMutation = () => {
       console.log('🧐 PATCH 호출 전 addr:', body);
       console.log('🛑 PATCH addr.id:', body.id);
       if (!body.id) throw new Error('잘못된 요청입니다. ID가 존재하지 않습니다.');
+
+      console.log('📨 PATCH Final Payload:', body);
+
       return backendAPI.patch(`/users/me/address?id=${body.id}`, body);
     },
     onSuccess: applyInvalidate,
@@ -70,8 +66,6 @@ export const useAddressMutation = () => {
   const deleteAddress = useMutation({
     mutationFn: (id: number) => backendAPI.delete(`/users/me/address?id=${id}`),
     onSuccess: () => {
-      localStorage.removeItem('defaultAddress');
-      localStorage.removeItem('deliveryRequest');
       applyInvalidate();
     },
   });
