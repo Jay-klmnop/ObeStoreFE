@@ -44,7 +44,7 @@ export function AddressModal({ onSelectAddress }: { onSelectAddress?: (addr: any
   }
   return (
     <>
-      <div className='centralize bg-primary-700/50 fixed inset-0 z-90 flex h-full w-full items-center justify-center overflow-hidden backdrop-blur-sm'>
+      <div className='centralize bg-primary-700/50 fixed inset-0 z-100 flex h-full w-full items-center justify-center overflow-hidden backdrop-blur-sm'>
         <div
           className={`${mode === 'select' ? 'h-[530px]' : ''} w-[800px] items-center overflow-y-auto rounded-lg bg-white p-6`}
         >
