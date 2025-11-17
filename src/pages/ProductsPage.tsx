@@ -3,11 +3,14 @@ import { ErrorMessage, Spinner } from '@/components/ui';
 import { useSearchStore } from '@/features/search';
 import type { ProductCardType } from '@/types';
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export function ProductsPage() {
   const { searchTerm } = useSearchStore();
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get('category') ?? undefined;
   const [sortOption, setSortOption] = useState('');
-  const { data: products, isLoading, isError } = useProductsQuery({ sortOption });
+  const { data: products, isLoading, isError } = useProductsQuery({ sortOption, category });
 
   const filteredProducts = useMemo(() => {
     if (!products) return [];
