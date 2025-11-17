@@ -11,7 +11,7 @@ const statusLabels: Record<string, { label: string; color: string }> = {
   processing: { label: '배송 준비중', color: 'bg-amber-700' },
   shipped: { label: '배송중', color: 'bg-amber-600' },
   delivered: { label: '배송 완료', color: 'bg-stone-700' },
-  cancelled: { label: '주문 취소', color: 'bg-red-900' },
+  cancelled: { label: '주문 취소', color: 'bg-stone-500' },
 };
 
 export function MyPageOrderCard({ order, products, onClick }: MyPageOrderCardProps) {
