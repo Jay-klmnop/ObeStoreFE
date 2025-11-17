@@ -5,7 +5,7 @@ export * from './HeaderLogoImgIcon';
 export * from './HeartIcon';
 export * from './ImageIcon';
 export * from './MenuIcon';
-export * from './MypageProfileIcon';
+export * from './UserProfileIcon';
 export * from './ProfileIcon';
 export * from './SearchIcon';
 export * from './SocialLinksIcon';
