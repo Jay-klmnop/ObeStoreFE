@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { OrderCard } from '@/features/order';
-import type { Order, OrderProductDetail } from '@/types/order';
+import type { Order } from '@/types/order';
 
 const sampleOrders: Order[] = [
   {
@@ -16,6 +16,18 @@ const sampleOrders: Order[] = [
     used_point: 0,
     order_status: 'delivered',
     delivery_status: '배송 완료',
+    delivery_request: '문 앞에 놓아주세요',
+    order_products_detail: [
+      {
+        id: 1,
+        product: 1,
+        product_name: '체크패턴 머플러',
+        product_image: 'https://via.placeholder.com/80x80?text=Muffler',
+        amount: 1,
+        price: 39000,
+        total_price: 39000,
+      },
+    ],
     created_at: '25.11.07(월)',
   },
   {
@@ -30,34 +42,21 @@ const sampleOrders: Order[] = [
     used_point: 0,
     order_status: 'shipped',
     delivery_status: '배송중',
+    delivery_request: '부재 시 경비실에 맡겨주세요',
+    order_products_detail: [
+      {
+        id: 2,
+        product: 2,
+        product_name: '그린티 에코백',
+        product_image: 'https://via.placeholder.com/80x80?text=Bag',
+        amount: 1,
+        price: 23000,
+        total_price: 23000,
+      },
+    ],
     created_at: '25.11.08(화)',
   },
 ];
-
-const sampleProducts: Record<number, OrderProductDetail[]> = {
-  1: [
-    {
-      id: 1,
-      product: 1,
-      product_name: '체크패턴 머플러',
-      product_image: 'https://via.placeholder.com/80x80?text=Muffler',
-      amount: 1,
-      price: 39000,
-      total_price: 39000,
-    },
-  ],
-  2: [
-    {
-      id: 2,
-      product: 2,
-      product_name: '그린티 에코백',
-      product_image: 'https://via.placeholder.com/80x80?text=Bag',
-      amount: 1,
-      price: 23000,
-      total_price: 23000,
-    },
-  ],
-};
 
 type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 
@@ -136,7 +135,7 @@ export function MyPageOrderInfo() {
             <OrderCard 
               key={order.id} 
               order={order}
-              products={sampleProducts[order.id] || []}
+              products={order.order_products_detail}
               onClick={handleOrderClick}
             />
           ))}
