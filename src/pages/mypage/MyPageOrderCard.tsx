@@ -1,4 +1,5 @@
 import type { Order, OrderProductDetail } from '@/types/order';
+import { ORDER_STATUS_CONFIG } from '@/constants/orderStatus';
 
 interface MyPageOrderCardProps {
   order: Order;
@@ -6,16 +7,8 @@ interface MyPageOrderCardProps {
   onClick?: (orderId: string) => void;
 }
 
-const statusLabels: Record<string, { label: string; color: string }> = {
-  pending: { label: '입금 대기', color: 'bg-stone-500' },
-  processing: { label: '배송 준비중', color: 'bg-amber-700' },
-  shipped: { label: '배송중', color: 'bg-amber-600' },
-  delivered: { label: '배송 완료', color: 'bg-stone-700' },
-  cancelled: { label: '주문 취소', color: 'bg-stone-500' },
-};
-
 export function MyPageOrderCard({ order, products, onClick }: MyPageOrderCardProps) {
-  const statusInfo = statusLabels[order.order_status] || { 
+  const statusInfo = ORDER_STATUS_CONFIG[order.order_status] || { 
     label: order.order_status, 
     color: 'bg-gray-500' 
   };
