@@ -8,6 +8,7 @@ import {
   MyPageAddressInfo,
   MyPageInfo,
   MyPageOrderDetail,
+  MyPageOrderInfo,
   OrderPage,
   ProductDetailPage,
   ProductsPage,
@@ -44,6 +45,7 @@ export function Router() {
             <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
               <Route path='orderdetail' element={<MyPageOrderDetail />} />
+              <Route path="orderinfo" element={<MyPageOrderInfo />} />
               <Route path='addressinfo' element={<MyPageAddressInfo />} />
               <Route path='info' element={<MyPageInfo />} />
             </Route>
