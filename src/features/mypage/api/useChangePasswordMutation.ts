@@ -8,10 +8,9 @@ export const useChangePasswordMutation = () => {
   const { logout, accessToken, openAuthModal } = useAuthStore();
   const navigate = useNavigate();
 
-  if (!accessToken) return null;
-
   return useMutation({
     mutationFn: async ({ password }: { password: string }) => {
+      if (!accessToken) throw new Error('No access token');
       const res = await backendAPI.patch('/users/me', { password });
       return res.data;
     },
