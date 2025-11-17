@@ -1,31 +1,35 @@
+import { backendAPI } from '@/api';
 import type { ProductType } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 
 interface UseProductsParams {
   category?: string;
-  hasReview?: boolean;
   hasDiscount?: boolean;
+  hasReview?: boolean;
+  searchTerm?: string;
   sortOption?: string;
 }
 
 export function useProductsQuery({
   category,
-  hasReview,
   hasDiscount,
+  hasReview,
+  searchTerm,
   sortOption,
 }: UseProductsParams = {}) {
   return useQuery<ProductType[]>({
-    queryKey: ['products', category ?? 'all', hasReview, hasDiscount, sortOption],
+    queryKey: ['products', category ?? 'all', hasDiscount, hasReview, searchTerm, sortOption],
     queryFn: async () => {
       const params: Record<string, any> = {};
 
-      if (category) params.category = category;
-      if (hasReview !== undefined) params.has_review = hasReview;
+      if (category) params.category_name = category;
       if (hasDiscount !== undefined) params.has_dc_rate = hasDiscount;
+      if (hasReview !== undefined) params.has_review = hasReview;
+      if (searchTerm) params.search = searchTerm;
       if (sortOption) params.ordering = sortOption;
 
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/products`, { params });
+      const res = await backendAPI.get(`/products`, { params });
+      console.log('🔥 sending params: ', params);
       return res.data ?? [];
     },
   });
