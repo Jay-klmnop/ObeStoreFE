@@ -23,7 +23,11 @@ export const useCartStore = create<CartState>()(
       cartItems: [],
       selectAll: false,
 
-      setCartItems: (items) => set({ cartItems: items }),
+      setCartItems: (items) =>
+        set({
+          cartItems: items.map((i) => ({ ...i, checked: false })), // 🔥 수정
+          selectAll: false, // 🔥 추가
+        }),
 
       handleSelectAll: (checked) =>
         set((state) => ({
@@ -48,6 +52,9 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'cart-storage',
+      partialize: (state) => ({
+        cartItems: state.cartItems, // selectAll intentionally excluded
+      }),
     }
   )
 );

@@ -1,19 +1,20 @@
 import { OrderCard, OrderSideBar } from '@/features/order';
 // import { useRewardStore } from '@/features/reward/store';
-import { /* useEffect, */ useState } from 'react';
+import { /* useEffect, */ useEffect, useState } from 'react';
 
 // import { OrderSideBar } from './OrderSideBar';
 import OrderShippingCard from './OrderShippingCard';
 import { ButtonBase } from '@/components/ui';
 import { useOrdersQuery } from './api/useOrderQuery';
 import { useUserPointsQuery } from './api/usePointQuery';
-import { usePaymentQuery } from './api/usePaymentQuery';
+// import { usePaymentQuery } from './api/usePaymentQuery';
+// import { useRewardStore } from '../reward/store';
 
 export function OrderList() {
-  const { data: payments = [] } = usePaymentQuery();
-  console.log('📦 GET /payments 결과:', payments);
+  // const { data: payments = [] } = usePaymentQuery();
+  // console.log('📦 GET /payments 결과:', payments);
   // const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
-  // const { availablePoints, usedPoints, setUsedPoints /* setEarnedPoints */ } = useRewardStore();
+  // const { availablePoints /* , setEarnedPoints */ } = useRewardStore();
   // const {
   //   orderItems,
   //    checkedItemSum,
@@ -29,19 +30,45 @@ export function OrderList() {
   //     product,
   //   }))
   // );
-  console.log('최근 주문:', orderItems);
-  const { data: points = [] } = useUserPointsQuery();
+  // console.log('최근 주문:', orderItems);
+  const { data: point } = useUserPointsQuery();
   const [deliveryRequest, setDeliveryRequest] = useState('');
+  const [availablePoints, setAvailablePoints] = useState(0);
   const totalAmountAllOrders = orderItems.reduce(
     (sum, order) =>
       sum + order.order_products_detail.reduce((innerSum, p) => innerSum + p.amount, 0),
     0
   );
-  // const handleUsedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = Number(e.target.value);
-  //   if (value > availablePoints) return alert('보유 적립금을 초과했습니다!');
-  //   setUsedPoints(value);
-  // };
+
+  const balance = Number(point?.balance ?? 0);
+  useEffect(() => {
+    if (balance >= 5000) {
+      setAvailablePoints(balance); // 기본값을 보유 적립금 전체로
+    } else {
+      setAvailablePoints(0);
+    }
+  }, [balance]);
+
+  const handleUsedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value.replace(/[^0-9]/g, '');
+    const value = Number(raw);
+
+    setAvailablePoints(value);
+  };
+
+  const handleUsedBlur = () => {
+    if (availablePoints !== 0 && availablePoints < 5000) {
+      alert('최소 5000원 이상부터 사용 가능합니다!');
+      setAvailablePoints(0);
+      return;
+    }
+
+    if (availablePoints > balance) {
+      alert('보유 적립금을 초과했습니다!');
+      setAvailablePoints(balance);
+      return;
+    }
+  };
 
   // const isLoading = isLoadingCart;
   // const isError = isErrorCart;
@@ -59,18 +86,12 @@ export function OrderList() {
   };
 
   const handleSaveDeliveryRequest = () => {
-    // if (!selectedAddress) return;
-    // updateAddress.mutate(
-    //   {
-    //     ...selectedAddress,
-    //     deliveryRequest,
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       alert('배송 요청사항이 저장되었습니다.');
-    //     },
-    //   }
-    // );
+    if (!deliveryRequest.trim()) {
+      alert('배송 요청사항을 입력해주세요.');
+      return;
+    }
+
+    alert('배송 요청사항이 저장되었습니다.');
   };
 
   return (
@@ -108,28 +129,29 @@ export function OrderList() {
           <div className='pb-10'>
             <ul>
               <li className='text-primary-500-90 text-lg font-bold'>
-                보유 적립금: {points[0]?.balance?.toLocaleString() ?? 0}원
+                보유 적립금: {balance.toLocaleString()}원
               </li>
-              {/* <li>
-                {availablePoints < 5000 ? (
+              <li>
+                {balance < 5000 ? (
                   <input
                     type='text'
-                    value={usedPoints || ''}
+                    value={availablePoints}
                     onChange={handleUsedChange}
                     className='border-custom-gray-20 bg-custom-gray-50 mt-5 w-full rounded-lg border p-2.5'
-                    placeholder='최소 5000원 이상 보유 시 사용 가능'
                     disabled
+                    placeholder='최소 5000원 이상 보유 시 사용 가능'
                   />
                 ) : (
                   <input
                     type='text'
-                    value={usedPoints || ''}
+                    value={availablePoints}
                     onChange={handleUsedChange}
                     className='input mt-5 w-full rounded-lg border p-2.5'
                     placeholder='최소 5000원 이상 보유 시 사용 가능'
+                    onBlur={handleUsedBlur}
                   />
                 )}
-              </li> */}
+              </li>
             </ul>
           </div>
           <div className='pb-10'>
@@ -137,11 +159,7 @@ export function OrderList() {
           </div>
         </div>
       </div>
-      <OrderSideBar />
-      {/* // selectedAddressId={selectedAddressId}
-        // discountAmount={discountSum}
-        // deliveryAmount={shippingFee}
-        // deliveryRequest={deliveryRequest} */}
+      <OrderSideBar deliveryRequest={deliveryRequest} />
     </div>
   );
 }
