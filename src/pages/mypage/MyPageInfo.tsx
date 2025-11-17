@@ -1,4 +1,4 @@
-import { useCustomerMutation, useCustomerQuery } from '@/features/order';
+import { useUserMutation, useUserQuery } from '@/features/mypage';
 import {
   ChangePasswordModal,
   MypageContentsWrap,
@@ -11,13 +11,9 @@ import { useState } from 'react';
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const {
-    data: customer,
-    isLoading: isLoadingCustomer,
-    isError: isErrorCustomer,
-  } = useCustomerQuery();
+  const { data: customer, isLoading: isLoadingCustomer, isError: isErrorCustomer } = useUserQuery();
 
-  const { deleteCustomer } = useCustomerMutation();
+  const { deleteUser } = useUserMutation();
 
   const handleClickWithdraw = () => setWithdrawModalOpen(true);
   const handleCloseWithdrawModal = () => setWithdrawModalOpen(false);
@@ -29,7 +25,7 @@ export function MyPageInfo() {
     console.log('🔍 customer:', customer);
     console.log('🧨 탈퇴 버튼 클릭됨');
 
-    deleteCustomer.mutate(undefined, {
+    deleteUser.mutate(undefined, {
       onSuccess: () => {
         console.log('🎉 탈퇴 성공');
       },
