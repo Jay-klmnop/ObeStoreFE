@@ -9,6 +9,8 @@ import { useRewardStore } from '@/features/reward/store';
 export function CartList() {
   const { setOrderInfo } = useOrderStore();
   const { data: cartItems = [], isLoading, isError } = useCartQuery();
+
+  console.log('📦 GET /cart/ 결과:', cartItems);
   const navigate = useNavigate();
 
   const {

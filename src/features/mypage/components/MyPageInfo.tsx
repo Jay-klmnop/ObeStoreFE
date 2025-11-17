@@ -1,4 +1,4 @@
-import { useCustomerMutation, useCustomerQuery } from '@/features/order';
+import { useUserMutation, useUserQuery } from '@/features/mypage';
 import {
   ChangePasswordModal,
   MypageContentsWrap,
@@ -11,13 +11,9 @@ import { useState } from 'react';
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const {
-    data: customer,
-    isLoading: isLoadingCustomer,
-    isError: isErrorCustomer,
-  } = useCustomerQuery();
+  const { data: user, isLoading: isLoadingUser, isError: isErrorUser } = useUserQuery();
 
-  const { deleteCustomer } = useCustomerMutation();
+  const { deleteUser } = useUserMutation();
 
   const handleClickWithdraw = () => setWithdrawModalOpen(true);
   const handleCloseWithdrawModal = () => setWithdrawModalOpen(false);
@@ -26,10 +22,10 @@ export function MyPageInfo() {
   };
   const handleCloseEditModal = () => setEditModalOpen(false);
   const handleDeleteConfirm = () => {
-    console.log('🔍 customer:', customer);
+    console.log('🔍 user:', user);
     console.log('🧨 탈퇴 버튼 클릭됨');
 
-    deleteCustomer.mutate(undefined, {
+    deleteUser.mutate(undefined, {
       onSuccess: () => {
         console.log('🎉 탈퇴 성공');
       },
@@ -40,10 +36,10 @@ export function MyPageInfo() {
 
     setWithdrawModalOpen(false);
   };
-  const provider = customer?.provider ?? 'email';
+  const provider = user?.provider ?? 'email';
   const isSocialLogin = provider !== 'email';
-  if (isLoadingCustomer) return <div>나의 정보를 준비 중입니다...</div>;
-  if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
+  if (isLoadingUser) return <div>나의 정보를 준비 중입니다...</div>;
+  if (isErrorUser) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
   return (
     <MypageOutside>
       <MypageContentsWrap>
@@ -52,9 +48,9 @@ export function MyPageInfo() {
             나의 프로필 / 정보 조회/수정
           </p>
           <ul className='mt-7.5 border-t-2 border-black'>
-            <MyPageInfoRow rowTitle={`아이디(이메일)`} rowContent={`${customer?.email}`} />
-            <MyPageInfoRow rowTitle={`성명`} rowContent={`${customer?.username}`} />
-            <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${customer?.nickname}`} />
+            <MyPageInfoRow rowTitle={`아이디(이메일)`} rowContent={`${user?.email}`} />
+            <MyPageInfoRow rowTitle={`성명`} rowContent={`${user?.username}`} />
+            <MyPageInfoRow rowTitle={`닉네임`} rowContent={`${user?.nickname}`} />
 
             {isSocialLogin ? (
               <div className='border-b border-gray-200 py-6 text-center text-gray-700'>
@@ -75,7 +71,7 @@ export function MyPageInfo() {
                 }
               />
             )}
-            <MyPageInfoRow rowTitle={`연락처`} rowContent={`${customer?.phone_number}`} />
+            <MyPageInfoRow rowTitle={`연락처`} rowContent={`${user?.phone_number}`} />
           </ul>
           <div className='flex flex-row justify-center pt-15 pb-10'>
             <ButtonBase onClick={handleClickWithdraw} variant='hollow'>
