@@ -18,7 +18,7 @@ export function ProductDetailPage() {
     error: reviewsError,
   } = useQuery({
     queryKey: ['reviews', id],
-    queryFn: () => FetchReviews(Number(id)),
+    queryFn: () => getProductReviews(Number(id)),
     enabled: !!id,
   });
 
