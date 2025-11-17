@@ -8,10 +8,10 @@ import {
   MyPageAddressInfo,
   MyPageInfo,
   MyPageOrderDetail,
-  MyPageOrderInfo,
   OrderPage,
   ProductDetailPage,
   ProductsPage,
+  ReviewsPage,
 } from '@/pages';
 import { MyPageLayout, RootLayout } from '@/components/layout';
 import { OrderComplete, OrderFail, OrderSuccess } from '@/features/order';
@@ -30,7 +30,8 @@ export function Router() {
             <Route path='/' element={<MainPage />} />
             <Route path='about' element={<AboutPage />} />
             <Route path='/products' element={<ProductsPage />} />
-            <Route path='/product/:id' element={<ProductDetailPage />} />
+            <Route path='/products/:id' element={<ProductDetailPage />} />
+            <Route path='/reviews' element={<ReviewsPage />} />
             <Route path='/order/order' element={<OrderPage />} />
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
@@ -42,7 +43,6 @@ export function Router() {
             <Route path='/users/cart' element={<CartPage />} />
             <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
-              <Route path='orderinfo' element={<MyPageOrderInfo />} />
               <Route path='orderdetail' element={<MyPageOrderDetail />} />
               <Route path='addressinfo' element={<MyPageAddressInfo />} />
               <Route path='info' element={<MyPageInfo />} />
