@@ -4,6 +4,6 @@ export * from './CartPage';
 export * from './FavoritesPage';
 export * from './MainPage';
 export * from './OrderPage';
-export * from './ProductDetailPage';
+// export * from './ProductDetailPage';
 export * from './ProductsPage';
 export * from './mypage';

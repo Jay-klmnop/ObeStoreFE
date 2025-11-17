@@ -1,22 +1,28 @@
 // src/features/order/api/useOrders.ts
 import { backendAPI } from '@/api';
-import type { Order } from '@/types/order';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // ===============================
 // 📌 1) GET /orders/ 모든 주문 조회
 // ===============================
-export const fetchOrders = async (): Promise<Order[]> => {
-  const response = await backendAPI.get('/orders/');
-  const data = response.data;
 
-  console.log('📦 [GET] /orders 응답:', data);
+export interface Preview {
+  subtotal: number;
+  discount_amount: number;
+  used_point: number;
+  delivery_amount: number;
+  total_payment: number;
+  expected_point: number;
+  available_point: number;
+}
 
-  return Array.isArray(data) ? data : [];
+export const fetchOrders = async (): Promise<Preview> => {
+  const response = await backendAPI.post('/orders/preview/');
+  return response.data;
 };
 
 export const useOrdersQuery = () =>
-  useQuery<Order[]>({
+  useQuery<Preview>({
     queryKey: ['orders'],
     queryFn: fetchOrders,
     staleTime: 1000 * 60 * 5,
@@ -57,15 +63,15 @@ export const useCreateOrderMutation = () => {
   });
 };
 
-export const fetchOrderDetail = async (orderId: number) => {
-  const response = await backendAPI.get(`/orders/${orderId}/`);
-  console.log('📦 [GET] /orders/{id} 응답:', response.data);
-  return response.data;
-};
+// export const fetchOrderDetail = async (orderId: number) => {
+//   const response = await backendAPI.get(`/orders/${orderId}/`);
+//   console.log('📦 [GET] /orders/{id} 응답:', response.data);
+//   return response.data;
+// };
 
-export const useOrderDetailQuery = (orderId: number) =>
-  useQuery({
-    queryKey: ['orderDetail', orderId],
-    queryFn: () => fetchOrderDetail(orderId),
-    enabled: !!orderId, // ⚠️ orderId가 있을 때만 실행
-  });
+// export const useOrderDetailQuery = (orderId: number) =>
+//   useQuery({
+//     queryKey: ['orderDetail', orderId],
+//     queryFn: () => fetchOrderDetail(orderId),
+//     enabled: !!orderId, // ⚠️ orderId가 있을 때만 실행
+//   });

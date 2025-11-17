@@ -1,4 +1,3 @@
-export * from './OrderCard';
 export * from './OrderCheckoutPage';
 export * from './OrderComplete';
 export * from './OrderFail';
