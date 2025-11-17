@@ -1,24 +1,57 @@
 import type { Order, OrderProductDetail } from '@/types/order';
 
-export function OrderCard({ order, products }: { order: Order; products: OrderProductDetail[] }) {
+interface OrderCardProps {
+  order: Order;
+  products: OrderProductDetail[];
+  onClick?: (orderId: string) => void;
+}
+
+const statusLabels: Record<string, { label: string; color: string }> = {
+  pending: { label: '입금 대기', color: 'bg-stone-500'},
+  progressing: { label: '배송 준비중', color: 'bg-amber-700'},
+  shipped: { label: '배송중', color: 'bg-amber-600'},
+  deliverd: { label: '배송 완료', color: 'bg-stone-700'},
+  cancelled: { label: '주문 취소', color: 'bg-red-900'},
+};
+
+export function OrderCard({ order, products, onClick }: OrderCardProps) {
+  const statusInfo = statusLabels[order.order_status] || {
+    label: order.order_status,
+    color: 'bg-gray-500'
+  };
+  const totalAmount = products.reduce((sum, p) => sum + p.total_price, 0);
+
   return (
-    <>
-      <div className='relative my-2.5 flex flex-col py-2.5'>
-        <small className='border-secondary-300 bg-secondary-300 absolute top-0 right-0 rounded-sm border px-1 py-1 text-white'>
-          {order.order_status}
-        </small>
-        {products.map((product) => (
-          <div key={product.id} className='mb-4'>
-            <div className='text-primary-700 mt-3 text-base font-normal'>
-              {product.product_name}
-            </div>
-            <div className='text-primary-700 mt-1 text-base font-normal'>{product.amount}개</div>
-            <div className='text-primary-700 mt-1 text-base font-normal'>
-              {product.total_price.toLocaleString()}원
-            </div>
-          </div>
-        ))}
+    <div
+      onClick={() => onClick?.(order.id.toString())}
+      className={`border rounded-lg p-4 transition-shadow ${onClick ? 'cursor-pointer hover:shadow-md' : ''}`}
+    >
+      <div className="flex justify-between items-center mb-3 pb-3 border-b">
+        <div>
+          <span className="text-sm font-semibold">{order.created_at}</span>
+          <span className="text-xs text-gray-500 ml-3">주문번호: {order.order_number}</span>
+        </div>
+        <span className={`px-3 py-1 text-white text-xs rounded-full ${statusInfo.color}`}>
+          {statusInfo.label}
+        </span>
       </div>
-    </>
+
+      {products.length > 0 && (
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <p className="text-sm font-medium mb-1">
+              {products[0].product_name}
+            </p>
+            <p className="text-xs text-gray-500">
+              {products[0].amount}개
+              {products.length > 1 && ` 외 ${products.length - 1}개`}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-sm font-bold">{totalAmount.toLocaleString()}원</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

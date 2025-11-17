@@ -2,6 +2,7 @@ export interface OrderProductDetail {
   id: number;
   product: number;
   product_name: string;
+  product_image?: string;
   amount: number;
   price: number;
   total_price: number;
