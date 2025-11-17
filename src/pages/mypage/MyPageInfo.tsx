@@ -21,7 +21,9 @@ export function MyPageInfo() {
 
   const handleClickWithdraw = () => setWithdrawModalOpen(true);
   const handleCloseWithdrawModal = () => setWithdrawModalOpen(false);
-  const handleClickEditInfoConfirm = () => setEditModalOpen(true);
+  const handleClickEditInfoConfirm = () => {
+    setEditModalOpen(true);
+  };
   const handleCloseEditModal = () => setEditModalOpen(false);
   const handleDeleteConfirm = () => {
     console.log('🔍 customer:', customer);
