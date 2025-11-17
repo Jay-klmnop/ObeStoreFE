@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyPageOrderCard } from './MyPageOrderCard';
 import type { Order } from "@/types/order";
+import { UserProfileIcon } from '@/components/icon';
+import { ORDER_STATUS_CONFIG, type OrderStatus } from '@/constants/orderStatus';
 
 export const sampleOrders: Order[] = [
   {
@@ -28,7 +30,7 @@ export const sampleOrders: Order[] = [
         total_price: 39000
       }
     ],
-    created_at: "25.10.21(화)"
+    created_at: "25.11.07(월)"
   },
   {
     id: 2,
@@ -54,11 +56,9 @@ export const sampleOrders: Order[] = [
         total_price: 23000
       }
     ],
-    created_at: "25.10.22(수)"
+    created_at: "25.11.08(화)"
   }
 ];
-
-type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
 
 export function MyPageOrderInfo() {
   const navigate = useNavigate();
@@ -73,27 +73,16 @@ export function MyPageOrderInfo() {
     navigate(`/users/orderdetail?orderId=${orderId}`);
   };
 
-  const statusCounts = {
-    pending: orders.filter(o => o.order_status === 'pending').length,
-    processing: orders.filter(o => o.order_status === 'processing').length,
-    shipped: orders.filter(o => o.order_status === 'shipped').length,
-    delivered: orders.filter(o => o.order_status === 'delivered').length,
-    cancelled: orders.filter(o => o.order_status === 'cancelled').length,
-  };
-
-  const statusLabels = {
-    pending: '입금 대기',
-    processing: '배송 준비중',
-    shipped: '배송중',
-    delivered: '배송 완료',
-    cancelled: '주문 취소',
-  };
+  const statusCounts = Object.keys(ORDER_STATUS_CONFIG).reduce((acc, status) => {
+    acc[status as OrderStatus] = orders.filter(o => o.order_status === status).length;
+    return acc;
+  }, {} as Record<OrderStatus, number>);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3 pb-4 border-b">
         <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-          <span className="text-xl">👤</span>
+          <UserProfileIcon size={20} />
         </div>
         <span className="font-medium">Nickname</span>
       </div>
@@ -109,7 +98,7 @@ export function MyPageOrderInfo() {
               ${filter === status ? 'border-black shadow-md' : 'border-gray-200 hover:border-gray-400'}`}
           >
             <p className="text-2xl font-bold mb-1">{count}</p>
-            <p className="text-xs text-gray-600">{statusLabels[status]}</p>
+            <p className="text-xs text-gray-600">{ORDER_STATUS_CONFIG[status].label}</p>
           </div>
         ))}
       </div>
@@ -122,7 +111,7 @@ export function MyPageOrderInfo() {
         >
           전체
         </button>
-        {(Object.entries(statusLabels) as [OrderStatus, string][]).map(([status, label]) => (
+        {(Object.entries(ORDER_STATUS_CONFIG) as [OrderStatus, { label: string; color: string }][]).map(([status, { label }]) => (
           <button
             key={status}
             onClick={() => setFilter(status)}
@@ -133,10 +122,11 @@ export function MyPageOrderInfo() {
           </button>
         ))}
       </div>
+
       {filteredOrders.length > 0 ? (
         <div className="space-y-4">
           {filteredOrders.map((order) => (
-            <MyPageOrderCard 
+            <MyPageOrderCard
               key={order.id} 
               order={order}
               products={order.order_products_detail}
