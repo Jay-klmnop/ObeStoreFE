@@ -73,10 +73,12 @@ export function AddressForm() {
     const payload = toAddressPayload(form);
 
     console.log('📨 SEND PAYLOAD:', payload);
+
     // ADD
     if (!editingAddress) {
-      const { is_default, ...rest } = payload; // is_default 제거
-      addAddress.mutate(rest, { onSuccess: () => closeModal() });
+      addAddress.mutate(payload, {
+        onSuccess: () => closeModal(),
+      });
       return;
     }
 

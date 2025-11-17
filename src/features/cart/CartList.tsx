@@ -99,18 +99,17 @@ export function CartList() {
             id={String(product.id)}
             product_name={product.product_name}
             price={product.price}
-            // images={
-            //   typeof product.images === 'string'
-            //     ? product.images
-            //     : Array.isArray(product.images)
-            //       ? product.images[0]
-            //       : 'http://placehold.co/200x200'
-            // }
+            product_card_image={
+              typeof product.product_card_image === 'string'
+                ? product.product_card_image
+                : Array.isArray(product.product_card_image)
+                  ? product.product_card_image[0]
+                  : 'http://placehold.co/200x200'
+            }
             amount={product.amount}
             checked={product.checked}
             cart={product.cart} // 여기는 CartCardProps에 추가해야 함
             onChange={(e) => handleItemCheck(String(product.id), e.target.checked)}
-            product_card_image={product.product_card_image}
           />
         ))}
       </div>

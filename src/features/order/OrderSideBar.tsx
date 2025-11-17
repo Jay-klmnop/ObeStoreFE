@@ -1,17 +1,51 @@
-import PaymentButton from './PaymentButton';
-export function OrderSideBar() {
+import { ButtonBase } from '@/components/ui';
+import { useCreateOrderMutation } from './api/useOrderQuery';
+import { backendAPI } from '@/api';
+// import PaymentButton from './PaymentButton';
+export function OrderSideBar({ deliveryRequest }: { deliveryRequest: string }) {
   // const { checkedItemSum, discountSum, shippingFeeText } = useOrderStore();
   // const { usedPoints, earnedPoints } = useRewardStore();
   // const { totalPayment } = useCartSummary();
-  // const onClickPayment = () => {
-  //   // handlePayClick({
-  //   //   selectedAddressId,
-  //   //   usedPoint: usedPoints,
-  //   //   discountAmount,
-  //   //   deliveryAmount,
-  //   //   deliveryRequest,
-  //   // });
-  // };
+  const { mutate: createOrder } = useCreateOrderMutation();
+  const onClickPayment = () => {
+    // 임시 주문 생성 (dummy 데이터)
+    createOrder(
+      {
+        delivery_post: 1, // 임시 배송지 ID
+        used_point: 0,
+        discount_amount: 0,
+        delivery_amount: 0,
+        subtotal: 10000,
+        total_payment: 10000,
+        order_items: [
+          {
+            product: 1, // 임시 상품 ID
+            amount: 1,
+            price: 10000,
+          },
+        ],
+        delivery_request: deliveryRequest, // 실제 입력한 요청사항
+      },
+      {
+        onSuccess: (res) => {
+          console.log('🎉 주문 생성 성공:', res);
+
+          const orderId = res.order_id;
+          alert(`임시 주문 생성 완료! 주문번호: ${orderId}`);
+
+          // 단건 조회 테스트
+          backendAPI.get(`/orders/${orderId}/`).then((r) => {
+            console.log('🔍 단건 조회 데이터:', r.data);
+            alert('콘솔에서 delivery_request 저장 여부 확인!');
+          });
+        },
+        onError: (err) => {
+          console.error('❌ 주문 생성 실패:', err);
+        },
+      }
+    );
+    alert('결제하기');
+  };
   return (
     <div className='mt-5 w-full bg-white px-7.5 py-5 lg:mt-0 lg:w-[450px]'>
       <div className='py-5'>
@@ -30,7 +64,7 @@ export function OrderSideBar() {
             </span>
           </li>
           <li className='flex justify-between'>
-            <span>적립 사용 금액</span>
+            <span>사용 적립 금액</span>
             <span>
               <span>-</span>원
             </span>
@@ -40,7 +74,7 @@ export function OrderSideBar() {
             <span></span>
           </li>
           <li className='mt-4 flex justify-between'>
-            <span className='font-semibold'>총 결제 금액</span>
+            <span className='font-semibold'>최종 결제 금액</span>
             <span className='font-semibold'>
               <span className='font-semibold'></span>원
             </span>
@@ -86,15 +120,14 @@ export function OrderSideBar() {
             </span>
           </li>
         </ul>
-        {/* <ButtonBase
+        <ButtonBase
           className='mt-7 text-lg font-bold'
           variant='filled'
           fullWidth
           onClick={onClickPayment}
         >
           결제하기
-        </ButtonBase> */}
-        <PaymentButton />
+        </ButtonBase>
       </div>
     </div>
   );
