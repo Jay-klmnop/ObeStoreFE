@@ -6,6 +6,7 @@ export interface OrderProductDetail {
   amount: number;
   price: number;
   total_price: number;
+  product_card_image: string;
 }
 
 export interface Order {
@@ -17,6 +18,7 @@ export interface Order {
   discount_amount: number;
   delivery_amount: number;
   total_payment: number;
+  product_card_image: string;
   used_point: number;
   order_status: string;
   delivery_status: string;
@@ -50,8 +52,8 @@ export interface CartItem {
 
 export interface UserPoint {
   id: number;
-  amount: number; // 적립/사용된 금액
-  balance: number; // 현재 잔액
+  amount: number;
+  balance: number;
   created_at: string;
   updated_at: string;
 }

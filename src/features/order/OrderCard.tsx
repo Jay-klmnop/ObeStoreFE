@@ -22,18 +22,30 @@ export function OrderCard({ order, products, onClick }: OrderCardProps) {
   const totalAmount = products.reduce((sum, p) => sum + p.total_price, 0);
 
   return (
-    <div
-      onClick={() => onClick?.(order.id.toString())}
-      className={`border rounded-lg p-4 transition-shadow ${onClick ? 'cursor-pointer hover:shadow-md' : ''}`}
-    >
-      <div className="flex justify-between items-center mb-3 pb-3 border-b">
-        <div>
-          <span className="text-sm font-semibold">{order.created_at}</span>
-          <span className="text-xs text-gray-500 ml-3">주문번호: {order.order_number}</span>
-        </div>
-        <span className={`px-3 py-1 text-white text-xs rounded-full ${statusInfo.color}`}>
-          {statusInfo.label}
-        </span>
+    <>
+      <div className='relative my-2.5 flex flex-col py-2.5'>
+        <small className='border-secondary-300 bg-secondary-300 absolute top-7.5 right-0 rounded-sm border px-1 py-1 text-white'>
+          {order.order_status}
+        </small>
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className='my-2.5 mb-4 flex flex-row items-start justify-start py-2.5 leading-none'
+          >
+            <div className='mr-9 w-[200px]'>
+              <img src={product.product_card_image} className='w-full' alt='' />
+            </div>
+            <div>
+              <div className='text-primary-700 mt-3 text-base font-normal'>
+                {product.product_name}
+              </div>
+              <div className='text-primary-700 mt-1 text-base font-normal'>{product.amount}개</div>
+              <div className='text-primary-700 mt-1 text-base font-normal'>
+                {product.total_price.toLocaleString()}원
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
       {products.length > 0 && (

@@ -3,22 +3,20 @@ import type { UserPoint } from '@/types/order';
 import { useQuery } from '@tanstack/react-query';
 
 // 📌 GET /users/me/points
-export const fetchUserPoints = async (): Promise<UserPoint[]> => {
-  const response = await backendAPI.get('/users/me/points');
+export const fetchUserPoints = async (): Promise<UserPoint> => {
+  const response = await backendAPI.get('/users/me/points/balance');
   const data = response.data;
 
-  console.log('📦 [GET] /users/me/points 응답:', data);
+  console.log('📦 [GET] /users/me/points/balance 응답:', data);
 
-  if (Array.isArray(data)) return data;
-
-  return [];
+  return data;
 };
 
 // 📌 TanStack Query
 export const useUserPointsQuery = () => {
-  return useQuery<UserPoint[]>({
-    queryKey: ['user-points'],
+  return useQuery<UserPoint>({
+    queryKey: ['point'],
     queryFn: fetchUserPoints,
-    staleTime: 1000 * 60 * 5, // 5분 캐싱
+    staleTime: 1000 * 60 * 5,
   });
 };
