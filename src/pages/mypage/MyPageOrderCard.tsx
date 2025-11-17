@@ -38,7 +38,7 @@ export function MyPageOrderCard({ order, products, onClick }: MyPageOrderCardPro
 
       {products.length > 0 && (
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+          <div className="w-16 h-16 bg-gray-100 rounded shrink-0 overflow-hidden">
             {products[0].product_image ? (
               <img 
                 src={products[0].product_image} 

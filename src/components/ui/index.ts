@@ -8,7 +8,6 @@ export * from './ConfirmModal';
 export * from './ErrorMessage';
 export * from './Radio';
 export * from './ReviewRating';
-export * from './ReviewUser';
 export * from './Select';
 export * from './Spinner';
 export * from './Subtitle';
