@@ -1,206 +1,213 @@
 import { useNavigate } from 'react-router-dom';
-import { ProfileIcon } from '@/components/icon';
+import type { Order } from '@/types/order';
+import { ORDER_STATUS_CONFIG } from '@/constants/orderStatus';
 
-interface OrderProduct {
-  productId: string;
-  productName: string;
-  productImage: string;
-  options: string;
-  quantity: number;
-  price: number;
+interface Address {
+  recipient: string;
+  phone: string;
+  address: string;
+  zipCode: string;
 }
 
-interface Order {
-  id: string;
-  orderDate: string;
-  orderNumber: string;
-  recipient: {
-    name: string;
-    phone: string;
-    address: string;
-    memo?: string;
-  };
-  products: OrderProduct[];
-  payment: {
-    productAmount: number;
-    discount: number;
-    shippingFee: number;
-    totalAmount: number;
-    method: string;
-    date?: string;
-  };
-  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+interface Payment {
+  method: string;
+  date: string;
 }
 
-const sampleOrder: Order = {
-  id: 'ORD-2025-001',
-  orderDate: '25.11.07(금)',
-  orderNumber: '202511079180400251',
-  status: 'delivered',
-  recipient: {
-    name: '박서연',
-    phone: '010-9876-0002',
-    address: '부산광역시 해운대구 마린시티 45',
-    memo: '부재시 문 앞에 놔주세요.',
-  },
-  products: [
+const sampleOrderDetail: Order = {
+  id: 1,
+  order_number: "ORD-2025-001",
+  user: 1,
+  address: 1,
+  subtotal: 39000,
+  discount_amount: 3900,
+  delivery_amount: 0,
+  total_payment: 35100,
+  used_point: 0,
+  order_status: "delivered",
+  delivery_status: "배송 완료",
+  delivery_request: "부재시 문 앞에 놔주세요.",
+  order_products_detail: [
     {
-      productId: 'P004',
-      productName: '체크패턴 머플러',
-      productImage:
-        'https://via.placeholder.com/120x160.png?text=%EC%A0%9C%ED%92%88+%EC%9D%B4%EB%AF%B8%EC%A7%80',
-      options: '1개',
-      quantity: 1,
+      id: 1,
+      product: 1,
+      product_name: "체크패턴 머플러",
+      product_image: "https://via.placeholder.com/120x160?text=Muffler",
+      amount: 1,
       price: 39000,
-    },
+      total_price: 39000
+    }
   ],
-  payment: {
-    productAmount: 39000,
-    discount: 3900,
-    shippingFee: 35100,
-    totalAmount: 38100,
-    method: '현대카드(일시불)',
-    date: '2025.11.07 20:29',
-  },
+  created_at: "25.11.07(금)"
 };
 
-export const MyPageOrderDetail = () => {
+const sampleAddress: Address = {
+  recipient: "박서연",
+  phone: "010-9876-0002",
+  address: "부산광역시 해운대구 마린시티 45",
+  zipCode: "48100"
+};
+
+const samplePayment: Payment = {
+  method: "현대카드(일시불)",
+  date: "2025.11.07 20:29"
+};
+
+const CANCELLABLE_STATUSES = ['pending', 'processing'] as const;
+
+export function MyPageOrderDetail() {
   const navigate = useNavigate();
-  const order = sampleOrder;
+  
+  const order = sampleOrderDetail;
+  const address = sampleAddress;
+  const payment = samplePayment;
+
+  const statusInfo = ORDER_STATUS_CONFIG[order.order_status] || {
+    label: order.order_status,
+    color: 'bg-gray-500'
+  };
+
+  const canCancel = CANCELLABLE_STATUSES.includes(order.order_status as any);
+
+  const handleCancelOrder = () => {
+    if (confirm('주문을 취소하시겠습니까?')) {
+      console.log('주문 취소:', order.id);
+    }
+  };
 
   return (
-    <div className='font-pretendard min-h-screen bg-[#f6efed]'>
-      <div className='container mx-auto px-4 py-8'>
-        <div className='flex gap-8'>
-          <aside className='w-48 shrink-0'>
-            <div className='rounded-lg bg-white p-6 shadow-sm'>
-              <h2 className='mb-8 text-xl font-bold'>Mypage</h2>
-              <nav className='space-y-4'>
-                <button
-                  onClick={() => navigate('/mypage/orders')}
-                  className='block w-full py-2 text-left text-sm font-bold text-black'
-                >
-                  주문 내역
-                </button>
-                <button className='block w-full py-2 text-left text-sm text-gray-600 transition-colors hover:text-black'>
-                  최근 본 상품
-                </button>
-                <button className='block w-full py-2 text-left text-sm text-gray-600 transition-colors hover:text-black'>
-                  로그아웃
-                </button>
-              </nav>
-            </div>
-          </aside>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between pb-4 border-b">
+        <h2 className="text-lg font-bold">주문 상세 내역</h2>
+        <span className={`px-3 py-1 text-white text-xs rounded-full ${statusInfo.color}`}>
+          {statusInfo.label}
+        </span>
+      </div>
 
-          <main className='flex-1'>
-            <div className='rounded-lg bg-white shadow-sm'>
-              <div className='border-b p-6'>
-                <div className='flex items-center space-x-3'>
-                  <div className='flex h-10 w-10 items-center justify-center rounded-full bg-gray-200'>
-                    <ProfileIcon size={20} />
-                  </div>
-                  <span className='font-medium text-gray-800'>서준이의 마켓</span>
-                </div>
-              </div>
-
-              <div className='p-6'>
-                <h2 className='mb-6 text-lg font-bold'>주문 상세 내역</h2>
-
-                <div className='mb-6'>
-                  <h3 className='mb-3 text-base font-bold'>{order.orderDate}</h3>
-                  <div className='text-sm text-gray-600'>
-                    <span>주문번호</span>
-                    <span className='ml-4'>{order.orderNumber}</span>
-                  </div>
-                </div>
-
-                <div className='mb-6 rounded bg-stone-50 p-4'>
-                  <h4 className='mb-2 font-bold'>{order.recipient.name}</h4>
-                  <div className='space-y-1 text-sm text-gray-600'>
-                    <p>{order.recipient.address}</p>
-                    <p>{order.recipient.phone}</p>
-                    {order.recipient.memo && (
-                      <p className='mt-2 text-xs text-gray-500'>{order.recipient.memo}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className='mb-6'>
-                  <h3 className='mb-3 text-sm font-semibold'>
-                    주문 상품 {order.products.length}개
-                  </h3>
-                  {order.products.map((product) => (
-                    <div
-                      key={product.productId}
-                      className='flex items-start space-x-4 rounded border p-4'
-                    >
-                      <div className='flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded bg-gray-200'>
-                        <img
-                          src={product.productImage}
-                          alt={product.productName}
-                          className='h-full w-full object-cover'
-                        />
-                      </div>
-                      <div className='flex-1'>
-                        <p className='mb-1 text-sm'>{product.productName}</p>
-                        <p className='text-xs text-gray-500'>{product.options}</p>
-                        <p className='mt-2 text-sm font-bold'>{product.price.toLocaleString()}원</p>
-                      </div>
-                      <button className='rounded border px-4 py-2 text-sm hover:bg-gray-50'>
-                        취소 신청
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <div className='mb-6'>
-                  <h3 className='mb-3 text-sm font-semibold'>결제정보</h3>
-                  <div className='space-y-2 text-sm'>
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600'>상품 금액</span>
-                      <span>{order.payment.productAmount.toLocaleString()}원</span>
-                    </div>
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600'>할인 금액</span>
-                      <span className='text-red-600'>
-                        -{order.payment.discount.toLocaleString()}원
-                      </span>
-                    </div>
-                    <div className='flex justify-between'>
-                      <span className='text-gray-600'>배송비</span>
-                      <span>
-                        {order.payment.shippingFee === 0
-                          ? '무료배송'
-                          : `${order.payment.shippingFee.toLocaleString()}원`}
-                      </span>
-                    </div>
-                    <div className='flex justify-between border-t pt-3 font-bold'>
-                      <span>결제 금액</span>
-                      <span className='text-lg'>
-                        {order.payment.totalAmount.toLocaleString()}원
-                      </span>
-                    </div>
-                    <div className='flex justify-between text-gray-600'>
-                      <span>결제 수단</span>
-                      <span>{order.payment.method}</span>
-                    </div>
-                    {order.payment.date && (
-                      <p className='mt-2 text-xs text-gray-500'>할인내역 | {order.payment.date}</p>
-                    )}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => navigate('/mypage/orders')}
-                  className='w-full rounded bg-[#2B0E08] py-3 text-white transition-colors hover:bg-[#4A1A13]'
-                >
-                  주문 내역으로 이동
-                </button>
-              </div>
-            </div>
-          </main>
+      <div>
+        <h3 className="text-base font-bold mb-2">{order.created_at}</h3>
+        <div className="text-sm text-gray-600">
+          <span>주문번호</span>
+          <span className="ml-4">{order.order_number}</span>
         </div>
+      </div>
+
+      <div className="bg-stone-50 rounded-lg p-4">
+        <h4 className="font-bold mb-3 flex items-center gap-2">
+          <span aria-hidden="true">📦</span>
+          <span>배송지 정보</span>
+        </h4>
+        <div className="space-y-1 text-sm text-gray-700">
+          <p className="font-medium">{address.recipient}</p>
+          <p>{address.address}</p>
+          <p>{address.phone}</p>
+          {order.delivery_request && (
+            <p className="mt-2 text-xs text-gray-500 bg-white px-2 py-1 rounded">
+              {order.delivery_request}
+            </p>
+          )}
+        </div>
+      </div>
+
+      <div>
+        <h3 className="font-bold mb-3 flex items-center gap-2">
+          <span aria-hidden="true">🛍️</span>
+          <span>주문 상품 {order.order_products_detail.length}개</span>
+        </h3>
+        <div className="space-y-3">
+          {order.order_products_detail.map((product) => (
+            <div
+              key={product.id}
+              className="flex items-start gap-4 border rounded-lg p-4"
+            >
+              <div className="w-20 h-20 bg-gray-100 rounded shrink-0 overflow-hidden">
+                {product.product_image ? (
+                  <img
+                    src={product.product_image}
+                    alt={product.product_name}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">
+                    No Image
+                  </div>
+                )}
+              </div>
+              <div className="flex-1">
+                <p className="font-medium mb-1">{product.product_name}</p>
+                <p className="text-sm text-gray-500">{product.amount}개</p>
+                <p className="mt-2 font-bold">{product.price.toLocaleString()}원</p>
+              </div>
+              {canCancel && (
+                <button className="px-4 py-2 text-sm border rounded hover:bg-gray-50 transition-colors">
+                  취소 신청
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-stone-50 rounded-lg p-4">
+        <h3 className="font-bold mb-3 flex items-center gap-2">
+          <span aria-hidden="true">💳</span>
+          <span>결제 정보</span>
+        </h3>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-gray-600">상품 금액</span>
+            <span>{order.subtotal.toLocaleString()}원</span>
+          </div>
+          {order.discount_amount > 0 && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">할인 금액</span>
+              <span className="text-red-600">-{order.discount_amount.toLocaleString()}원</span>
+            </div>
+          )}
+          <div className="flex justify-between">
+            <span className="text-gray-600">배송비</span>
+            <span>
+              {order.delivery_amount === 0
+                ? '무료배송'
+                : `${order.delivery_amount.toLocaleString()}원`}
+            </span>
+          </div>
+          {order.used_point > 0 && (
+            <div className="flex justify-between">
+              <span className="text-gray-600">포인트 사용</span>
+              <span className="text-blue-600">-{order.used_point.toLocaleString()}원</span>
+            </div>
+          )}
+          <div className="flex justify-between pt-3 border-t font-bold">
+            <span>총 결제 금액</span>
+            <span className="text-lg text-black">{order.total_payment.toLocaleString()}원</span>
+          </div>
+          <div className="flex justify-between text-gray-600 pt-2">
+            <span>결제 수단</span>
+            <span>{payment.method}</span>
+          </div>
+          {payment.date && (
+            <p className="text-xs text-gray-500 pt-1">결제 일시: {payment.date}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 py-3 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          주문 내역으로 돌아가기
+        </button>
+        {canCancel && (
+          <button 
+            onClick={handleCancelOrder}
+            className="flex-1 py-3 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          >
+            주문 취소
+          </button>
+        )}
       </div>
     </div>
   );
-};
+}
