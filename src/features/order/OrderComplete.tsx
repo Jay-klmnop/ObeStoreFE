@@ -1,7 +1,15 @@
 import { ButtonBase } from '@/components/ui';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export function OrderComplete() {
+  const navigate = useNavigate();
+  const { orderId } = useParams();
+  useEffect(() => {
+    if (orderId) {
+      navigate('/order/complete', { replace: true });
+    }
+  }, [orderId]);
   return (
     <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
       <h2 className='text-3xl font-normal'>
