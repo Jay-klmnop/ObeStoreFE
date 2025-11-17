@@ -1,4 +1,4 @@
-import { OrderCard, OrderSideBar } from '@/features/order';
+import { OrderSideBar } from '@/features/order';
 // import { useRewardStore } from '@/features/reward/store';
 import { /* useEffect, */ useEffect, useState } from 'react';
 
@@ -121,11 +121,11 @@ export function OrderList() {
               주문 상품 {totalAmountAllOrders}개
             </div>
           </div>
-          <div>
+          {/* <div>
             {orderItems.map((order) => (
               <OrderCard key={order.id} order={order} products={order.order_products_detail} />
             ))}
-          </div>
+          </div> */}
           <div className='pb-10'>
             <ul>
               <li className='text-primary-500-90 text-lg font-bold'>
