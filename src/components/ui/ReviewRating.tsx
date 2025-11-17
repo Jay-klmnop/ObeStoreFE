@@ -39,7 +39,9 @@ export function ReviewRating({
         fullSymbol={<FaStar size={size} color={activeColor} />}
         className='flex items-center pt-1'
       />
-      <span className='text-primary-500-60 text-xs font-semibold'>({rating.toFixed(1)} / 5)</span>
+      <span className='text-primary-500-60 pt-px text-xs font-semibold'>
+        ({rating.toFixed(1)} / 5)
+      </span>
     </div>
   );
 }
