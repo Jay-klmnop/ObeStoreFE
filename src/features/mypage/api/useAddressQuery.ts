@@ -19,6 +19,7 @@ export interface AddFormAddress {
   post_code: string;
   address: string;
   detail_address: string;
+  is_default?: boolean;
 }
 
 //  Address[] → Address 로 변경 (백엔드는 단일 주소만 반환)
