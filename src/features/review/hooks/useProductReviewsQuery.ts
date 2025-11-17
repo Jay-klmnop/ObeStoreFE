@@ -6,7 +6,11 @@ export function useProductReviewsQuery(productId: string | number) {
   const { data, isLoading, error } = useQuery<ProductReviewType[]>({
     queryKey: ['productReviews', productId],
     queryFn: async () => {
-      const res = await backendAPI.get(`/products/${productId}/reviews`);
+      const res = await backendAPI.get(`/products/${productId}/reviews`, {
+        params: {
+          id: productId,
+        },
+      });
       return res.data ?? [];
     },
     enabled: !!productId,
