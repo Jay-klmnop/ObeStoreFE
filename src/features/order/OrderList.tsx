@@ -1,44 +1,23 @@
-import { OrderCard, OrderSideBar } from '@/features/order';
-// import { useRewardStore } from '@/features/reward/store';
-import { /* useEffect, */ useEffect, useState } from 'react';
-
-// import { OrderSideBar } from './OrderSideBar';
+import { useCartQuery } from '@/features/cart/api/useCartQuery';
+import { useOrderStore } from '@/features/order';
+import { CartCardNone } from '../cart';
+import { useEffect, useState } from 'react';
+import { OrderSideBar } from './OrderSideBar';
 import OrderShippingCard from './OrderShippingCard';
-import { ButtonBase } from '@/components/ui';
-import { useOrdersQuery } from './api/useOrderQuery';
 import { useUserPointsQuery } from './api/usePointQuery';
-// import { usePaymentQuery } from './api/usePaymentQuery';
-// import { useRewardStore } from '../reward/store';
+import { ButtonBase } from '@/components/ui';
 
 export function OrderList() {
-  // const { data: payments = [] } = usePaymentQuery();
-  // console.log('📦 GET /payments 결과:', payments);
-  // const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
-  // const { availablePoints /* , setEarnedPoints */ } = useRewardStore();
-  // const {
-  //   orderItems,
-  //    checkedItemSum,
-  //    totalQuantity,
-  //   discountSum,
-  //   shippingFee,
-  //   selectedAddressId,
-  // } = useOrderStore();
-  const { data: orderItems = [] } = useOrdersQuery();
-  // const orderSideData = orderItems.flatMap((order) =>
-  //   order.order_products_detail.map((product) => ({
-  //     order,
-  //     product,
-  //   }))
-  // );
-  // console.log('최근 주문:', orderItems);
+  const { data: cartItems = [], isLoading: isLoadingCart, isError: isErrorCart } = useCartQuery();
+  const { orderItems } = useOrderStore();
+
+  console.log('orderItems', orderItems);
+
   const { data: point } = useUserPointsQuery();
   const [deliveryRequest, setDeliveryRequest] = useState('');
   const [availablePoints, setAvailablePoints] = useState(0);
-  const totalAmountAllOrders = orderItems.reduce(
-    (sum, order) =>
-      sum + order.order_products_detail.reduce((innerSum, p) => innerSum + p.amount, 0),
-    0
-  );
+
+  const totalAmountAllOrders = cartItems.reduce((sum, item) => sum + item.amount, 0);
 
   const balance = Number(point?.balance ?? 0);
   useEffect(() => {
@@ -52,7 +31,6 @@ export function OrderList() {
   const handleUsedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const raw = e.target.value.replace(/[^0-9]/g, '');
     const value = Number(raw);
-
     setAvailablePoints(value);
   };
 
@@ -70,16 +48,8 @@ export function OrderList() {
     }
   };
 
-  // const isLoading = isLoadingCart;
-  // const isError = isErrorCart;
-
-  // useEffect(() => {
-  //   const earned = Math.floor(checkedItemSum * 0.01);
-  //   setEarnedPoints(earned);
-  // }, [checkedItemSum, setEarnedPoints]);
-
-  // if (isLoading) return <div>결제 정보를 준비 중입니다...</div>;
-  // if (isError || !cartItems) return <div>결제에 필요한 장바구니 정보를 찾을 수 없습니다.</div>;
+  const isLoading = isLoadingCart;
+  const isError = isErrorCart;
 
   const handleDeliveryRequest = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDeliveryRequest(e.target.value);
@@ -94,9 +64,12 @@ export function OrderList() {
     alert('배송 요청사항이 저장되었습니다.');
   };
 
+  if (isLoading) return <div>결제 정보를 준비 중입니다...</div>;
+  if (isError || !cartItems) return <div>결제에 필요한 장바구니 정보를 찾을 수 없습니다.</div>;
+
   return (
     <div className='m-auto flex w-full flex-col lg:flex-row lg:justify-between'>
-      <div className='w-full bg-white px-7.5 py-5 lg:w-[calc(100%-470px)]'>
+      <div className='w-full bg-white px-7.5 py-5 pt-10 lg:w-[calc(100%-470px)]'>
         <div className='relative px-2.5'>
           <OrderShippingCard />
           <div>
@@ -116,19 +89,28 @@ export function OrderList() {
               배송 요청사항 저장
             </ButtonBase>
           </div>
-          <div className='flex items-center justify-between p-2.5'>
+          <div className='border-primary-500-40 mt-6 flex items-center justify-between border-t pt-6'>
             <div className='text-primary-500-90 text-lg font-bold'>
               주문 상품 {totalAmountAllOrders}개
             </div>
           </div>
           <div>
-            {orderItems.map((order) => (
-              <OrderCard key={order.id} order={order} products={order.order_products_detail} />
+            {orderItems.map((product) => (
+              <CartCardNone
+                key={product.id}
+                id={String(product.id)}
+                product_name={product.product_name}
+                price={product.price}
+                amount={product.amount}
+                checked={product.checked}
+                cart={product.cart}
+                product_card_image={product.product_card_image}
+              />
             ))}
           </div>
           <div className='pb-10'>
             <ul>
-              <li className='text-primary-500-90 text-lg font-bold'>
+              <li className='text-primary-500-90 mt-5 text-lg font-bold'>
                 보유 적립금: {balance.toLocaleString()}원
               </li>
               <li>
@@ -154,12 +136,12 @@ export function OrderList() {
               </li>
             </ul>
           </div>
-          <div className='pb-10'>
+          <div className='border-primary-500-40 mt-6 border-t pt-6 pb-10'>
             <div className='text-primary-500-90 text-lg font-bold'>결제 수단</div>
           </div>
         </div>
       </div>
-      <OrderSideBar deliveryRequest={deliveryRequest} />
+      <OrderSideBar deliveryRequest={deliveryRequest} usedPoints={availablePoints} />
     </div>
   );
 }

@@ -1,73 +1,127 @@
+// PaymentButton.tsx
 import React, { useState } from 'react';
 import { backendAPI } from '@/api';
+import { loadTossPayments } from '@tosspayments/payment-sdk';
+import { useCreateOrderMutation } from '@/features/order/api/useOrderQuery';
 
-interface PaymentButtonProps {}
+interface PaymentButtonProps {
+  addressId: number;
+  usedPoint: number;
+  deliveryRequest?: string;
+  selectedCartItemIds: number[];
+  preview: {
+    used_point: number;
+    discount_amount: number;
+    delivery_amount: number;
+    subtotal: number;
+    total_payment: number;
+  } | null;
+}
 
-const PaymentButton: React.FC<PaymentButtonProps> = () => {
+const PaymentButton: React.FC<PaymentButtonProps> = ({
+  addressId,
+  usedPoint,
+  deliveryRequest,
+  selectedCartItemIds,
+  preview,
+}) => {
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const { mutateAsync: createOrder } = useCreateOrderMutation();
 
   const handleClick = async () => {
     try {
       setLoading(true);
+      setErrorMsg(null);
 
-      // 1) 결제 준비: 백엔드 /payments/ 로 요청
-      const readyRes = await backendAPI.post('/payments', {});
-
-      // 백엔드가 ReadyPaymentResponseSerializer로 내려준 데이터
-      const readyData = readyRes.data as {
-        orderId: string;
-        amount: number;
-        successUrl: string;
-        failUrl: string;
-        clientKey: string | null;
-        orderName: string;
-        customerEmail?: string;
-        customerName?: string;
-        customerMobilePhone?: string;
-      };
-
-      if (!readyData.clientKey) {
-        alert('결제 설정 오류: clientKey가 없습니다.');
+      if (!preview) {
+        setErrorMsg('주문 미리보기 정보가 없습니다.');
         return;
       }
 
-      // 2) TossPayments 객체 생성 (토스 JS SDK 사용)
-      // <script src="https://js.tosspayments.com/v1"></script> 가 index.html에 포함되어 있어야 함
-      const tossClientKey = readyData.clientKey;
-      // @ts-ignore
-      const tossPayments = new window.TossPayments(tossClientKey);
-      // 3) 결제 요청 - 카드 결제 예시
-      await tossPayments.requestPayment('CARD', {
-        amount: readyData.amount,
-        orderId: readyData.orderId,
-        orderName: readyData.orderName,
-        successUrl: readyData.successUrl,
-        failUrl: readyData.failUrl,
-        customerEmail: readyData.customerEmail,
-        customerName: readyData.customerName,
-        customerMobilePhone: readyData.customerMobilePhone,
+      // ============================================
+      // 1) 주문 생성
+      // ============================================
+      const orderData = await createOrder({
+        delivery_post: addressId,
+        used_point: usedPoint,
+        discount_amount: preview.discount_amount,
+        delivery_amount: preview.delivery_amount,
+        subtotal: preview.subtotal,
+        total_payment: preview.total_payment,
+        order_items: selectedCartItemIds.map((id) => ({
+          product: id,
+          amount: 1, // 장바구니 amount가 있다면 여기로
+          price: 10000, // 장바구니 item price로 교체 가능
+        })),
+        delivery_request: deliveryRequest ?? '', // ⭐ undefined 방지
       });
 
-      // 여기까지 오기 전에 이미 Toss가 successUrl / failUrl로 리다이렉트 시키기 때문에
-      // 실제로는 이 아래 코드는 잘 안 타긴 함
-    } catch (error: any) {
-      console.error(error);
+      const order_id = orderData?.order_id;
+      if (!order_id) throw new Error('order_id를 받아오지 못했습니다.');
 
-      // Toss 위젯에서 사용자가 창 닫는 경우 등
-      if (error?.code === 'USER_CANCEL') {
-        alert('사용자가 결제를 취소했습니다.');
-      } else {
-        alert('결제 중 오류가 발생했습니다.');
-      }
+      // ============================================
+      // 2) 결제 준비 API 호출
+      // ============================================
+      const paymentRes = await backendAPI.post('/payments/', { order_id });
+
+      console.log('📦 결제 준비 API 응답:', paymentRes.data);
+
+      const {
+        orderId,
+        amount,
+        orderName,
+        clientKey,
+        successUrl,
+        failUrl,
+        customerEmail,
+        customerName,
+        customerMobilePhone,
+      } = paymentRes.data;
+
+      console.log('📞 원본 전화번호:', customerMobilePhone);
+      console.log('📞 cleanPhone:', (customerMobilePhone || '').replace(/\D/g, ''));
+
+      if (!clientKey) throw new Error('clientKey가 존재하지 않습니다.');
+
+      // ============================================
+      // 3) Toss 결제창 실행
+      // ============================================
+      const tossPayments = await loadTossPayments(clientKey);
+      const cleanPhone = (customerMobilePhone || '').replace(/\D/g, '');
+      await tossPayments.requestPayment('CARD', {
+        amount,
+        orderId,
+        orderName,
+        successUrl,
+        failUrl,
+        customerEmail,
+        customerName,
+        customerMobilePhone: cleanPhone,
+      });
+    } catch (error: any) {
+      console.error('❌ PAYMENT ERROR:', error);
+
+      const serverMsg =
+        error?.response?.data?.detail ||
+        error?.response?.data?.used_point ||
+        error?.response?.data?.address ||
+        '결제 처리 중 문제가 발생했습니다.';
+
+      setErrorMsg(serverMsg);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <button onClick={handleClick} disabled={loading}>
-      {loading ? '결제 준비 중...' : '결제하기'}
-    </button>
+    <div>
+      <button onClick={handleClick} disabled={loading}>
+        {loading ? '결제 준비 중...' : '결제하기'}
+      </button>
+      {errorMsg && <p style={{ color: 'red', marginTop: '8px' }}>⚠️ {errorMsg}</p>}
+    </div>
   );
 };
 
