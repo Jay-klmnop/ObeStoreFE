@@ -37,17 +37,30 @@ export function OrderComplete() {
       try {
         const url = `/orders/${orderId}/`;
         const response = await backendAPI.get<OrderEnd>(url);
-        setOrderData(response.data); // 주문 데이터 저장
-        setLoading(false); // 로딩 종료
+        setOrderData(response.data);
+        setLoading(false);
       } catch (error) {
         console.error('주문 정보 로딩 오류:', error);
         setError('주문 정보를 불러오는 중 오류가 발생했습니다.');
-        setLoading(false); // 로딩 종료
+        setLoading(false);
       }
     };
 
     fetchOrderDetails();
-  }, [orderId, orderNumber, receiptUrl, navigate]); // orderId, orderNumber, receiptUrl, navigate 변경 시 호출
+  }, [orderId, orderNumber, receiptUrl, navigate]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString().slice(-2);
+
+    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+    const weekday = weekdays[date.getDay()];
+
+    return `${day}.${month}.${year}(${weekday})`;
+  };
 
   // 로딩 중일 때 표시할 화면
   if (loading) {
@@ -65,7 +78,10 @@ export function OrderComplete() {
       <h2 className='text-3xl font-normal'>
         <b className='font-semibold'>주문</b>이 <b className='font-semibold'>완료</b> 되었습니다!
       </h2>
-      <p className='mt-12 flex w-full justify-self-start font-extrabold'>25.10.21(화)</p>
+      <p className='mt-12 flex w-full justify-self-start font-extrabold'>
+        {' '}
+        {orderData ? formatDate(orderData.created_at) : ''}
+      </p>
       <div className='mt-3 flex w-full justify-between'>
         <span className='lg:w-[90px]'>주문 번호</span>
         <span>{orderNumber}</span> {/* 쿼리 파라미터에서 받아온 orderNumber */}
@@ -75,13 +91,17 @@ export function OrderComplete() {
         <div className='flex flex-col text-right'>
           {/* 주문 상품 데이터가 있을 경우 표시 */}
           {orderData?.order_products_detail.map((item: OrderEndProductDetail, index: number) => (
-            <div key={index}>
+            <div key={index} className='flex-col justify-end'>
               <span>{item.product_name}</span>
               <span>{item.amount}개</span>
               <span>{item.price}원</span>
             </div>
           ))}
         </div>
+      </div>
+      <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
+        <span className='lg:w-[90px]'>배송시 요청사항</span>
+        <span>{orderData?.delivery_request}</span>
       </div>
       <div className='mt-15 flex gap-3'>
         <ButtonBase variant='hollow'>
