@@ -22,7 +22,7 @@ export function MypageNav() {
               } w-full items-center justify-between`
             }
           >
-            주문 내역
+            주문/상세 내역
             <IoIosArrowForward className='hidden lg:flex' />
           </NavLink>
         </li>
