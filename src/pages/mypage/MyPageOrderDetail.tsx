@@ -76,7 +76,7 @@ export function MyPageOrderDetail() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 md:px-6 pb-6">
       <div className="flex items-center justify-between pb-4 border-b">
         <h2 className="text-lg font-bold">주문 상세 내역</h2>
         <span className={`px-3 py-1 text-white text-xs rounded-full ${statusInfo.color}`}>
@@ -195,9 +195,9 @@ export function MyPageOrderDetail() {
       <div className="flex gap-3">
         <button
           onClick={() => navigate(-1)}
-          className="flex-1 py-3 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 transition-colors"
+          className="w-full max-w-md py-3 bg-[#2B0E08] text-white rounded hover:bg-[#4A1A13] transition-colors"
         >
-          주문 내역으로 돌아가기
+          주문 내역으로 이동
         </button>
         {canCancel && (
           <button 
