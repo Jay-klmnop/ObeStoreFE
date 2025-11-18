@@ -82,7 +82,6 @@ export function OrderList() {
               className='border-primary-500-70 text-primary-500-70 h-26 w-full resize-none rounded-lg border p-2.5'
             ></textarea>
             <ButtonBase
-              variant='hollow'
               className='mt-2 flex justify-self-end px-3 py-1 text-sm'
               onClick={handleSaveDeliveryRequest}
             >
