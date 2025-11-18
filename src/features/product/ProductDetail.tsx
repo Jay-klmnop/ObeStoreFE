@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { ProductDetailType } from '@/types';
 import { ButtonBase, ReviewRating } from '@/components/ui';
+import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon/HeartIcon';
 import { ProductReviews } from '@/features/product';
 import { ProductQnA } from './ProductQnA';
 
@@ -9,8 +11,11 @@ interface ProductDetailProps {
 }
 
 export function ProductDetail({ product }: ProductDetailProps) {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('info');
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteCount, setFavoriteCount] = useState(product.favorite_count || 0);
 
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
@@ -18,6 +23,24 @@ export function ProductDetail({ product }: ProductDetailProps) {
     } else {
       setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
     }
+  };
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      setIsFavorite(false);
+      setFavoriteCount((prev) => prev - 1);
+    } else {
+      setIsFavorite(true);
+      setFavoriteCount((prev) => prev + 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    navigate('/users/cart');
+  };
+
+  const handleBuyNow = () => {
+    navigate('/order/order');
   };
 
   const totalPrice = product.dc_value * quantity;
@@ -34,46 +57,58 @@ export function ProductDetail({ product }: ProductDetailProps) {
     <article className='mx-auto max-w-7xl'>
       <div className='grid grid-cols-1 gap-8 p-6 lg:grid-cols-2'>
         <section>
-          <div className='overflow-hidden bg-white'>
+          <div className='aspect-square overflow-hidden bg-white'>
             <img
               src={product.product_image[0]?.product_card_image}
               alt={product.product_name}
-              className='h-auto w-full object-cover'
+              className='h-full w-full object-cover'
             />
           </div>
         </section>
 
-        <section className='space-y-4'>
-          <section className='space-y-4'>
-            <div className='text-primary-500-80 text-sm'>
-              <span className='font-medium'>{product.brand_name}</span>
+        <section className='flex flex-col space-y-6 pt-8'>
+          <div className='flex items-center gap-2'>
+            <div className='flex h-6 w-6 items-center justify-center'>
+              {product.brand_image?.[0]?.brand_image ? (
+                <img
+                  src={product.brand_image[0].brand_image}
+                  alt={product.brand_name}
+                  className='h-full w-full object-contain'
+                />
+              ) : (
+                <span className='text-base'>🏠</span>
+              )}
             </div>
-          </section>
+            <span className='text-base font-medium text-gray-700'>{product.brand_name}</span>
+          </div>
 
-          <h1 className='text-primary-500-90 text-xl font-medium'>{product.product_name}</h1>
+          <h1 className='text-lg font-medium text-gray-900'>{product.product_name}</h1>
 
-          {product.product_rating && (
-            <ReviewRating initialValue={Number(product.product_rating)} readOnly />
-          )}
+          <div className='flex items-center justify-between'>
+            {product.product_rating && (
+              <ReviewRating initialValue={Number(product.product_rating)} readOnly />
+            )}
+            <span className='text-sm text-gray-500'>
+              ({product.product_rating ? `${product.product_rating}/5` : '0/5'})
+            </span>
+          </div>
 
-          <div className='border-primary-500-40 space-y-3 border-t pt-4'>
-            <div className='bg-primary-50 rounded px-4 py-3'>
-              <span className='text-primary-500-90 text-sm font-medium'>FREE</span>
+          <div className='border-primary-500-40 space-y-4 border-b border-t py-4'>
+            <div className='rounded bg-gray-50 px-3 py-2'>
+              <span className='text-sm font-medium text-gray-700'>FREE</span>
             </div>
 
             <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-3'>
+              <div className='flex items-center gap-2'>
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className='border-primary-500-50 text-primary-700 flex h-8 w-8 items-center justify-center border'
-                >
+                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'>
                   −
                 </button>
                 <span className='w-8 text-center text-sm'>{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className='border-primary-500-50 text-primary-700 flex h-8 w-8 items-center justify-center border'
-                >
+                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'>
                   +
                 </button>
               </div>
@@ -84,48 +119,50 @@ export function ProductDetail({ product }: ProductDetailProps) {
                     {product.product_value.toLocaleString()}원
                   </div>
                 )}
-                <div className='text-primary-700 text-lg font-bold'>
+                <div className='text-base font-bold text-gray-900'>
                   {product.dc_value.toLocaleString()}원
                 </div>
               </div>
             </div>
           </div>
 
-          <div className='border-primary-500-40 border-t pt-4'>
-            <div className='flex items-center justify-between'>
-              <span className='text-primary-500-80 text-sm'>총 {quantity}개</span>
-              <span className='text-primary-700 text-2xl font-bold'>
-                {totalPrice.toLocaleString()}원
-              </span>
-            </div>
+          <div className='flex items-center justify-between py-2'>
+            <span className='text-base text-gray-600'>총 {quantity}개</span>
+            <span className='text-2xl font-bold text-gray-900'>
+              {totalPrice.toLocaleString()}원
+            </span>
           </div>
 
-          <div className='flex gap-2'>
-            <button className='border-primary-500-50 hover:bg-primary-50 flex flex-col items-center justify-center border bg-white px-3 py-2 transition-all'>
-              <span className='text-xl'>♡</span>
-              <span className='text-primary-500-80 mt-1 text-xs'>
-                {product.favorite_count || 0}
-              </span>
+          <div className='flex items-center justify-end gap-2'>
+            <button
+              onClick={handleFavoriteClick}
+              className='flex h-16 w-16 flex-col items-center justify-center gap-1 bg-white transition-colors hover:bg-gray-50'>
+              {isFavorite ? (
+                <FilledHeartIcon size={20} color='#ef4444' />
+              ) : (
+                <EmptyHeartIcon size={20} color='#9ca3af' />
+              )}
+              <span className='text-xs text-gray-600'>{favoriteCount}</span>
             </button>
 
-            <ButtonBase variant='hollow' className='flex-1 py-3 text-sm'>
+            <ButtonBase onClick={handleAddToCart} variant='hollow' className='px-8 py-3 text-sm'>
               장바구니
             </ButtonBase>
 
-            <ButtonBase variant='filled' className='flex-1 py-3 text-sm'>
+            <ButtonBase onClick={handleBuyNow} variant='filled' className='px-10 py-3 text-sm'>
               구매하기
             </ButtonBase>
           </div>
         </section>
       </div>
 
-      <nav className='border-primary-500-40 bg-primary-50 border-t border-b'>
+      <nav className='border-primary-500-40 bg-primary-50 border-b border-t'>
         <div className='mx-auto flex max-w-7xl overflow-x-auto'>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all ${
+              className={`flex-1 whitespace-nowrap px-4 py-4 text-sm font-medium transition-all ${
                 activeTab === tab.id
                   ? 'border-primary-700 text-primary-700 border-b-2'
                   : 'text-primary-500-80 hover:text-primary-700'
@@ -142,7 +179,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <div className='space-y-8'>
             {product.brand_name && (
               <section className='text-center'>
-                <div className='mx-auto mb-4 flex h-20 w-20 items-center justify-center'>
+                <div className='mx-auto mb-4 flex h-24 w-24 items-center justify-center'>
                   {product.brand_image?.[0]?.brand_image ? (
                     <img
                       src={product.brand_image[0].brand_image}
@@ -150,10 +187,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       className='h-full w-full object-contain'
                     />
                   ) : (
-                    <div className='text-primary-700 text-2xl font-bold'>{product.brand_name}</div>
+                    <span className='text-5xl'>🏠</span>
                   )}
                 </div>
-                <h2 className='text-primary-500-90 text-xl font-bold'>{product.product_name}</h2>
+                <p className='text-xl text-gray-700'>{product.product_name}</p>
               </section>
             )}
 
