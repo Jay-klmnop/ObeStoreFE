@@ -18,7 +18,6 @@ import { MyPageLayout, RootLayout } from '@/components/layout';
 import { OrderComplete, OrderFail, OrderSuccess } from '@/features/order';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OrderResult } from '@/features/order/OrderResult';
-import PayResultPage from '@/features/order/PayResultPage';
 // import { ProtectedRoute } from '@/routes';
 
 export function Router() {
