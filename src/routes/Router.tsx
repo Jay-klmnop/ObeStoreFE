@@ -15,7 +15,7 @@ import {
   ReviewsPage,
 } from '@/pages';
 import { MyPageLayout, RootLayout } from '@/components/layout';
-import { OrderComplete, OrderFail, OrderSuccess } from '@/features/order';
+import { OrderComplete, OrderFail } from '@/features/order';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { OrderResult } from '@/features/order/OrderResult';
 // import { ProtectedRoute } from '@/routes';
@@ -33,7 +33,6 @@ export function Router() {
             <Route path='/products/:id' element={<ProductDetailPage />} />
             <Route path='/reviews' element={<ReviewsPage />} />
             <Route path='/order/order' element={<OrderPage />} />
-            <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/result' element={<OrderResult />} />
             <Route path='/order/complete' element={<OrderComplete />} />

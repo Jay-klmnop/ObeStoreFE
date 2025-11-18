@@ -65,3 +65,29 @@ export interface OrderSideItem {
 export interface OrderSideBarProps {
   orderSideData: OrderSideItem[];
 }
+
+export interface OrderEndProductDetail {
+  id: number;
+  product_name: string;
+  amount: number;
+  price: number;
+  product_card_image: string;
+  total_price: number;
+}
+
+export interface OrderEnd {
+  address: number;
+  created_at: string;
+  delivery_amount: number;
+  delivery_request: string;
+  delivery_status: string;
+  discount_amount: number;
+  id: number;
+  order_number: string;
+  order_products_detail: OrderEndProductDetail[];
+  order_status: string;
+  subtotal: number;
+  total_payment: number;
+  used_point: number;
+  user: number;
+}
