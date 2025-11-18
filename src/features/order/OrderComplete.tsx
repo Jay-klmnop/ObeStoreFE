@@ -12,7 +12,7 @@ export function OrderComplete() {
       console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
       navigate('/order/complete', { replace: true });
     } else {
-      console.error('orderId가 존재하지 않습니다.');
+      console.error('orderId가 존재하지 않습니다. test new');
     }
   }, [orderId, navigate]);
 
