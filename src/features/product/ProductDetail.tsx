@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import type { ProductDetailType } from '@/types';
-import { ReviewGrid, useProductReviewsQuery } from '@/features/review';
-import { ButtonBase } from '@/components/ui/ButtonBase';
-import { ReviewRating } from '@/components/ui';
-import { ProductReviewSection } from './ProductReviewSection';
+import { ButtonBase, ReviewRating } from '@/components/ui';
+import { ProductReviews } from '@/features/product';
 
 interface ProductDetailProps {
   product: ProductDetailType;
@@ -12,7 +10,6 @@ interface ProductDetailProps {
 export function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('info');
-  const { reviews, reviewsError, reviewsLoading } = useProductReviewsQuery(product.id);
 
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
@@ -54,7 +51,9 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
           <h1 className='text-primary-500-90 text-xl font-medium'>{product.product_name}</h1>
 
-          {product.product_rating && <ReviewRating initialValue={product.product_rating} />}
+          {product.product_rating && (
+            <ReviewRating initialValue={Number(product.product_rating)} readOnly />
+          )}
 
           <div className='border-primary-500-40 space-y-3 border-t pt-4'>
             <div className='bg-primary-50 rounded px-4 py-3'>
@@ -169,23 +168,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
         )}
 
-        {activeTab === 'review' && (
-          <div>
-            {reviewsLoading ? (
-              <ProductReviewSection productId={product.id} />
-            ) : reviewsError ? (
-              <div className='rounded-lg border-2 border-red-200 bg-red-50 p-6 text-center'>
-                <p className='text-secondary-300'>리뷰를 불러오는데 실패했습니다.</p>
-              </div>
-            ) : reviews && reviews.length > 0 ? (
-              <ReviewGrid reviews={reviews} />
-            ) : (
-              <div className='border-primary-500-40 rounded-lg border bg-white p-12 text-center'>
-                <p className='text-primary-500-80'>아직 작성된 리뷰가 없습니다.</p>
-              </div>
-            )}
-          </div>
-        )}
+        {activeTab === 'review' && <ProductReviews product={product} />}
 
         {activeTab === 'exchange' && (
           <div className='border-primary-500-40 rounded-lg border bg-white p-6'>
