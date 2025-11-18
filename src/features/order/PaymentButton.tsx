@@ -78,28 +78,34 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         customerEmail,
         customerName,
         customerMobilePhone,
+        code, // 추가된 부분
+        message, // 추가된 부분
       } = paymentRes.data;
 
-      console.log('📞 원본 전화번호:', customerMobilePhone);
-      console.log('📞 cleanPhone:', (customerMobilePhone || '').replace(/\D/g, ''));
+      console.log('orderId:', orderId); // orderId 확인
+      console.log('code:', code); // code 확인
+      console.log('message:', message); // message 확인
 
       if (!clientKey) throw new Error('clientKey가 존재하지 않습니다.');
 
       // ============================================
       // 3) Toss 결제창 실행
       // ============================================
-      const tossPayments = await loadTossPayments(clientKey);
-      const cleanPhone = (customerMobilePhone || '').replace(/\D/g, '');
-      await tossPayments.requestPayment('CARD', {
-        amount,
-        orderId,
-        orderName,
-        successUrl,
-        failUrl,
-        customerEmail,
-        customerName,
-        customerMobilePhone: cleanPhone,
-      });
+
+      setTimeout(async () => {
+        const tossPayments = await loadTossPayments(clientKey);
+        const cleanPhone = (customerMobilePhone || '').replace(/\D/g, '');
+        await tossPayments.requestPayment('CARD', {
+          amount,
+          orderId,
+          orderName,
+          successUrl,
+          failUrl,
+          customerEmail,
+          customerName,
+          customerMobilePhone: cleanPhone,
+        });
+      }, 10000); // 100초 후 결제창 실행
     } catch (error: any) {
       console.error('❌ PAYMENT ERROR:', error);
 
