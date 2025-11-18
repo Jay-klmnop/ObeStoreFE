@@ -96,7 +96,7 @@
   width: 90%;
   max-width: 40rem;
 
-  &.auth-modal {
+  &.modal-wrapper {
     @apply max-h-[90vh] overflow-auto p-10;
   }
 }

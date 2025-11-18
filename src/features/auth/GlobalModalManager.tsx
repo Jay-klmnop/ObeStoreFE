@@ -1,12 +1,15 @@
-import { useAuthStore, LoginModal, SignupForm } from '@/features/auth';
+import { LoginModal, SignupForm } from '@/features/auth';
+import { useModalStore } from '@/store';
+import { ReviewForm } from '@/features/review';
 
 export function GlobalModalManager() {
-  const { authModalType } = useAuthStore();
+  const { modalType, modalData } = useModalStore();
 
   return (
     <>
-      {authModalType === 'login' && <LoginModal />}
-      {authModalType === 'signup' && <SignupForm />}
+      {modalType === 'login' && <LoginModal />}
+      {modalType === 'signup' && <SignupForm />}
+      {modalType === 'review' && modalData?.product && <ReviewForm product={modalData.product} />}
     </>
   );
 }
