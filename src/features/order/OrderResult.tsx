@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useParams } from 'react-router-dom';
 
 type OrderStatus = 'success' | 'fail';
 
@@ -15,17 +15,29 @@ interface OrderResultData {
 export function OrderResult() {
   const [searchParams] = useSearchParams();
   const [result, setResult] = useState<OrderResultData | null>(null);
+  const { orderId } = useParams(); // `orderId`를 URL params에서 가져옵니다.
 
   useEffect(() => {
     const status = searchParams.get('status') as OrderStatus | null;
     const orderNumber = searchParams.get('order_number');
-    const orderId = searchParams.get('orderId');
+    const orderIdFromSearch = searchParams.get('orderId');
     const receiptUrl = searchParams.get('receipt_url');
     const code = searchParams.get('code'); // 실패 시 코드
     const message = searchParams.get('message'); // 실패 시 메시지
 
+    // 데이터가 정상적으로 받았을 때 콘솔 출력
+    console.log('받아온 데이터:', {
+      status,
+      orderNumber,
+      orderIdFromSearch,
+      receiptUrl,
+      code,
+      message,
+      orderId, // `orderId`를 콘솔에 출력하여 확인합니다.
+    });
+
     // 유효한 파라미터가 없으면 실패 처리
-    if (!status || !orderNumber || !orderId || !receiptUrl) {
+    if (!status || !orderNumber || !orderIdFromSearch || !receiptUrl) {
       setResult({
         status: 'fail',
         orderNumber: null,
@@ -34,6 +46,7 @@ export function OrderResult() {
         code: 'INVALID',
         message: '결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.',
       });
+      console.error('결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.');
       return;
     }
 
@@ -41,12 +54,12 @@ export function OrderResult() {
     setResult({
       status,
       orderNumber,
-      orderId,
+      orderId: orderIdFromSearch,
       receiptUrl,
       code,
       message,
     });
-  }, [searchParams]);
+  }, [searchParams, orderId]); // `orderId`도 의존성 배열에 추가하여 변경될 때마다 실행되도록 합니다.
 
   return (
     <div className='order-result'>
@@ -58,7 +71,7 @@ export function OrderResult() {
             <p>주문 ID: {result.orderId}</p>
             <p>결제가 성공적으로 완료되었습니다.</p>
             <p>
-              영수증: {/* receiptUrl이 null인 경우 빈 문자열("")을 href에 넣도록 처리 */}
+              영수증:{' '}
               <a href={result.receiptUrl ?? ''} target='_blank' rel='noopener noreferrer'>
                 영수증 보기
               </a>
