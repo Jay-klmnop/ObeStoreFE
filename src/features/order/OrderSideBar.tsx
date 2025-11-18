@@ -90,14 +90,6 @@ export function OrderSideBar({
             </span>
           </li>
         </ul>
-        {/* <ButtonBase
-          className='mt-7 text-lg font-bold'
-          variant='filled'
-          fullWidth
-          onClick={onClickPayment}
-        >
-          결제하기
-        </ButtonBase> */}
         <PaymentButton
           addressId={selectedAddressId ?? 1}
           selectedCartItemIds={checkedCartItemIds ?? []}
