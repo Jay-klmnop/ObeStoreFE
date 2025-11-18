@@ -78,13 +78,9 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         customerEmail,
         customerName,
         customerMobilePhone,
-        code, // 추가된 부분
-        message, // 추가된 부분
       } = paymentRes.data;
 
       console.log('orderId:', orderId); // orderId 확인
-      console.log('code:', code); // code 확인
-      console.log('message:', message); // message 확인
 
       if (!clientKey) throw new Error('clientKey가 존재하지 않습니다.');
 
