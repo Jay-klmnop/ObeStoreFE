@@ -44,7 +44,7 @@ export function OrderResult() {
         orderId: null,
         receiptUrl: null,
         code: 'INVALID', // 기본 오류 코드 설정
-        message: '유효하지 않은 접근입니다. 결제 정보가 올바르지 않습니다.', // 기본 오류 메시지 설정
+        message: '유효하지 않은 접근입니다. 결제 정보가 올바르지 않습니다.뉴뉴', // 기본 오류 메시지 설정
       });
       return;
     }
