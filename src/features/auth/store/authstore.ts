@@ -3,17 +3,12 @@ import type { SignupFormData } from '@/features/auth';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type AuthModalType = 'login' | 'signup' | null;
-
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   user: any | null;
-  authModalType: AuthModalType;
   setToken: (accessToken: string) => void;
   setUser: (user: any) => void;
-  openAuthModal: (type: AuthModalType) => void;
-  closeAuthModal: () => void;
   signup: (data: SignupFormData) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -26,11 +21,8 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       user: null,
-      authModalType: null,
       setToken: (accessToken) => set({ accessToken }),
       setUser: (user) => set({ user }),
-      openAuthModal: (type) => set({ authModalType: type }),
-      closeAuthModal: () => set({ authModalType: null }),
       signup: async (data) => {
         await authSignup({
           email: data.email,

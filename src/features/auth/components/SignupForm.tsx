@@ -1,10 +1,11 @@
 import { checkEmail, useAuthStore } from '@/features/auth';
-import { AuthModal, ButtonBase } from '@/components/ui';
+import { ModalWrapper, ButtonBase } from '@/components/ui';
 import { HeaderLogoImgIcon } from '@/components/icon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { useModalStore } from '@/store';
 
 const signupSchema = z
   .object({
@@ -31,7 +32,8 @@ export type SignupFormData = z.infer<typeof signupSchema>;
 export function SignupForm() {
   const [emailCheckMessage, setEmailCheckMessage] = useState<string | null>(null);
   const [emailCheckSuccess, setEmailCheckSuccess] = useState<boolean | null>(null);
-  const { signup, openAuthModal, closeAuthModal, authModalType } = useAuthStore();
+  const { signup } = useAuthStore();
+  const { openModal, closeModal, modalType } = useModalStore();
   const {
     register,
     handleSubmit,
@@ -60,7 +62,7 @@ export function SignupForm() {
     try {
       await signup(data);
       alert('회원가입 완료! 이메일 인증을 위해 메일함을 확인해주세요.');
-      closeAuthModal();
+      closeModal();
     } catch (err: any) {
       console.error('회원가입 실패:', err);
       alert(err.response?.data?.message || '회원가입 실패. 다시 시도해주세요.');
@@ -85,7 +87,7 @@ export function SignupForm() {
   };
 
   return (
-    <AuthModal isOpen={authModalType === 'signup'} onClose={closeAuthModal} title='회원가입'>
+    <ModalWrapper isOpen={modalType === 'signup'} onClose={closeModal} title='회원가입'>
       <div className='mt-60 flex w-full justify-center'>
         <HeaderLogoImgIcon width={160} height={160} />
       </div>
@@ -223,10 +225,10 @@ export function SignupForm() {
       </form>
       <div className='sub-text flex justify-center gap-2'>
         이미 계정이 있으신가요?{' '}
-        <button className='text-primary-700 font-bold' onClick={() => openAuthModal('login')}>
+        <button className='text-primary-700 font-bold' onClick={() => openModal('login')}>
           로그인
         </button>
       </div>
-    </AuthModal>
+    </ModalWrapper>
   );
 }
