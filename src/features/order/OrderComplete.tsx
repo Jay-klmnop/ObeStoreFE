@@ -39,6 +39,7 @@ export function OrderComplete() {
     const fetchOrderDetails = async () => {
       try {
         const response = await axios.get(`/orders/${orderId}`);
+        console.log('주문 정보 응답:', response.data);
         setOrderData(response.data); // 주문 데이터 저장
         setLoading(false); // 로딩 종료
       } catch (error) {
@@ -60,6 +61,7 @@ export function OrderComplete() {
   if (error) {
     return <div>{error}</div>;
   }
+  console.log('주문 데이터:', orderData);
 
   return (
     <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>

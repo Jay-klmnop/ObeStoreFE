@@ -88,20 +88,18 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
       // 3) Toss 결제창 실행
       // ============================================
 
-      setTimeout(async () => {
-        const tossPayments = await loadTossPayments(clientKey);
-        const cleanPhone = (customerMobilePhone || '').replace(/\D/g, '');
-        await tossPayments.requestPayment('CARD', {
-          amount,
-          orderId,
-          orderName,
-          successUrl,
-          failUrl,
-          customerEmail,
-          customerName,
-          customerMobilePhone: cleanPhone,
-        });
-      }, 10000); // 100초 후 결제창 실행
+      const tossPayments = await loadTossPayments(clientKey);
+      const cleanPhone = (customerMobilePhone || '').replace(/\D/g, '');
+      await tossPayments.requestPayment('CARD', {
+        amount,
+        orderId,
+        orderName,
+        successUrl,
+        failUrl,
+        customerEmail,
+        customerName,
+        customerMobilePhone: cleanPhone,
+      });
     } catch (error: any) {
       console.error('❌ PAYMENT ERROR:', error);
 
