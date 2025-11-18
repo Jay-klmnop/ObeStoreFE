@@ -20,7 +20,7 @@ export function OrderResult() {
   useEffect(() => {
     // 새로운 쿼리 파라미터들 가져오기
     const status = searchParams.get('status') as OrderStatus | null;
-    const orderNumber = searchParams.get('orderNumber'); // 'orderNumber'로 수정
+    const orderNumber = searchParams.get('orderNumber');
     const orderId = searchParams.get('orderId');
     const receiptUrl = searchParams.get('receiptUrl');
     const code = searchParams.get('code');
@@ -36,15 +36,15 @@ export function OrderResult() {
       message,
     });
 
-    // 잘못된 접근 처리
+    // 파라미터가 하나라도 없으면 오류 처리
     if (!status || !orderNumber || !orderId || !receiptUrl) {
       setResult({
         status: 'fail',
         orderNumber: null,
         orderId: null,
         receiptUrl: null,
-        code: 'INVALID',
-        message: '유효하지 않은 접근입니다. 다른 오류메세지 !!! 이다!!',
+        code: 'INVALID', // 기본 오류 코드 설정
+        message: '유효하지 않은 접근입니다. 결제 정보가 올바르지 않습니다.', // 기본 오류 메시지 설정
       });
       return;
     }
@@ -58,8 +58,8 @@ export function OrderResult() {
       orderNumber,
       orderId,
       receiptUrl: decodedReceiptUrl,
-      code,
-      message,
+      code: code || 'UNKNOWN', // code가 없으면 기본값 'UNKNOWN' 설정
+      message: message || '알 수 없는 오류', // message가 없으면 기본값 설정
     });
   }, [searchParams]);
 
@@ -70,7 +70,7 @@ export function OrderResult() {
     if (result.status === 'success' && result.orderNumber) {
       // 주문 완료 페이지로 이동
       navigate(
-        `/order/complete?orderNumber=${result.orderNumber}&orderId=${result.orderId}&receiptUrl=${result.receiptUrl}`
+        `/order/complete?orderNumber=${result.orderNumber || ''}&orderId=${result.orderId || ''}&receiptUrl=${encodeURIComponent(result.receiptUrl || '')}`
       );
     } else {
       // 실패 → 실패 안내 페이지
@@ -78,5 +78,5 @@ export function OrderResult() {
     }
   }, [result, navigate]);
 
-  return <div>잠시만요... 결제 결과 확인 중입니다아아아아.</div>;
+  return <div>잠시만요... 결제 결과 확인 중입니다.</div>;
 }
