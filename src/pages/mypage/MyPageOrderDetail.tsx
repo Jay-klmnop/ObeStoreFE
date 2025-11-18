@@ -192,18 +192,18 @@ export function MyPageOrderDetail() {
         </div>
       </div>
 
-      <div className="flex gap-3">
+        <div className={canCancel ? "flex gap-3" : "flex justify-center"}>
         <button
           onClick={() => navigate(-1)}
-          className="w-full max-w-md py-3 bg-[#2B0E08] text-white rounded hover:bg-[#4A1A13] transition-colors"
-        >
+          className={`py-3 bg-[#2B0E08] text-white rounded hover:bg-[#4A1A13] transition-colors ${
+            canCancel ? 'flex-1' : 'px-12'
+          }`}>
           주문 내역으로 이동
         </button>
         {canCancel && (
           <button 
             onClick={handleCancelOrder}
-            className="flex-1 py-3 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-          >
+            className="flex-1 py-3 bg-white text--[#2B0E08] border-2 border-[#2B0E08] rounded hover:bg-gray-50 transition-colors">
             주문 취소
           </button>
         )}
