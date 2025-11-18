@@ -117,7 +117,11 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
 
   return (
     <div>
-      <button onClick={handleClick} disabled={loading}>
+      <button
+        onClick={handleClick}
+        disabled={loading}
+        className='btn btn-primary mt-6 w-full rounded-lg px-4 py-2 font-medium transition'
+      >
         {loading ? '결제 준비 중...' : '결제하기'}
       </button>
       {errorMsg && <p style={{ color: 'red', marginTop: '8px' }}>⚠️ {errorMsg}</p>}
