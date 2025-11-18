@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 export const useChangePasswordMutation = () => {
-  const { logout, accessToken, openAuthModal } = useAuthStore();
+  const { logout, accessToken } = useAuthStore();
   const navigate = useNavigate();
 
   return useMutation({
@@ -17,7 +17,6 @@ export const useChangePasswordMutation = () => {
     onSuccess: () => {
       logout();
       navigate('/');
-      openAuthModal('login');
     },
   });
 };
