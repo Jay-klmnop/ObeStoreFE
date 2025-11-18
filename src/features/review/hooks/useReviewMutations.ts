@@ -1,11 +1,12 @@
 import { backendAPI } from '@/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import type { AxiosResponse } from 'axios';
 
 export function useReviewMutations() {
   const qc = useQueryClient();
 
-  const create = useMutation({
-    mutationFn: (body) => backendAPI.post('/reviews', body),
+  const create = useMutation<AxiosResponse, Error, FormData>({
+    mutationFn: (body: FormData) => backendAPI.post('/reviews', body),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['reviews'] });
     },

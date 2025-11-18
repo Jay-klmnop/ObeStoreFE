@@ -1,6 +1,5 @@
-import { ButtonBase, ErrorMessage, Spinner } from '@/components/ui';
-import { ReviewGrid } from '@/features/review';
-import { useReviewsQuery } from '@/features/review/hooks';
+import { ErrorMessage, Spinner } from '@/components/ui';
+import { ReviewGrid, useReviewsQuery } from '@/features/review';
 
 export function ReviewsPage() {
   const { data: reviews, isLoading, error } = useReviewsQuery();
@@ -9,13 +8,8 @@ export function ReviewsPage() {
   if (error) return <ErrorMessage />;
 
   return (
-    <section className='p-4'>
-      <div className='mb-4 flex items-center justify-between'>
-        <h1 className='text-xl font-bold'>Reviews</h1>
-        <ButtonBase variant='gnb' className='py-1'>
-          리뷰 작성
-        </ButtonBase>
-      </div>
+    <section className='gap-4 p-4'>
+      <h1 className='text-xl font-bold'>Reviews</h1>
       <ReviewGrid reviews={reviews ?? []} />
     </section>
   );

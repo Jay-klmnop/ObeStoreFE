@@ -15,6 +15,7 @@ export interface ProductType {
   product_image: [{ product_card_image: string; product_explain_image: string }];
   brand_image: [{ brand_image: string }];
   favorite_count?: number;
+  reviews: ProductReviewType[];
 }
 
 export interface ProductCardType
@@ -40,6 +41,7 @@ export interface ProductDetailType
     | 'product_image'
     | 'brand_image'
     | 'favorite_count'
+    | 'reviews'
   > {}
 
 export interface ProductCartType
@@ -60,7 +62,7 @@ export interface ProductCartType
 export interface ProductReviewType {
   id: number;
   review_title: string;
-  product_id: number;
+  product: number;
   user: number;
   nickname: string;
   review_image: [
