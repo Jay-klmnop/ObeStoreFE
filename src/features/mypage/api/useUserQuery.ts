@@ -53,7 +53,7 @@ export const useUserMutation = () => {
     },
     onSuccess: () => {
       alert('비밀번호가 변경되었습니다. 다시 로그인 해주세요.');
-      logout();
+      logout(navigate);
       navigate('/login');
     },
     onError: (error) => {
@@ -70,7 +70,7 @@ export const useUserMutation = () => {
     onSuccess: () => {
       queryClient.removeQueries({ queryKey: ['User'] });
       alert('회원 탈퇴가 완료되었습니다. 그동안 OBE-STORE를 이용해 주셔서 감사합니다.');
-      logout();
+      logout(navigate);
       navigate('/');
     },
     onError: (error) => {

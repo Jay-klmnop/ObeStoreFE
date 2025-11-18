@@ -1,14 +1,20 @@
 import { useAuthStore } from '@/features/auth';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { IoIosArrowForward } from 'react-icons/io';
 
 export function MypageNav() {
   const { logout } = useAuthStore();
+  const navigate = useNavigate();
   const location = useLocation();
   const isOrderActive = () => {
     const path = location.pathname;
     return path.startsWith('/users/orderinfo') || path.startsWith('/users/orderdetail');
   };
+
+  const handleLogout = async () => {
+    await logout(navigate);
+  };
+
   return (
     <div className='m-4 flex w-60 flex-col gap-4 lg:m-8 lg:gap-8'>
       <h2 className='flex text-2xl font-semibold'>MYPAGE</h2>
@@ -53,7 +59,7 @@ export function MypageNav() {
 
         <li>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className='text-primary-500-70 cursor-pointer font-bold lg:text-lg'
           >
             로그아웃
