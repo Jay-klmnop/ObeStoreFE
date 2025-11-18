@@ -1,20 +1,31 @@
 import { ButtonBase } from '@/components/ui';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export function OrderComplete() {
   const navigate = useNavigate();
   const { orderId } = useParams(); // URL에서 orderId를 받아옵니다.
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // orderId가 있을 경우 콘솔에 출력하고 navigate
-    if (orderId) {
-      console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
-      navigate('/order/complete', { replace: true });
-    } else {
-      console.error('orderId가 존재하지 않습니다. test new');
+    if (!orderId) {
+      console.error('orderId가 존재하지 않습니다.');
+      setLoading(false); // 로딩 상태 종료
+      return;
     }
+
+    console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
+
+    // orderId가 있을 경우 정상적으로 navigate 처리
+    navigate(`/order/complete/${orderId}`, { replace: true });
+
+    // 로딩 종료
+    setLoading(false);
   }, [orderId, navigate]);
+
+  if (loading) {
+    return <div>주문 정보를 불러오는 중...</div>; // 로딩 화면
+  }
 
   return (
     <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
