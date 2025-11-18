@@ -9,8 +9,8 @@ export function useSearchNavigation() {
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   useEffect(() => {
-    if (debouncedSearchTerm && location.search !== `?${debouncedSearchTerm}`) {
-      navigate(`/search?q=${debouncedSearchTerm}`);
+    if (debouncedSearchTerm && location.search !== `?q=${debouncedSearchTerm}`) {
+      navigate(`products/search?q=${debouncedSearchTerm}`);
     }
   }, [debouncedSearchTerm, navigate, location.search]);
 }
