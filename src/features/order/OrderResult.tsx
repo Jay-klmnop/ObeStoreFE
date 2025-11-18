@@ -27,7 +27,7 @@ export function OrderResult() {
         status: 'fail',
         orderNumber: null,
         code: 'INVALID',
-        message: '유효하지 않은 접근입니다.',
+        message: '결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.',
       });
       return;
     }
