@@ -38,7 +38,6 @@ export function Router() {
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/result' element={<OrderResult />} />
             <Route path='/order/complete/:orderId' element={<OrderComplete />} />
-            <Route path='/order/result' element={<PayResultPage />} />
             {/* <Route element={<ProtectedRoute />}> </Route> */}
             <Route path='/users/favorites' element={<FavoritesPage />} />
             <Route path='/users/cart' element={<CartPage />} />
