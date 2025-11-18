@@ -15,7 +15,7 @@ export function ReviewForm({ product }: ReviewFormProps) {
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [rating, setRating] = useState(0);
-  const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
+  const [selectedKeywordIds, setSelectedKeywordIds] = useState<number[]>([]);
   const [reviewTitle, setReviewTitle] = useState('');
   const [contentText, setContentText] = useState('');
 
@@ -28,9 +28,9 @@ export function ReviewForm({ product }: ReviewFormProps) {
     setRating(value);
   };
 
-  const handleKeywordToggle = (keyword: string) => {
-    setSelectedKeywords((prev) =>
-      prev.includes(keyword) ? prev.filter((k) => k !== keyword) : [...prev, keyword]
+  const handleKeywordIdToggle = (id: number) => {
+    setSelectedKeywordIds((prev) =>
+      prev.includes(id) ? prev.filter((kId) => kId !== id) : [...prev, id]
     );
   };
 
@@ -38,21 +38,24 @@ export function ReviewForm({ product }: ReviewFormProps) {
     event.preventDefault();
 
     if (rating === 0) return alert('별점을 선택해주세요!');
-    if (selectedKeywords.length === 0) return alert('상품에 대한 키워드를 선택해주세요.');
+    if (selectedKeywordIds.length === 0) return alert('상품에 대한 키워드를 선택해주세요.');
     if (!reviewTitle.trim()) return alert('리뷰 제목을 작성해주세요.');
     if (!contentText.trim()) return alert('사용 후기를 작성해주세요.');
 
     const formData = new FormData();
 
     if (selectedImage) {
-      formData.append('image', selectedImage);
+      formData.append('review_image', selectedImage);
     }
 
-    formData.append('product_id', String(product.id));
+    formData.append('product', String(product.id));
     formData.append('rating', String(rating));
-    formData.append('keywords', JSON.stringify(selectedKeywords));
-    formData.append('title', reviewTitle);
+    formData.append('review_title', reviewTitle);
     formData.append('content', contentText);
+
+    selectedKeywordIds.forEach((id) => {
+      formData.append('keyword_ids', String(id));
+    });
 
     createReview.mutate(formData, {
       onSuccess: () => {
@@ -98,8 +101,8 @@ export function ReviewForm({ product }: ReviewFormProps) {
           <div className='flex flex-wrap gap-2'>
             <ReviewKeywords
               keywords={REVIEW_KEYWORDS}
-              selectedKeywords={selectedKeywords}
-              onKeywordSelect={handleKeywordToggle}
+              selectedKeywords={selectedKeywordIds}
+              onKeywordSelect={handleKeywordIdToggle}
             />
           </div>
         </div>

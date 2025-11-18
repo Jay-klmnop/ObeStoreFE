@@ -3,9 +3,6 @@ import { API_ENDPOINTS, useAuthStore } from '@/features/auth';
 
 export const backendAPI = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
   withCredentials: true,
 });
 
