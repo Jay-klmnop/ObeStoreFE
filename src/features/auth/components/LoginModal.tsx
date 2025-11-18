@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { NaverLoginButton, useAuthStore } from '@/features/auth';
-import { AuthModal, ButtonBase } from '@/components/ui';
+import { ModalWrapper, ButtonBase } from '@/components/ui';
 import { HeaderLogoImgIcon } from '@/components/icon';
+import { useModalStore } from '@/store';
 
 export function LoginModal() {
-  const { login, openAuthModal, closeAuthModal, authModalType } = useAuthStore();
+  const { login } = useAuthStore();
+  const { openModal, closeModal, modalType } = useModalStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -14,14 +16,14 @@ export function LoginModal() {
     setError(null);
     try {
       await login(email, password);
-      closeAuthModal();
+      closeModal();
     } catch (err: any) {
       setError(err.response?.data?.message || '로그인 실패. 다시 시도해주세요.');
     }
   };
 
   return (
-    <AuthModal isOpen={authModalType === 'login'} onClose={closeAuthModal} title='로그인'>
+    <ModalWrapper isOpen={modalType === 'login'} onClose={closeModal} title='로그인'>
       <div className='flex w-full justify-center'>
         <HeaderLogoImgIcon width={160} height={160} />
       </div>
@@ -66,10 +68,10 @@ export function LoginModal() {
       </form>
       <div className='sub-text flex justify-center gap-2'>
         계정이 없으신가요?{' '}
-        <button className='text-primary-700 font-bold' onClick={() => openAuthModal('signup')}>
+        <button className='text-primary-700 font-bold' onClick={() => openModal('signup')}>
           회원가입
         </button>
       </div>
-    </AuthModal>
+    </ModalWrapper>
   );
 }

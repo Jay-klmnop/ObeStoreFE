@@ -8,7 +8,7 @@ interface ModalProps {
   title: string;
 }
 
-export function AuthModal({ isOpen, onClose, children, className, title }: ModalProps) {
+export function ModalWrapper({ isOpen, onClose, children, className, title }: ModalProps) {
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -23,7 +23,7 @@ export function AuthModal({ isOpen, onClose, children, className, title }: Modal
       onClick={handleBackdropClick}
     >
       <div
-        className='modal auth-modal relative m-10 flex h-4/5 w-full flex-col'
+        className='modal modal-wrapper relative m-10 flex h-4/5 w-full flex-col'
         role='dialog'
         aria-modal='true'
       >
@@ -38,5 +38,3 @@ export function AuthModal({ isOpen, onClose, children, className, title }: Modal
     </div>
   );
 }
-
-export default AuthModal;
