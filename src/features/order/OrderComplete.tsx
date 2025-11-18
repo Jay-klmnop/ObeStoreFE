@@ -1,7 +1,7 @@
 import { ButtonBase } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios'; // axios import
+import { backendAPI } from '@/api';
 
 export function OrderComplete() {
   const navigate = useNavigate();
@@ -38,7 +38,9 @@ export function OrderComplete() {
     // 주문 정보 API 호출
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`/orders/${orderId}`);
+        const url = `/orders/${orderId}/`;
+        console.log('요청 URL:', url);
+        const response = await backendAPI.get(url);
         console.log('주문 정보 응답:', response.data);
         setOrderData(response.data); // 주문 데이터 저장
         setLoading(false); // 로딩 종료
