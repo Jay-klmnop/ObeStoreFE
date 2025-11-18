@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyPageOrderCard } from './MyPageOrderCard';
 import type { Order } from "@/types/order";
-import { UserProfileIcon } from '@/components/icon';
 import { ORDER_STATUS_CONFIG, type OrderStatus } from '@/constants/orderStatus';
 
 export const sampleOrders: Order[] = [
@@ -79,14 +78,7 @@ export function MyPageOrderInfo() {
   }, {} as Record<OrderStatus, number>);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center gap-3 pb-4 border-b">
-        <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-          <UserProfileIcon size={20} />
-        </div>
-        <span className="font-medium">Nickname</span>
-      </div>
-
+    <div className="space-y-6 px-4 md:px-6 pb-6">
       <h2 className="text-lg font-bold">주문 내역</h2>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
