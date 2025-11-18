@@ -59,7 +59,7 @@ export function OrderComplete() {
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     const weekday = weekdays[date.getDay()];
 
-    return `${day}.${month}.${year}(${weekday})`;
+    return `${year}.${month}.${day}.(${weekday})`;
   };
 
   // 로딩 중일 때 표시할 화면
@@ -83,15 +83,15 @@ export function OrderComplete() {
         {orderData ? formatDate(orderData.created_at) : ''}
       </p>
       <div className='mt-3 flex w-full justify-between'>
-        <span className='lg:w-[90px]'>주문 번호</span>
+        <span className='lg:w-[120px]'>주문 번호</span>
         <span>{orderNumber}</span> {/* 쿼리 파라미터에서 받아온 orderNumber */}
       </div>
       <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
-        <span className='lg:w-[90px]'>주문 상품</span>
+        <span className='lg:w-[120px]'>주문 상품</span>
         <div className='flex flex-col text-right'>
           {/* 주문 상품 데이터가 있을 경우 표시 */}
           {orderData?.order_products_detail.map((item: OrderEndProductDetail, index: number) => (
-            <div key={index} className='flex-col justify-end'>
+            <div key={index} className='flex flex-col justify-end'>
               <span>{item.product_name}</span>
               <span>{item.amount}개</span>
               <span>{item.price}원</span>
@@ -100,7 +100,7 @@ export function OrderComplete() {
         </div>
       </div>
       <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
-        <span className='lg:w-[90px]'>배송시 요청사항</span>
+        <span className='lg:w-[120px]'>배송시 요청사항</span>
         <span>{orderData?.delivery_request}</span>
       </div>
       <div className='mt-15 flex gap-3'>
