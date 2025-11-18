@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { ProductDetailType } from '@/types';
 import { ButtonBase, ReviewRating } from '@/components/ui';
 import { ProductReviews } from '@/features/product';
+import { ProductQnA } from './ProductQnA';
 
 interface ProductDetailProps {
   product: ProductDetailType;
@@ -192,7 +193,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
         )}
 
-        {activeTab === 'qna' && <div className='text-primary-500-80 py-8 text-center'>Q&A</div>}
+        {activeTab === 'qna' && <ProductQnA product={product} />}
       </div>
     </article>
   );

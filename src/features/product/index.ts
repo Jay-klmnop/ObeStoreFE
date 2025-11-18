@@ -4,4 +4,5 @@ export * from './ProductGrid';
 export * from './ProductReviews';
 export * from './ProductSection';
 export * from './ProductSort';
+export * from './ProductQnA';
 export * from './hooks';
