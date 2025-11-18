@@ -78,5 +78,5 @@ export function OrderResult() {
     }
   }, [result, navigate]);
 
-  return <div>잠시만요... 결제 결과 확인 중입니다.</div>;
+  return <div>잠시만요... 결제 결과 확인 중입니다아아아아.</div>;
 }
