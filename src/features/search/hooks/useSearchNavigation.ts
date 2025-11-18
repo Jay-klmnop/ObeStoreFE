@@ -8,9 +8,20 @@ export function useSearchNavigation() {
   const location = useLocation();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
+  const isDetailPage = /^\/products\/[^/]+$/.test(location.pathname);
+
   useEffect(() => {
-    if (debouncedSearchTerm && location.search !== `?q=${debouncedSearchTerm}`) {
+    if (isDetailPage) return;
+
+    const currentQ = new URLSearchParams(location.search).get('q') ?? '';
+
+    if (!debouncedSearchTerm && currentQ) {
+      navigate('/products', { replace: true });
+      return;
+    }
+
+    if (debouncedSearchTerm && currentQ !== debouncedSearchTerm) {
       navigate(`/products?q=${debouncedSearchTerm}`);
     }
-  }, [debouncedSearchTerm, navigate, location.search]);
+  }, [debouncedSearchTerm, navigate, location.pathname, location.search]);
 }

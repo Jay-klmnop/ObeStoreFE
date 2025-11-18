@@ -29,7 +29,6 @@ export function useProductsQuery({
       if (sortOption) params.ordering = sortOption;
 
       const res = await backendAPI.get(`/products`, { params });
-      console.log('🔥 sending params: ', params);
       return res.data ?? [];
     },
   });
