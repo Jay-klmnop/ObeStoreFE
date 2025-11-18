@@ -41,7 +41,6 @@ export function OrderComplete() {
       fetchOrderDetails(); // 주문 ID가 있으면 주문 정보 API 호출
       fetchPaymentDetails(); // 결제 정보 API 호출
     } else {
-      // navigate('/'); // 주문 ID가 없으면 메인 페이지로 이동
       alert('주문 ID가 없습니다.');
     }
   }, [orderId, navigate]);
@@ -77,8 +76,10 @@ export function OrderComplete() {
         <span className='lg:w-[90px]'>주문 상품</span>
         <div className='flex flex-col text-right'>
           <span>{paymentDetails?.orderName}</span> {/* /payments/ API에서 받은 orderName 표시 */}
-          <span>1개</span>
-          <span>{paymentDetails?.pay_amount.toLocaleString()}원</span> {/* 결제 금액 표시 */}
+          <span>1개</span>{' '}
+          {/* 상품 개수는 현재 하드코딩된 '1개'로 표시, 실제로는 주문 데이터에서 받을 수 있음 */}
+          <span>{orderDetails?.pay_amount.toLocaleString()}원</span>{' '}
+          {/* /orders/ API에서 받은 결제 금액 표시 */}
         </div>
       </div>
       <div className='mt-15 flex gap-3'>
