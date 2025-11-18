@@ -1,27 +1,37 @@
 import { ButtonBase } from '@/components/ui';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 export function OrderComplete() {
   const navigate = useNavigate();
-  const { orderId } = useParams(); // URL에서 orderId를 받아옵니다.
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
 
+  // 쿼리 파라미터에서 orderId, orderNumber, receiptUrl 받아오기
+  const orderId = searchParams.get('orderId');
+  const orderNumber = searchParams.get('orderNumber');
+  const receiptUrl = searchParams.get('receiptUrl');
+
   useEffect(() => {
-    if (!orderId) {
-      console.error('orderId가 존재하지 않습니다.');
-      setLoading(false); // 로딩 상태 종료
+    if (!orderId || !orderNumber || !receiptUrl) {
+      console.error('필수 정보(orderId, orderNumber, receiptUrl)가 존재하지 않습니다.');
+      setLoading(false); // 로딩 종료
       return;
     }
 
     console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
+    console.log('받아온 orderNumber:', orderNumber); // orderNumber를 콘솔에 출력
+    console.log('받아온 receiptUrl:', receiptUrl); // receiptUrl을 콘솔에 출력
 
-    // orderId가 있을 경우 정상적으로 navigate 처리
-    navigate(`/order/complete/${orderId}`, { replace: true });
+    // 정상적으로 navigate 처리
+    setLoading(false); // 로딩 종료
 
-    // 로딩 종료
-    setLoading(false);
-  }, [orderId, navigate]);
+    // navigate 호출하여 쿼리 파라미터를 URL로 전달
+    navigate(
+      `/order/complete?orderNumber=${orderNumber || ''}&orderId=${orderId || ''}&receiptUrl=${encodeURIComponent(receiptUrl || '')}`,
+      { replace: true } // 현재 페이지 URL을 변경
+    );
+  }, [orderId, orderNumber, receiptUrl, navigate]);
 
   if (loading) {
     return <div>주문 정보를 불러오는 중...</div>; // 로딩 화면
@@ -35,7 +45,7 @@ export function OrderComplete() {
       <p className='mt-12 flex w-full justify-self-start font-extrabold'>25.10.21(화)</p>
       <div className='mt-3 flex w-full justify-between'>
         <span className='lg:w-[90px]'>주문 번호</span>
-        <span>202510211618040002</span>
+        <span>{orderNumber}</span>
       </div>
       <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
         <span className='lg:w-[90px]'>주문 상품</span>
