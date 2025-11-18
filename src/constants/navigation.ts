@@ -5,8 +5,8 @@ import { ProfileIcon, CartIcon, EmptyHeartIcon } from '@/components/icon';
 
 export const HEADER_NAV_LINKS = [
   { href: '/products', label: 'OBJETS' },
-  { href: '/products?category=fashion', label: 'FASHION' },
-  { href: '/products?category=living', label: 'LIVING' },
+  { href: '/products?category=패션', label: 'FASHION' },
+  { href: '/products?category=리빙', label: 'LIVING' },
   { href: '/about', label: 'ABOUT' },
 ];
 
