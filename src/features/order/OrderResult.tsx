@@ -26,6 +26,16 @@ export function OrderResult() {
     const code = searchParams.get('code');
     const message = searchParams.get('message');
 
+    // 쿼리 파라미터 로그 출력
+    console.log('쿼리 파라미터:', {
+      status,
+      orderNumber,
+      orderId,
+      receiptUrl,
+      code,
+      message,
+    });
+
     // 잘못된 접근 처리
     if (!status || !orderNumber || !orderId || !receiptUrl) {
       setResult({
