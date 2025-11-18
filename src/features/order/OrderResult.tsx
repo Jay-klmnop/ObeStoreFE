@@ -20,7 +20,7 @@ export function OrderResult() {
   useEffect(() => {
     // 새로운 쿼리 파라미터들 가져오기
     const status = searchParams.get('status') as OrderStatus | null;
-    const orderNumber = searchParams.get('order_number');
+    const orderNumber = searchParams.get('orderNumber'); // 'orderNumber'로 수정
     const orderId = searchParams.get('orderId');
     const receiptUrl = searchParams.get('receipt_url');
     const code = searchParams.get('code');
@@ -34,17 +34,20 @@ export function OrderResult() {
         orderId: null,
         receiptUrl: null,
         code: 'INVALID',
-        message: '유효하지 않은 접근입니다.',
+        message: '유효하지 않은 접근입니다. 다른 오류메세지 !!! 이다!!',
       });
       return;
     }
+
+    // receiptUrl을 URL 디코딩
+    const decodedReceiptUrl = receiptUrl ? decodeURIComponent(receiptUrl) : null;
 
     // 정상적으로 파라미터가 있으면 결과 설정
     setResult({
       status,
       orderNumber,
       orderId,
-      receiptUrl,
+      receiptUrl: decodedReceiptUrl,
       code,
       message,
     });
