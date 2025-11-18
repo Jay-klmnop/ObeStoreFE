@@ -148,7 +148,7 @@ export function CartList() {
               </span>
             </li>
           </ul>
-          <ButtonBase className='mt-7' variant='filled' fullWidth onClick={handlePurchase}>
+          <ButtonBase className='mt-7' fullWidth onClick={handlePurchase}>
             {`${totalPayment.toLocaleString()}원 구매하기 (${totalQuantity}개)`}
           </ButtonBase>
         </div>
