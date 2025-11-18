@@ -6,21 +6,8 @@ import { ButtonBase } from '@/components/ui';
 export function OrderComplete() {
   const navigate = useNavigate();
   const { orderId } = useParams(); // URL에서 orderId를 받음
-  const [orderDetails, setOrderDetails] = useState<any>(null); // 주문 정보를 저장할 상태
   const [paymentDetails, setPaymentDetails] = useState<any>(null); // 결제 정보를 저장할 상태
   const [loading, setLoading] = useState(true); // 로딩 상태 관리
-
-  // 주문 정보를 /orders/ API에서 가져오는 함수
-  const fetchOrderDetails = async () => {
-    try {
-      const response = await axios.post(`/orders/`, {
-        order_id: orderId, // URL 파라미터로 받은 orderId를 서버에 전달
-      });
-      setOrderDetails(response.data); // 응답 데이터를 상태에 저장
-    } catch (error) {
-      console.error('주문 정보 로딩 오류:', error);
-    }
-  };
 
   // 결제 정보를 /payments/ API에서 가져오는 함수
   const fetchPaymentDetails = async () => {
@@ -38,7 +25,6 @@ export function OrderComplete() {
 
   useEffect(() => {
     if (orderId) {
-      fetchOrderDetails(); // 주문 ID가 있으면 주문 정보 API 호출
       fetchPaymentDetails(); // 결제 정보 API 호출
     } else {
       alert('주문 ID가 없습니다.');
@@ -49,9 +35,9 @@ export function OrderComplete() {
     return <div>로딩 중...</div>; // 로딩 중일 때 표시할 메시지
   }
 
-  // 주문 정보가 없을 때의 처리
-  if (!orderDetails || !paymentDetails) {
-    return <div>주문 정보를 찾을 수 없습니다.</div>;
+  // 결제 정보가 없을 때의 처리
+  if (!paymentDetails) {
+    return <div>결제 정보를 찾을 수 없습니다.</div>;
   }
 
   // 메인 페이지로 이동하는 함수
@@ -70,7 +56,7 @@ export function OrderComplete() {
       </p>
       <div className='mt-3 flex w-full justify-between'>
         <span className='lg:w-[90px]'>주문 번호</span>
-        <span>{orderDetails?.order_number}</span> {/* /orders/ API에서 받은 주문 번호 표시 */}
+        <span>{paymentDetails?.order_number}</span> {/* /payments/ API에서 받은 주문 번호 표시 */}
       </div>
       <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
         <span className='lg:w-[90px]'>주문 상품</span>
@@ -78,8 +64,7 @@ export function OrderComplete() {
           <span>{paymentDetails?.orderName}</span> {/* /payments/ API에서 받은 orderName 표시 */}
           <span>1개</span>{' '}
           {/* 상품 개수는 현재 하드코딩된 '1개'로 표시, 실제로는 주문 데이터에서 받을 수 있음 */}
-          <span>{orderDetails?.pay_amount.toLocaleString()}원</span>{' '}
-          {/* /orders/ API에서 받은 결제 금액 표시 */}
+          <span>{paymentDetails?.pay_amount.toLocaleString()}원</span> {/* 결제 금액 표시 */}
         </div>
       </div>
       <div className='mt-15 flex gap-3'>
