@@ -105,7 +105,7 @@ export function OrderComplete() {
       </div>
       <div className='mt-15 flex gap-3'>
         <ButtonBase variant='hollow'>
-          <Link to={`/users/orderinfo/${orderId}`}>주문 상세 보기</Link>
+          <Link to={`/users/orderdetail?orderId=${orderId}`}>주문 상세 보기</Link>
         </ButtonBase>
         <ButtonBase variant='filled'>
           <Link to='/'>메인으로 이동</Link>
