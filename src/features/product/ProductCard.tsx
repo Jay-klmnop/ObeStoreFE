@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className='flex h-20 w-full grow flex-col justify-evenly gap-2 text-left text-xs'>
           <h2>{product.brand_name}</h2>
           <h3 className='font-bold'>{product.product_name}</h3>
-          <div className='flex items-center justify-between pr-0.5'>
+          <div className='flex items-center justify-between pr-px'>
             <p className='font-bold'>₩{Number(product.product_value).toLocaleString('ko-KR')}</p>
             <ReviewRating initialValue={Number(product.product_rating)} readOnly size={16} />
           </div>
