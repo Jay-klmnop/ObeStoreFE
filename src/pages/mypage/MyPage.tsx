@@ -12,24 +12,14 @@ export function MyPage() {
       <p>첫 리뷰를 작성하고 특별한 혜택을 받으세요!</p>
       <div className='bg-primary-100 flex w-full justify-between'>
         <div className='flex flex-col p-4'>
-          <div className='flex items-center gap-4 font-bold'>
-            작성 가능한 후기
-            <IoIosArrowForward />
-          </div>
-          <p>2개</p>
-        </div>
-        <div className='flex flex-col p-4'>
           <NavLink to='/users/favorites' className='flex items-center gap-4 font-bold'>
             찜한 상품
             <IoIosArrowForward />
           </NavLink>
           <p>{favoriteProducts?.length ?? 0}개</p>
         </div>
-        <div className='flex flex-col p-4'>
-          <div className='flex items-center gap-4 font-bold'>
-            적립금
-            <IoIosArrowForward />
-          </div>
+        <div className='flex w-1/2 flex-col p-4'>
+          <div className='flex items-center gap-4 font-bold'>적립금</div>
           <p>{totalPoints}원</p>
         </div>
       </div>
