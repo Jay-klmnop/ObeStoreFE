@@ -1,92 +1,50 @@
-import { useEffect, useState } from 'react';
-import { useSearchParams, useParams } from 'react-router-dom';
+import { ButtonBase } from '@/components/ui';
+import { useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-type OrderStatus = 'success' | 'fail';
-
-interface OrderResultData {
-  status: OrderStatus;
-  orderNumber: string | null;
-  orderId: string | null;
-  receiptUrl: string | null;
-  code: string | null; // 실패 시 에러 코드
-  message: string | null; // 실패 시 에러 메시지
-}
-
-export function OrderResult() {
-  const [searchParams] = useSearchParams();
-  const [result, setResult] = useState<OrderResultData | null>(null);
-  const { orderId } = useParams(); // `orderId`를 URL params에서 가져옵니다.
+export function OrderComplete() {
+  const navigate = useNavigate();
+  const { orderId } = useParams(); // URL에서 orderId를 받아옵니다.
 
   useEffect(() => {
-    const status = searchParams.get('status') as OrderStatus | null;
-    const orderNumber = searchParams.get('order_number');
-    const orderIdFromSearch = searchParams.get('orderId');
-    const receiptUrl = searchParams.get('receipt_url');
-    const code = searchParams.get('code'); // 실패 시 코드
-    const message = searchParams.get('message'); // 실패 시 메시지
-
-    // 데이터가 정상적으로 받았을 때 콘솔 출력
-    console.log('받아온 데이터:', {
-      status,
-      orderNumber,
-      orderIdFromSearch,
-      receiptUrl,
-      code,
-      message,
-      orderId, // `orderId`를 콘솔에 출력하여 확인합니다.
-    });
-
-    // 유효한 파라미터가 없으면 실패 처리
-    if (!status || !orderNumber || !orderIdFromSearch || !receiptUrl) {
-      setResult({
-        status: 'fail',
-        orderNumber: null,
-        orderId: null,
-        receiptUrl: null,
-        code: 'INVALID',
-        message: '결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.',
-      });
-      console.error('결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.');
-      return;
+    // orderId가 있을 경우 콘솔에 출력하고 navigate
+    if (orderId) {
+      console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
+      navigate('/order/complete', { replace: true });
+    } else {
+      console.error('orderId가 존재하지 않습니다.');
     }
-
-    // 정상적으로 파라미터가 있으면 결과 설정
-    setResult({
-      status,
-      orderNumber,
-      orderId: orderIdFromSearch,
-      receiptUrl,
-      code,
-      message,
-    });
-  }, [searchParams, orderId]); // `orderId`도 의존성 배열에 추가하여 변경될 때마다 실행되도록 합니다.
+  }, [orderId, navigate]);
 
   return (
-    <div className='order-result'>
-      {result ? (
-        result.status === 'success' ? (
-          <div>
-            <h2>주문 완료</h2>
-            <p>주문 번호: {result.orderNumber}</p>
-            <p>주문 ID: {result.orderId}</p>
-            <p>결제가 성공적으로 완료되었습니다.</p>
-            <p>
-              영수증:{' '}
-              <a href={result.receiptUrl ?? ''} target='_blank' rel='noopener noreferrer'>
-                영수증 보기
-              </a>
-            </p>
-          </div>
-        ) : (
-          <div>
-            <h2>주문 실패</h2>
-            <p>에러 코드: {result.code}</p>
-            <p>에러 메시지: {result.message}</p>
-          </div>
-        )
-      ) : (
-        <div>결제 결과를 확인하는 중입니다...</div>
-      )}
+    <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
+      <h2 className='text-3xl font-normal'>
+        <b className='font-semibold'>주문</b>이 <b className='font-semibold'>완료</b> 되었습니다!
+      </h2>
+      <p className='mt-12 flex w-full justify-self-start font-extrabold'>25.10.21(화)</p>
+      <div className='mt-3 flex w-full justify-between'>
+        <span className='lg:w-[90px]'>주문 번호</span>
+        <span>202510211618040002</span>
+      </div>
+      <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
+        <span className='lg:w-[90px]'>주문 상품</span>
+        <div className='flex flex-col text-right'>
+          <span>[8팩] 20cm 무지 긴목 장목 양말 외 2건</span>
+          <span>1개</span>
+          <span>15,900원</span>
+        </div>
+      </div>
+      <div className='mt-15 flex gap-3'>
+        <ButtonBase variant='hollow'>
+          <Link to='/users/orderinfo'>주문 상세 보기</Link>
+        </ButtonBase>
+        <ButtonBase variant='filled'>
+          <Link to='/'>메인으로 이동</Link>
+        </ButtonBase>
+      </div>
+      <p className='text-custom-gray-100 mt-5 cursor-default text-base font-light'>
+        주문내역 및 배송에 관한 안내는 <b>[주문 상세 보기]</b> 를 통하여 확인 가능합니다.
+      </p>
     </div>
   );
 }
