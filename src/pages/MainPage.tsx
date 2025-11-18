@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ProductSection, useProductsQuery } from '@/features/product';
 import { main1, main2, main3, autumn, interior, jewelry, whats } from '@/assets';
+import { ReviewsSection } from '@/features/review';
 
 export const MainPage = () => {
   const { data: newProducts = [], isLoading: isLoadingNew } = useProductsQuery({
@@ -10,7 +11,6 @@ export const MainPage = () => {
 
   const { data: saleProducts = [], isLoading: isLoadingSale } = useProductsQuery({
     hasDiscount: true,
-    sortOption: '-dc_rate',
   });
   const { data: allProducts = [], isLoading: isLoadingAll } = useProductsQuery({
     sortOption: '-created_at',
@@ -122,9 +122,10 @@ export const MainPage = () => {
           </div>
         </section>
 
-        <ProductSection title='Objets' products={allProducts} isLoading={loading} />
         <ProductSection title='New Items' products={newProducts} isLoading={loading} />
         <ProductSection title='Sale Items' products={saleProducts} isLoading={loading} />
+        <ProductSection title='Objets' products={allProducts} isLoading={loading} />
+        <ReviewsSection />
       </div>
     </div>
   );

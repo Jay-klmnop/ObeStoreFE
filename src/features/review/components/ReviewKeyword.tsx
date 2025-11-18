@@ -1,9 +1,10 @@
+import type { ReviewKeyword } from '@/constants';
 import { cn } from '@/utils';
 
 interface ReviewKeywordsProps {
-  keywords: string[];
-  selectedKeywords?: string[];
-  onKeywordSelect?: (keyword: string) => void;
+  keywords: ReviewKeyword[];
+  selectedKeywords?: number[];
+  onKeywordSelect?: (keyword: number) => void;
 }
 
 export function ReviewKeywords({
@@ -18,11 +19,11 @@ export function ReviewKeywords({
   return (
     <div className='flex flex-wrap gap-2 py-2'>
       {keywords.map((keyword) => {
-        const isSelected = selectedKeywords?.includes(keyword) ?? false;
+        const isSelected = selectedKeywords?.includes(keyword.id) ?? false;
 
         return (
           <button
-            key={keyword}
+            key={keyword.id}
             type='button'
             className={cn(
               'rounded-full border-2 px-3 py-1 text-sm font-semibold transition-colors',
@@ -32,12 +33,12 @@ export function ReviewKeywords({
                 'text-primary-700 border-primary-500-50 bg-white': !isSelected,
               }
             )}
-            onClick={() => isInteractive && onKeywordSelect(keyword)}
+            onClick={() => isInteractive && onKeywordSelect(keyword.id)}
             role={isInteractive ? 'button' : undefined}
             tabIndex={isInteractive ? 0 : -1}
-            onKeyDown={(e) => isInteractive && e.key === 'Enter' && onKeywordSelect(keyword)}
+            onKeyDown={(e) => isInteractive && e.key === 'Enter' && onKeywordSelect(keyword.id)}
           >
-            #{keyword}
+            #{keyword.keyword_name}
           </button>
         );
       })}

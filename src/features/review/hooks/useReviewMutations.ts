@@ -6,8 +6,14 @@ export function useReviewMutations() {
   const qc = useQueryClient();
 
   const create = useMutation<AxiosResponse, Error, FormData>({
-    mutationFn: (body: FormData) => backendAPI.post('/reviews', body),
-    onSuccess: () => {
+    mutationFn: (body: FormData) => backendAPI.post('/reviews/', body),
+    onSuccess: (_data, variables) => {
+      const productId = variables.get('product');
+
+      if (productId) {
+        qc.invalidateQueries({ queryKey: ['productDetail', productId] });
+      }
+
       qc.invalidateQueries({ queryKey: ['reviews'] });
     },
   });

@@ -1,4 +1,5 @@
 import { ImageIcon } from '@/components/icon';
+import { MAX_SIZE_MB } from '@/constants';
 import { useRef, useState, type ChangeEvent } from 'react';
 
 interface ReviewImageUploadButtonProps {
@@ -13,6 +14,16 @@ export function ReviewImageUploadButton({ onFileSelect }: ReviewImageUploadButto
     const file = event.target.files?.[0];
 
     if (file) {
+      const maxSizeBytes = MAX_SIZE_MB * 1024 * 1024;
+
+      if (file.size > maxSizeBytes) {
+        alert(`파일 크기는 ${MAX_SIZE_MB}MB를 초과할 수 없습니다.`);
+        if (inputRef.current) {
+          inputRef.current.value = '';
+        }
+        return;
+      }
+
       onFileSelect(file);
 
       const reader = new FileReader();
