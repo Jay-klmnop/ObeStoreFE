@@ -36,7 +36,7 @@ export function Router() {
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/result' element={<OrderResult />} />
-            <Route path='/order/complete/:orderId' element={<OrderComplete />} />
+            <Route path='/order/complete' element={<OrderComplete />} />
             {/* <Route element={<ProtectedRoute />}> </Route> */}
             <Route path='/users/favorites' element={<FavoritesPage />} />
             <Route path='/users/cart' element={<CartPage />} />

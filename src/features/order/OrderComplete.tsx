@@ -1,20 +1,65 @@
 import { ButtonBase } from '@/components/ui';
-import { useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios'; // axios import
 
 export function OrderComplete() {
   const navigate = useNavigate();
-  const { orderId } = useParams(); // URL에서 orderId를 받아옵니다.
+  const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(true);
+  const [orderData, setOrderData] = useState<any>(null); // 주문 데이터를 저장할 상태 추가
+  const [error, setError] = useState<string | null>(null); // 에러 상태 추가
+
+  // 쿼리 파라미터에서 orderId, orderNumber, receiptUrl 받아오기
+  const orderId = searchParams.get('orderId');
+  const orderNumber = searchParams.get('orderNumber');
+  const receiptUrl = searchParams.get('receiptUrl');
 
   useEffect(() => {
-    // orderId가 있을 경우 콘솔에 출력하고 navigate
-    if (orderId) {
-      console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
-      navigate('/order/complete', { replace: true });
-    } else {
-      console.error('orderId가 존재하지 않습니다. test new');
+    if (!orderId || !orderNumber || !receiptUrl) {
+      console.error('필수 정보(orderId, orderNumber, receiptUrl)가 존재하지 않습니다.');
+      setLoading(false); // 로딩 종료
+      return;
     }
-  }, [orderId, navigate]);
+
+    console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
+    console.log('받아온 orderNumber:', orderNumber); // orderNumber를 콘솔에 출력
+    console.log('받아온 receiptUrl:', receiptUrl); // receiptUrl을 콘솔에 출력
+
+    // 정상적으로 navigate 처리
+    setLoading(false); // 로딩 종료
+
+    // navigate 호출하여 쿼리 파라미터를 URL로 전달
+    navigate(
+      `/order/complete?orderNumber=${orderNumber || ''}&orderId=${orderId || ''}&receiptUrl=${encodeURIComponent(receiptUrl || '')}`,
+      { replace: true } // 현재 페이지 URL을 변경
+    );
+
+    // 주문 정보 API 호출
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await axios.get(`/orders/${orderId}`);
+        setOrderData(response.data); // 주문 데이터 저장
+        setLoading(false); // 로딩 종료
+      } catch (error) {
+        console.error('주문 정보 로딩 오류:', error);
+        setError('주문 정보를 불러오는 중 오류가 발생했습니다.');
+        setLoading(false); // 로딩 종료
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderId, orderNumber, receiptUrl, navigate]); // orderId, orderNumber, receiptUrl, navigate 변경 시 호출
+
+  // 로딩 중일 때 표시할 화면
+  if (loading) {
+    return <div>주문 정보를 불러오는 중...</div>;
+  }
+
+  // 에러 발생 시 화면
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className='m-auto flex w-full flex-col items-center justify-center py-[90px] text-lg lg:w-[500px]'>
@@ -24,19 +69,24 @@ export function OrderComplete() {
       <p className='mt-12 flex w-full justify-self-start font-extrabold'>25.10.21(화)</p>
       <div className='mt-3 flex w-full justify-between'>
         <span className='lg:w-[90px]'>주문 번호</span>
-        <span>202510211618040002</span>
+        <span>{orderNumber}</span> {/* 쿼리 파라미터에서 받아온 orderNumber */}
       </div>
       <div className='border-custom-gray-50 mt-7 flex w-full justify-between border-t pt-7'>
         <span className='lg:w-[90px]'>주문 상품</span>
         <div className='flex flex-col text-right'>
-          <span>[8팩] 20cm 무지 긴목 장목 양말 외 2건</span>
-          <span>1개</span>
-          <span>15,900원</span>
+          {/* 주문 상품 데이터가 있을 경우 표시 */}
+          {orderData?.items?.map((item: any, index: number) => (
+            <div key={index}>
+              <span>{item.name}</span>
+              <span>{item.quantity}개</span>
+              <span>{item.price}원</span>
+            </div>
+          ))}
         </div>
       </div>
       <div className='mt-15 flex gap-3'>
         <ButtonBase variant='hollow'>
-          <Link to='/users/orderinfo'>주문 상세 보기</Link>
+          <Link to={`/users/orderinfo/${orderId}`}>주문 상세 보기</Link>
         </ButtonBase>
         <ButtonBase variant='filled'>
           <Link to='/'>메인으로 이동</Link>
