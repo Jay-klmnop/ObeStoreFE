@@ -11,7 +11,22 @@ export function useProductDetailQuery(productId: string | number) {
           id: productId,
         },
       });
-      return res.data;
+      const data = res.data;
+
+      if (
+        data &&
+        typeof data === 'object' &&
+        !Array.isArray(data) &&
+        Object.keys(data).length === 0
+      ) {
+        return null;
+      }
+
+      if (Array.isArray(data)) {
+        return data[0] ?? null;
+      }
+
+      return data;
     },
     enabled: !!productId,
   });
