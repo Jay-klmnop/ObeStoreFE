@@ -41,7 +41,8 @@ export function OrderComplete() {
       fetchOrderDetails(); // 주문 ID가 있으면 주문 정보 API 호출
       fetchPaymentDetails(); // 결제 정보 API 호출
     } else {
-      navigate('/'); // 주문 ID가 없으면 메인 페이지로 이동
+      // navigate('/'); // 주문 ID가 없으면 메인 페이지로 이동
+      alert('주문 ID가 없습니다.');
     }
   }, [orderId, navigate]);
 
