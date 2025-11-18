@@ -7,7 +7,7 @@ interface OrderResultData {
   status: OrderStatus;
   orderNumber: string | null; // order_number
   orderId: string | null; // orderId
-  receiptUrl: string | null; // receipt_url
+  receiptUrl: string | null; // receiptUrl
   code: string | null; // 실패 시 에러 코드
   message: string | null; // 실패 시 에러 메시지
 }
@@ -22,7 +22,7 @@ export function OrderResult() {
     const status = searchParams.get('status') as OrderStatus | null;
     const orderNumber = searchParams.get('orderNumber'); // 'orderNumber'로 수정
     const orderId = searchParams.get('orderId');
-    const receiptUrl = searchParams.get('receipt_url');
+    const receiptUrl = searchParams.get('receiptUrl');
     const code = searchParams.get('code');
     const message = searchParams.get('message');
 
@@ -78,5 +78,5 @@ export function OrderResult() {
     }
   }, [result, navigate]);
 
-  return <div>잠시만요... 결제 결과 확인 중입니다.</div>;
+  return <div>잠시만요... 결제 결과 확인 중입니다아아아아.</div>;
 }
