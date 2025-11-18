@@ -1,52 +1,41 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, useParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 type OrderStatus = 'success' | 'fail';
 
 interface OrderResultData {
   status: OrderStatus;
-  orderNumber: string | null;
-  orderId: string | null;
-  receiptUrl: string | null;
+  orderNumber: string | null; // order_number
+  orderId: string | null; // orderId
+  receiptUrl: string | null; // receipt_url
   code: string | null; // 실패 시 에러 코드
   message: string | null; // 실패 시 에러 메시지
 }
 
 export function OrderResult() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [result, setResult] = useState<OrderResultData | null>(null);
-  const { orderId } = useParams(); // `orderId`를 URL params에서 가져옵니다.
 
   useEffect(() => {
+    // 새로운 쿼리 파라미터들 가져오기
     const status = searchParams.get('status') as OrderStatus | null;
     const orderNumber = searchParams.get('order_number');
-    const orderIdFromSearch = searchParams.get('orderId');
+    const orderId = searchParams.get('orderId');
     const receiptUrl = searchParams.get('receipt_url');
-    const code = searchParams.get('code'); // 실패 시 코드
-    const message = searchParams.get('message'); // 실패 시 메시지
+    const code = searchParams.get('code');
+    const message = searchParams.get('message');
 
-    // 데이터가 정상적으로 받았을 때 콘솔 출력
-    console.log('받아온 데이터:', {
-      status,
-      orderNumber,
-      orderIdFromSearch,
-      receiptUrl,
-      code,
-      message,
-      orderId, // `orderId`를 콘솔에 출력하여 확인합니다.
-    });
-
-    // 유효한 파라미터가 없으면 실패 처리
-    if (!status || !orderNumber || !orderIdFromSearch || !receiptUrl) {
+    // 잘못된 접근 처리
+    if (!status || !orderNumber || !orderId || !receiptUrl) {
       setResult({
         status: 'fail',
         orderNumber: null,
         orderId: null,
         receiptUrl: null,
         code: 'INVALID',
-        message: '결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.',
+        message: '유효하지 않은 접근입니다.',
       });
-      console.error('결제 결과를 처리할 수 없습니다. 유효한 주문 번호와 결제 상태를 확인하세요.');
       return;
     }
 
@@ -54,39 +43,27 @@ export function OrderResult() {
     setResult({
       status,
       orderNumber,
-      orderId: orderIdFromSearch,
+      orderId,
       receiptUrl,
       code,
       message,
     });
-  }, [searchParams, orderId]); // `orderId`도 의존성 배열에 추가하여 변경될 때마다 실행되도록 합니다.
+  }, [searchParams]);
 
-  return (
-    <div className='order-result'>
-      {result ? (
-        result.status === 'success' ? (
-          <div>
-            <h2>주문 완료</h2>
-            <p>주문 번호: {result.orderNumber}</p>
-            <p>주문 ID: {result.orderId}</p>
-            <p>결제가 성공적으로 완료되었습니다.</p>
-            <p>
-              영수증:{' '}
-              <a href={result.receiptUrl ?? ''} target='_blank' rel='noopener noreferrer'>
-                영수증 보기
-              </a>
-            </p>
-          </div>
-        ) : (
-          <div>
-            <h2>주문 실패</h2>
-            <p>에러 코드: {result.code}</p>
-            <p>에러 메시지: {result.message}</p>
-          </div>
-        )
-      ) : (
-        <div>결제 결과를 확인하는 중입니다...</div>
-      )}
-    </div>
-  );
+  // 상태가 세팅되면 다음 라우팅 처리
+  useEffect(() => {
+    if (!result) return;
+
+    if (result.status === 'success' && result.orderNumber) {
+      // 주문 완료 페이지로 이동
+      navigate(
+        `/order/complete?orderNumber=${result.orderNumber}&orderId=${result.orderId}&receiptUrl=${result.receiptUrl}`
+      );
+    } else {
+      // 실패 → 실패 안내 페이지
+      navigate(`/order/fail?code=${result.code}&message=${result.message}`);
+    }
+  }, [result, navigate]);
+
+  return <div>잠시만요... 결제 결과 확인 중입니다.</div>;
 }
