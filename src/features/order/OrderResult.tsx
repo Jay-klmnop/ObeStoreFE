@@ -22,7 +22,7 @@ export function OrderResult() {
     const message = searchParams.get('message');
 
     // 잘못된 접근 처리
-    if (!status) {
+    if (!status || !orderNumber) {
       setResult({
         status: 'fail',
         orderNumber: null,
@@ -45,10 +45,10 @@ export function OrderResult() {
     if (!result) return;
 
     if (result.status === 'success' && result.orderNumber) {
-      //  주문 완료 페이지로 이동
-      navigate(`/order/complete?orderNumber=${result.orderNumber}`);
+      // 주문 완료 페이지로 이동 (orderNumber를 URL 파라미터로 전달)
+      navigate(`/order/complete/${result.orderNumber}`);
     } else {
-      //  실패 → 실패 안내 페이지 or 메인 이동
+      // 실패 → 실패 안내 페이지 or 메인 이동
       navigate(`/order/fail?code=${result.code}&message=${result.message}`);
     }
   }, [result, navigate]);

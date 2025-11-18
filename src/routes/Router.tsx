@@ -37,7 +37,7 @@ export function Router() {
             <Route path='/order/success' element={<OrderSuccess />} />
             <Route path='/order/fail' element={<OrderFail />} />
             <Route path='/order/result' element={<OrderResult />} />
-            <Route path='/order/complete' element={<OrderComplete />} />
+            <Route path='/order/complete/:orderId' element={<OrderComplete />} />
             <Route path='/order/result' element={<PayResultPage />} />
             {/* <Route element={<ProtectedRoute />}> </Route> */}
             <Route path='/users/favorites' element={<FavoritesPage />} />
@@ -45,7 +45,7 @@ export function Router() {
             <Route path='/users' element={<MyPageLayout />}>
               <Route index element={<MyPage />} />
               <Route path='orderdetail' element={<MyPageOrderDetail />} />
-              <Route path="orderinfo" element={<MyPageOrderInfo />} />
+              <Route path='orderinfo' element={<MyPageOrderInfo />} />
               <Route path='addressinfo' element={<MyPageAddressInfo />} />
               <Route path='info' element={<MyPageInfo />} />
             </Route>
