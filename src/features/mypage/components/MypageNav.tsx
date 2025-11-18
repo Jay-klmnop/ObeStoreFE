@@ -1,9 +1,14 @@
 import { useAuthStore } from '@/features/auth';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { IoIosArrowForward } from 'react-icons/io';
 
 export function MypageNav() {
   const { logout } = useAuthStore();
+  const location = useLocation();
+  const isOrderActive = () => {
+    const path = location.pathname;
+    return path.startsWith('/users/orderinfo') || path.startsWith('/users/orderdetail');
+  };
   return (
     <div className='m-4 flex w-60 flex-col gap-4 lg:m-8 lg:gap-8'>
       <h2 className='flex text-2xl font-semibold'>MYPAGE</h2>
@@ -11,8 +16,10 @@ export function MypageNav() {
         <li>
           <NavLink
             to='/users/orderinfo'
-            className={({ isActive }) =>
-              `text-primary-500-90 flex font-bold lg:text-lg ${isActive ? 'text-secondary-300 font-semibold' : 'text-gray-500'} w-full items-center justify-between`
+            className={() =>
+              `text-primary-500-90 flex font-bold lg:text-lg ${
+                isOrderActive() ? 'text-secondary-300 font-semibold' : 'text-gray-500'
+              } w-full items-center justify-between`
             }
           >
             주문 내역
