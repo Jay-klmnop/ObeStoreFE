@@ -3,8 +3,7 @@ import type { MouseEvent } from 'react';
 import { SearchIcon } from '@/components/icon';
 
 export function SearchModal() {
-  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal, resetSearch } =
-    useSearchStore();
+  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal } = useSearchStore();
   useSearchNavigation();
 
   if (!isOpenSearchModal) return null;
@@ -12,7 +11,6 @@ export function SearchModal() {
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       closeSearchModal();
-      resetSearch();
     }
   };
 
@@ -36,7 +34,6 @@ export function SearchModal() {
           <button
             onClick={() => {
               closeSearchModal();
-              resetSearch();
             }}
             className='text-primary-700 ml-4 text-2xl font-black'
           >

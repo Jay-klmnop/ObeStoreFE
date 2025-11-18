@@ -10,7 +10,7 @@ export function useSearchNavigation() {
 
   useEffect(() => {
     if (debouncedSearchTerm && location.search !== `?q=${debouncedSearchTerm}`) {
-      navigate(`products/search?q=${debouncedSearchTerm}`);
+      navigate(`/products?q=${debouncedSearchTerm}`);
     }
   }, [debouncedSearchTerm, navigate, location.search]);
 }
