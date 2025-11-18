@@ -1,6 +1,8 @@
 import type { ProductCardType } from '@/types';
-import { useFavoriteStore } from './store';
+import { useFavoriteStore } from '@/features/favorite';
 import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon';
+import { useAuthStore } from '@/features/auth';
+import { useModalStore } from '@/store';
 
 interface FavoriteIconProps {
   product: ProductCardType;
@@ -9,12 +11,21 @@ interface FavoriteIconProps {
 
 export function FavoriteIcon({ product, className }: FavoriteIconProps) {
   const { favoriteProducts, toggleFavorite } = useFavoriteStore();
+  const { access } = useAuthStore();
+  const { openModal } = useModalStore();
+
   const isFavorited = favoriteProducts.some((p) => p.id === product.id);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    toggleFavorite(product);
+
+    if (!access) {
+      alert('로그인이 필요한 기능입니다.');
+      openModal('login');
+    } else {
+      toggleFavorite(product);
+    }
   };
 
   return (

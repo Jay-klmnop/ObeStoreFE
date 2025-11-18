@@ -8,9 +8,9 @@ export const backendAPI = axios.create({
 
 backendAPI.interceptors.request.use(
   (config) => {
-    const accessToken = useAuthStore.getState().accessToken;
-    if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}`;
+    const access = useAuthStore.getState().access;
+    if (access) {
+      config.headers.Authorization = `Bearer ${access}`;
     }
     return config;
   },
@@ -25,13 +25,13 @@ backendAPI.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = useAuthStore.getState().refreshToken;
-        if (!refreshToken) throw new Error('no refresh token');
+        const refresh = useAuthStore.getState().refresh;
+        if (!refresh) throw new Error('no refresh token');
         const res = await axios.post(
           `${backendAPI.defaults.baseURL}${API_ENDPOINTS.REFRESH_TOKEN}`,
-          { refresh: refreshToken }
+          { refresh }
         );
-        const newAccessToken = res.data?.accessToken;
+        const newAccessToken = res.data?.access;
         if (newAccessToken) {
           useAuthStore.getState().setToken(newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
@@ -39,8 +39,10 @@ backendAPI.interceptors.response.use(
         }
       } catch (err) {
         console.error('Token refresh failed: ', err);
-        useAuthStore.getState().logout();
-        window.location.href = '/';
+        useAuthStore.getState().logout((to) => {
+          const target = typeof to === 'string' ? to : '/';
+          window.location.href = target;
+        });
       }
     }
     return Promise.reject(error);
