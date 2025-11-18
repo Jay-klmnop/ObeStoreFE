@@ -2,12 +2,13 @@ import { ButtonBase } from '@/components/ui';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { backendAPI } from '@/api';
+import type { OrderEnd, OrderEndProductDetail } from '@/types';
 
 export function OrderComplete() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
-  const [orderData, setOrderData] = useState<any>(null); // 주문 데이터를 저장할 상태 추가
+  const [orderData, setOrderData] = useState<OrderEnd | null>(null); // 주문 데이터를 저장할 상태 추가
   const [error, setError] = useState<string | null>(null); // 에러 상태 추가
 
   // 쿼리 파라미터에서 orderId, orderNumber, receiptUrl 받아오기
@@ -22,10 +23,6 @@ export function OrderComplete() {
       return;
     }
 
-    console.log('받아온 orderId:', orderId); // orderId를 콘솔에 출력
-    console.log('받아온 orderNumber:', orderNumber); // orderNumber를 콘솔에 출력
-    console.log('받아온 receiptUrl:', receiptUrl); // receiptUrl을 콘솔에 출력
-
     // 정상적으로 navigate 처리
     setLoading(false); // 로딩 종료
 
@@ -39,9 +36,7 @@ export function OrderComplete() {
     const fetchOrderDetails = async () => {
       try {
         const url = `/orders/${orderId}/`;
-        console.log('요청 URL:', url);
-        const response = await backendAPI.get(url);
-        console.log('주문 정보 응답:', response.data);
+        const response = await backendAPI.get<OrderEnd>(url);
         setOrderData(response.data); // 주문 데이터 저장
         setLoading(false); // 로딩 종료
       } catch (error) {
@@ -79,10 +74,10 @@ export function OrderComplete() {
         <span className='lg:w-[90px]'>주문 상품</span>
         <div className='flex flex-col text-right'>
           {/* 주문 상품 데이터가 있을 경우 표시 */}
-          {orderData?.items?.map((item: any, index: number) => (
+          {orderData?.order_products_detail.map((item: OrderEndProductDetail, index: number) => (
             <div key={index}>
-              <span>{item.name}</span>
-              <span>{item.quantity}개</span>
+              <span>{item.product_name}</span>
+              <span>{item.amount}개</span>
               <span>{item.price}원</span>
             </div>
           ))}
