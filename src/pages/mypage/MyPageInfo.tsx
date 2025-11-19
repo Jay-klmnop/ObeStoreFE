@@ -6,26 +6,25 @@ import {
 } from '@/features/mypage';
 import { ButtonBase, ConfirmModal } from '@/components/ui';
 import { useState } from 'react';
-import { useCustomerQuery } from '@/features/mypage/api/useCustomerQuery';
+import { useCustomerMutation, useCustomerQuery } from '@/features/mypage/api/useCustomerQuery';
 
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
 
   const { data: customer, isLoading, isError } = useCustomerQuery();
+  const { deleteCustomerMutation } = useCustomerMutation();
 
   const handleClickWithdraw = () => setWithdrawModalOpen(true);
   const handleCloseWithdrawModal = () => setWithdrawModalOpen(false);
   const handleClickEditInfoConfirm = () => {
-    console.log('변경내용 모달');
     setEditModalOpen(true);
   };
   const handleDeleteConfirm = () => {
-    console.log('삭제확인 모달');
+    deleteCustomerMutation.mutate();
     setWithdrawModalOpen(false);
   };
   const handleCloseEditModal = () => {
-    console.log('변경닫기 모달');
     setEditModalOpen(false);
   };
 
