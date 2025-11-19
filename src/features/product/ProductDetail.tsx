@@ -13,17 +13,12 @@ interface ProductDetailProps {
 
 export function ProductDetail({ product }: ProductDetailProps) {
   const navigate = useNavigate();
-  // const { data: customer } = useCustomerQuery();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('info');
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(product.favorite_count || 0);
   const { mutate: addToCart } = useProductToCart();
-  // if (customerLoading) {
-  //   return <div>Loading...</div>;
-  // }
 
-  // const cartId = customer?.id || 0;
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       setQuantity((prev) => prev + 1);
@@ -53,14 +48,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
   ];
 
   const handleAddToCart = () => {
-    console.log('🛒 handleAddToCart 호출됨');
-    console.log('👉 전달되는 product:', product);
-    console.log('👉 전달되는 quantity:', quantity);
-
-    // 장바구니에 상품 추가
-    //addToCart([product, quantity, cartId]);
     addToCart([product, quantity]);
-    navigate('/users/cart'); // 장바구니 페이지로 이동
+    navigate('/users/cart');
   };
 
   return (
@@ -157,7 +146,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               )}
               <span className='text-xs text-gray-600'>{favoriteCount}</span>
             </button>
-            <ButtonBase onClick={handleAddToCart} variant='hollow' className='px-8 py-3 text-sm'>
+            <ButtonBase onClick={handleAddToCart} variant='filled' className='px-8 py-3 text-sm'>
               장바구니에 담기
             </ButtonBase>
           </div>
