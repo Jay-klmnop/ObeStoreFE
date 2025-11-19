@@ -2,7 +2,7 @@ import { backendAPI } from '@/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 export interface CustomerOrderInfo {
-  id?: string;
+  id?: number;
   email: string;
   username: string;
   nickname: string;

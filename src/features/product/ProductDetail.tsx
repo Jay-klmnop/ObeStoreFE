@@ -5,6 +5,8 @@ import { ButtonBase, ReviewRating } from '@/components/ui';
 import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon/HeartIcon';
 import { ProductReviews } from '@/features/product';
 import { ProductQnA } from './ProductQnA';
+import { useProductToCart } from './api/useProductToCart';
+import { useCustomerQuery } from '../mypage';
 
 interface ProductDetailProps {
   product: ProductDetailType;
@@ -12,11 +14,17 @@ interface ProductDetailProps {
 
 export function ProductDetail({ product }: ProductDetailProps) {
   const navigate = useNavigate();
+  const { data: customer, isLoading: customerLoading } = useCustomerQuery();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('info');
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(product.favorite_count || 0);
+  const { mutate: addToCart } = useProductToCart();
+  if (customerLoading) {
+    return <div>Loading...</div>;
+  }
 
+  const cartId = customer?.id || 0;
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       setQuantity((prev) => prev + 1);
@@ -35,14 +43,6 @@ export function ProductDetail({ product }: ProductDetailProps) {
     }
   };
 
-  const handleAddToCart = () => {
-    navigate('/users/cart');
-  };
-
-  const handleBuyNow = () => {
-    navigate('/order/order');
-  };
-
   const totalPrice = product.dc_value * quantity;
 
   const tabs = [
@@ -52,6 +52,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
     { id: 'shipping', label: '배송 안내' },
     { id: 'qna', label: '상품 Q&A' },
   ];
+
+  const handleAddToCart = () => {
+    // 장바구니에 상품 추가
+    addToCart([product, quantity, cartId]);
+    navigate('/users/cart'); // 장바구니 페이지로 이동
+  };
 
   return (
     <article className='mx-auto max-w-7xl'>
@@ -93,7 +99,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </span>
           </div>
 
-          <div className='border-primary-500-40 space-y-4 border-b border-t py-4'>
+          <div className='border-primary-500-40 space-y-4 border-t border-b py-4'>
             <div className='rounded bg-gray-50 px-3 py-2'>
               <span className='text-sm font-medium text-gray-700'>FREE</span>
             </div>
@@ -102,13 +108,15 @@ export function ProductDetail({ product }: ProductDetailProps) {
               <div className='flex items-center gap-2'>
                 <button
                   onClick={() => handleQuantityChange('decrease')}
-                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'>
+                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'
+                >
                   −
                 </button>
                 <span className='w-8 text-center text-sm'>{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange('increase')}
-                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'>
+                  className='flex h-7 w-7 items-center justify-center border border-gray-300 text-gray-600 hover:bg-gray-50'
+                >
                   +
                 </button>
               </div>
@@ -136,7 +144,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
           <div className='flex items-center justify-end gap-2'>
             <button
               onClick={handleFavoriteClick}
-              className='flex h-16 w-16 flex-col items-center justify-center gap-1 bg-white transition-colors hover:bg-gray-50'>
+              className='flex h-16 w-16 flex-col items-center justify-center gap-1 bg-white transition-colors hover:bg-gray-50'
+            >
               {isFavorite ? (
                 <FilledHeartIcon size={20} color='#ef4444' />
               ) : (
@@ -144,25 +153,20 @@ export function ProductDetail({ product }: ProductDetailProps) {
               )}
               <span className='text-xs text-gray-600'>{favoriteCount}</span>
             </button>
-
             <ButtonBase onClick={handleAddToCart} variant='hollow' className='px-8 py-3 text-sm'>
-              장바구니
-            </ButtonBase>
-
-            <ButtonBase onClick={handleBuyNow} variant='filled' className='px-10 py-3 text-sm'>
-              구매하기
+              장바구니에 담기
             </ButtonBase>
           </div>
         </section>
       </div>
 
-      <nav className='border-primary-500-40 bg-primary-50 border-b border-t'>
+      <nav className='border-primary-500-40 bg-primary-50 border-t border-b'>
         <div className='mx-auto flex max-w-7xl overflow-x-auto'>
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 whitespace-nowrap px-4 py-4 text-sm font-medium transition-all ${
+              className={`flex-1 px-4 py-4 text-sm font-medium whitespace-nowrap transition-all ${
                 activeTab === tab.id
                   ? 'border-primary-700 text-primary-700 border-b-2'
                   : 'text-primary-500-80 hover:text-primary-700'
