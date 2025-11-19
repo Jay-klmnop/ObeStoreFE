@@ -18,7 +18,7 @@ export function BrandInfo() {
     businessNumber: '123-45-67890',
     address: '서울특별시 강남구 테헤란로 123, 5층',
     MailOrderSalesRegistrationNumber: '2025-서울강남-1234',
-    email: 'support@obestore.com',
+    email: '3.obestore@gmail.com',
   };
   type PolicyName = 'terms' | 'privacy' | 'shipping';
   const closeModal = () => setOpenModal(null);
