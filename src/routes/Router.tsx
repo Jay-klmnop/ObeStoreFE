@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import {
   AboutPage,
+  CallbackPage,
   CartPage,
   FavoritesPage,
   MainPage,
@@ -28,6 +29,7 @@ export function Router() {
           <Route element={<RootLayout />}>
             <Route path='/' element={<MainPage />} />
             <Route path='about' element={<AboutPage />} />
+            <Route path='/auth/naver/callback' element={<CallbackPage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/products/:id' element={<ProductDetailPage />} />
             <Route path='/order/order' element={<OrderPage />} />
