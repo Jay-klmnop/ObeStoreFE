@@ -3,7 +3,7 @@
 // import { Outlet } from 'react-router-dom';
 
 // export function ProtectedRoute() {
-//   const isLoggedIn = useAuthStore((state) => !!state.accessToken);
+//   const isLoggedIn = useAuthStore((state) => !!state.access);
 //   const openAuthModal = useAuthStore((state) => state.openAuthModal);
 
 //   useEffect(() => {
