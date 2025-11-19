@@ -14,6 +14,7 @@ export function ConfirmModal({
   ...rest
 }: ModalProps & { onConfirm?: () => void; onCancel?: () => void; size?: ModalSize }) {
   const handleConfirm = () => {
+    console.log('onConfirm 호출됨');
     if (onConfirm) onConfirm();
     closeModal();
   };
