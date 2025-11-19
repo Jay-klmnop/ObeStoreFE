@@ -19,7 +19,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   devtools(
     persist(
-      (set) => ({
+      (set, get) => ({
         access: null,
         user: null,
         setToken: (access) => set({ access }),
@@ -32,6 +32,7 @@ export const useAuthStore = create<AuthState>()(
             nickname: data.nickname,
             phone_number: data.phone,
           });
+          await get().login(data.email, data.password);
         },
         login: async (email, password) => {
           const { access, user } = await authLogin({ email, password });
