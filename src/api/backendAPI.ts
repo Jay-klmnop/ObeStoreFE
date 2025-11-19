@@ -3,7 +3,6 @@ import { API_ENDPOINTS, useAuthStore } from '@/features/auth';
 
 export const backendAPI = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true,
 });
 
 backendAPI.interceptors.request.use(
@@ -25,12 +24,12 @@ backendAPI.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refresh = useAuthStore.getState().refresh;
-        if (!refresh) throw new Error('no refresh token');
         const res = await axios.post(
           `${backendAPI.defaults.baseURL}${API_ENDPOINTS.REFRESH_TOKEN}`,
-          { refresh }
+          {},
+          { withCredentials: true }
         );
+
         const newAccessToken = res.data?.access;
         if (newAccessToken) {
           useAuthStore.getState().setToken(newAccessToken);
@@ -39,9 +38,8 @@ backendAPI.interceptors.response.use(
         }
       } catch (err) {
         console.error('Token refresh failed: ', err);
-        useAuthStore.getState().logout((to) => {
-          const target = typeof to === 'string' ? to : '/';
-          window.location.href = target;
+        useAuthStore.getState().logout(() => {
+          window.location.href = '/';
         });
       }
     }
