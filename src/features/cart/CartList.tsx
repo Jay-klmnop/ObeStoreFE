@@ -9,14 +9,11 @@ import { useRewardStore } from '@/features/reward/store';
 export function CartList() {
   const { setOrderInfo } = useOrderStore();
   const { data: cartItems = [], isLoading, isError } = useCartQuery();
-
-  console.log('📦 GET /cart/ 결과:', cartItems);
   const navigate = useNavigate();
 
   const {
     checkedItemSum,
     discountSum,
-    //shippingFee,
     shippingFeeText,
     totalPayment,
     rewardPoints,
@@ -43,12 +40,6 @@ export function CartList() {
     const newItems: CartItem[] = cartItems.map((product) => ({
       id: String(product.id),
       product_name: product.product_name ?? 'none',
-      // images:
-      //   typeof product.images === 'string'
-      //     ? product.images
-      //     : Array.isArray(product.images)
-      //       ? product.images[0]
-      //       : (product.images ?? 'http://placehold.co/200x200'),
       price: Math.floor(product.price),
       amount: product.amount ?? 0,
       cart: product.cart,
@@ -72,8 +63,6 @@ export function CartList() {
     );
     navigate('/order/order');
   };
-
-  console.log(cartItems); // 👈 API 구조 확인용
 
   if (isLoading) return <div>장바구니 정보를 불러오는 중입니다...</div>;
   if (isError) return <div>장바구니를 불러오지 못했습니다.</div>;
@@ -110,7 +99,7 @@ export function CartList() {
             }
             amount={product.amount}
             checked={product.checked}
-            cart={product.cart} // 여기는 CartCardProps에 추가해야 함
+            cart={product.cart}
             onChange={(e) => handleItemCheck(String(product.id), e.target.checked)}
           />
         ))}
