@@ -1,31 +1,34 @@
 import { useSearchStore } from '@/features/search';
-import { type MouseEvent } from 'react';
+import { type KeyboardEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@/components/icon';
 
 export function SearchModal() {
-  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal, resetSearch } =
-    useSearchStore();
+  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal } = useSearchStore();
   const navigate = useNavigate();
 
   const handleClose = () => {
-    resetSearch();
     closeSearchModal();
-    navigate('/products', { replace: true });
+  };
+
+  const handleSearch = () => {
+    navigate(`products?q=${searchTerm}`);
+    handleClose();
+    alert('검색어가 적용되었습니다');
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   if (!isOpenSearchModal) return null;
 
-  const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
-  };
-
   return (
     <div
       className='bg-primary-700/50 fixed inset-0 z-50 flex items-start justify-center backdrop-blur-xs'
-      onClick={handleBackdropClick}
+      onClick={(e) => e.target === e.currentTarget && handleClose()}
     >
       <div className='rounded-bg w-full bg-white p-4'>
         <div className='relative flex items-center'>
@@ -36,6 +39,7 @@ export function SearchModal() {
             type='search'
             className='input ml-4 flex h-10 grow'
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
             value={searchTerm}
             autoFocus
           />
