@@ -6,7 +6,7 @@ import {
 } from '@/features/mypage';
 import { ButtonBase, ConfirmModal } from '@/components/ui';
 import { useState } from 'react';
-import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
+import { useCustomerQuery } from '@/features/mypage/api/useCustomerQuery';
 
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
