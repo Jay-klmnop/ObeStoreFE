@@ -1,14 +1,20 @@
 import { ProductGrid, ProductSort, useProductsQuery } from '@/features/product';
 import { ErrorMessage, Spinner } from '@/components/ui';
 import { useSearchStore } from '@/features/search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 export function ProductsPage() {
-  const { searchTerm } = useSearchStore();
   const [searchParams] = useSearchParams();
+  const query = searchParams.get('q') ?? '';
+  const { searchTerm, setSearchTerm, isOpenSearchModal } = useSearchStore();
   const category = searchParams.get('category') ?? undefined;
   const [sortOption, setSortOption] = useState('');
+
+  useEffect(() => {
+    if (isOpenSearchModal) return;
+    if (query !== searchTerm) setSearchTerm(query);
+  }, [query, searchTerm, setSearchTerm]);
 
   const {
     data: products,
