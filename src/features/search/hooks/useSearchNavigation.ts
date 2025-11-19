@@ -3,15 +3,13 @@ import { useDebounce, useSearchStore } from '@/features/search';
 import { useEffect } from 'react';
 
 export function useSearchNavigation() {
-  const { searchTerm } = useSearchStore();
+  const { searchTerm, isOpenSearchModal } = useSearchStore();
   const navigate = useNavigate();
   const location = useLocation();
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
-  const isDetailPage = /^\/products\/[^/]+$/.test(location.pathname);
-
   useEffect(() => {
-    if (isDetailPage) return;
+    if (!isOpenSearchModal) return;
 
     const currentQ = new URLSearchParams(location.search).get('q') ?? '';
 
