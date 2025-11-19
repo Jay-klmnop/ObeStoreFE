@@ -79,6 +79,9 @@ export const useProductToCart = () => {
 
   const mutation = useMutation<CartToItem, Error, [ProductDetailType, number], unknown>({
     mutationFn: addToCart, // POST 요청을 보내는 함수
+    onMutate: (variables) => {
+      console.log('🔍 onMutate 실행 — addToCart로 전달된 variables:', variables);
+    },
     onSuccess: (response) => {
       console.log('장바구니 추가 성공:', response);
       // 성공 시 장바구니 관련 데이터를 새로 고침 (캐시 무효화)
