@@ -1,4 +1,3 @@
-import { useUserMutation, useUserQuery } from '@/features/mypage';
 import {
   ChangePasswordModal,
   MypageContentsWrap,
@@ -7,39 +6,34 @@ import {
 } from '@/features/mypage';
 import { ButtonBase, ConfirmModal } from '@/components/ui';
 import { useState } from 'react';
+import { useCustomerQuery } from '@/features/order/api/useCustomerQuery';
 
 export function MyPageInfo() {
   const [isWithdrawModalOpen, setWithdrawModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const { data: customer, isLoading: isLoadingCustomer, isError: isErrorCustomer } = useUserQuery();
 
-  const { deleteUser } = useUserMutation();
+  const { data: customer, isLoading, isError } = useCustomerQuery();
 
   const handleClickWithdraw = () => setWithdrawModalOpen(true);
   const handleCloseWithdrawModal = () => setWithdrawModalOpen(false);
   const handleClickEditInfoConfirm = () => {
+    console.log('변경내용 모달');
     setEditModalOpen(true);
   };
-  const handleCloseEditModal = () => setEditModalOpen(false);
   const handleDeleteConfirm = () => {
-    console.log('🔍 customer:', customer);
-    console.log('🧨 탈퇴 버튼 클릭됨');
-
-    deleteUser.mutate(undefined, {
-      onSuccess: () => {
-        console.log('🎉 탈퇴 성공');
-      },
-      onError: (err) => {
-        console.log('❌ 탈퇴 실패', err);
-      },
-    });
-
+    console.log('삭제확인 모달');
     setWithdrawModalOpen(false);
   };
+  const handleCloseEditModal = () => {
+    console.log('변경닫기 모달');
+    setEditModalOpen(false);
+  };
+
   const provider = customer?.provider ?? 'email';
   const isSocialLogin = provider !== 'email';
-  if (isLoadingCustomer) return <div>나의 정보를 준비 중입니다...</div>;
-  if (isErrorCustomer) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
+  if (isLoading) return <div>나의 정보를 준비 중입니다...</div>;
+  if (isError) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
+
   return (
     <MypageOutside>
       <MypageContentsWrap>

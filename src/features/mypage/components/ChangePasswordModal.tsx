@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useChangePasswordMutation } from '@/features/mypage';
+
 // 📌 SignupForm과 동일한 비밀번호 정책
 const passwordSchema = z
   .object({
@@ -19,6 +20,7 @@ const passwordSchema = z
     message: '비밀번호가 일치하지 않습니다.',
     path: ['confirmPassword'],
   });
+
 type PasswordFormData = z.infer<typeof passwordSchema>;
 
 export function ChangePasswordModal({
@@ -30,7 +32,9 @@ export function ChangePasswordModal({
 }) {
   const mutation = useChangePasswordMutation();
   if (!mutation) return null;
+
   const { mutate: changePassword, isPending } = mutation;
+
   const {
     register,
     handleSubmit,
@@ -40,6 +44,7 @@ export function ChangePasswordModal({
     resolver: zodResolver(passwordSchema),
     defaultValues: { password: '', confirmPassword: '' },
   });
+
   const onSubmit = (data: PasswordFormData) => {
     changePassword(
       { password: data.password },
@@ -50,16 +55,20 @@ export function ChangePasswordModal({
           closeModal();
         },
         onError: (err: any) => {
+          console.error('비밀번호 변경 실패:', err);
           alert(err?.response?.data?.message || '비밀번호 변경에 실패했습니다.');
         },
       }
     );
   };
+
   const handleCancel = () => {
     reset();
     closeModal();
   };
+
   if (!isOpen) return null;
+
   return (
     <ConfirmModal
       isOpen={isOpen}
@@ -70,38 +79,33 @@ export function ChangePasswordModal({
       size='lg'
       confirmDisabled={isSubmitting || isPending}
     >
-      {' '}
       <div className='flex flex-col gap-4'>
-        {' '}
-        {/* 새 비밀번호 */}{' '}
+        {/* 새 비밀번호 */}
         <div className='flex flex-col'>
-          {' '}
-          <label className='text-sm font-semibold'>새 비밀번호</label>{' '}
+          <label className='text-sm font-semibold'>새 비밀번호</label>
           <input
             type='password'
             placeholder='8자 이상, 대/소문자+숫자+특수문자 포함'
             {...register('password')}
             className='rounded border p-2'
-          />{' '}
-          {errors.password && (
-            <p className='text-sm text-red-500'>{errors.password.message}</p>
-          )}{' '}
-        </div>{' '}
-        {/* 비밀번호 확인 */}{' '}
+          />
+          {errors.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
+        </div>
+
+        {/* 비밀번호 확인 */}
         <div className='flex flex-col'>
-          {' '}
-          <label className='text-sm font-semibold'>비밀번호 확인</label>{' '}
+          <label className='text-sm font-semibold'>비밀번호 확인</label>
           <input
             type='password'
             placeholder='비밀번호를 다시 입력해주세요'
             {...register('confirmPassword')}
             className='rounded border p-2'
-          />{' '}
+          />
           {errors.confirmPassword && (
             <p className='text-sm text-red-500'>{errors.confirmPassword.message}</p>
-          )}{' '}
-        </div>{' '}
-      </div>{' '}
+          )}
+        </div>
+      </div>
     </ConfirmModal>
   );
 }
