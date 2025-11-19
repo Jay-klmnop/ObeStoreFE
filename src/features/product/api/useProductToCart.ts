@@ -45,18 +45,20 @@ const addToCart = async ([product, quantity]: [ProductDetailType, number]): Prom
     // 응답 데이터 구조 확인 후 처리
     const cartToItem: CartToItem = {
       id: data.id, // 응답에서 ID를 가져옴
-      items: data.items.map((item: any) => ({
-        id: item.id,
-        product_name: item.product_name,
-        price: item.price,
-        total_price: item.total_price,
-        created_at: item.created_at,
-        updated_at: item.updated_at,
-        amount: item.amount,
-        cart: item.cart,
-        product: item.product,
-        product_card_image: item.product_card_image,
-      })),
+      items: data.items
+        ? data.items.map((item: any) => ({
+            id: item.id,
+            product_name: item.product_name,
+            price: item.price,
+            total_price: item.total_price,
+            created_at: item.created_at,
+            updated_at: item.updated_at,
+            amount: item.amount,
+            cart: item.cart,
+            product: item.product,
+            product_card_image: item.product_card_image,
+          }))
+        : [], // items가 없으면 빈 배열 사용
       total_price: data.total_price, // 응답에서 총 가격 가져옴
       created_at: data.created_at, // 응답에서 생성일 가져옴
       updated_at: data.updated_at, // 응답에서 수정일 가져옴
