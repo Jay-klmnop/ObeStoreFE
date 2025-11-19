@@ -28,9 +28,12 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className='flex items-center justify-between pr-px'>
             {Number(String(product.discount_rate) !== '0.00') ? (
               <div className='flex flex-col'>
-                <p className='text-primary-500-70 text-[10px] line-through'>
-                  ₩{Number(product.product_value).toLocaleString('ko-KR')}
-                </p>
+                <div className='flex gap-2 text-[10px]'>
+                  <p className='text-primary-500-70 line-through'>
+                    ₩{Number(product.product_value).toLocaleString('ko-KR')}
+                  </p>
+                  <p className='text-secondary-300'>{Number(product.discount_rate) * 100}%</p>
+                </div>
                 <p className='font-bold'>₩{Number(product.dc_value).toLocaleString('ko-KR')}</p>
               </div>
             ) : (
