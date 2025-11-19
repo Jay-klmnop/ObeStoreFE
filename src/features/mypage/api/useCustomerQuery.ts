@@ -7,7 +7,7 @@ export interface CustomerOrderInfo {
   username: string;
   nickname: string;
   phone_number: string;
-  provider?: string;
+  login_type?: string;
 }
 
 // 사용자 정보 가져오기 함수
@@ -21,7 +21,7 @@ const fetchCustomer = async (): Promise<CustomerOrderInfo> => {
 const deleteCustomer = async (): Promise<string> => {
   const { data } = await backendAPI.delete('/users/me');
   console.log('회원 탈퇴 응답:', data);
-  return data; // 응답으로 "string"을 받는다고 가정
+  return data;
 };
 
 // useCustomerQuery 훅 정의
@@ -40,11 +40,9 @@ export const useCustomerMutation = () => {
   const deleteCustomerMutation = useMutation({
     mutationFn: deleteCustomer, // `DELETE` 요청을 보내는 함수
     onSuccess: (response) => {
-      // 탈퇴가 성공적으로 처리되었을 때
       console.log('탈퇴 성공:', response);
       alert('회원 탈퇴가 완료되었습니다.');
 
-      // 올바른 방법으로 캐시된 사용자 정보를 무효화하여 최신 정보를 가져옵니다.
       queryClient.invalidateQueries({ queryKey: ['customer'] });
     },
     onError: (error) => {
