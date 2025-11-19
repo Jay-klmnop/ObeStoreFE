@@ -59,12 +59,19 @@ export function SignupForm() {
   }, [email]);
 
   const onSubmit = async (data: SignupFormData) => {
-    if (!emailCheckSuccess) {
+    if (emailCheckSuccess !== true) {
       alert('이메일 중복확인을 먼저 해주세요!');
       return;
     }
     try {
-      const payload = { ...data, email_checked: true };
+      const { confirmPassword, phone, ...restOfData } = data;
+      const payload = {
+        ...restOfData,
+        phone_number: phone,
+        email_checked: true,
+      };
+      console.log('Final payload to be sent:', payload);
+
       await signup(payload);
       alert('회원가입 완료! 이메일 인증을 위해 메일함을 확인해주세요.');
       closeModal();
