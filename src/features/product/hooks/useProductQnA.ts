@@ -12,7 +12,6 @@ export function useGetProductQnA(productId: number) {
     queryKey: ['productQnA', productId],
     queryFn: async () => {
       const res = await backendAPI.get(`/products/${productId}/qna/`);
-      console.log('Q&A 목록 조회:', res.data);
       return res.data ?? [];
     },
     staleTime: 0,
@@ -25,30 +24,18 @@ export function useCreateQnA(productId: number) {
   
   return useMutation({
     mutationFn: async (data: QnAFormData) => {
-      console.log('Q&A 작성 요청:', { ...data, product_id: productId });
       const res = await backendAPI.post('/qna', {
         ...data,
         product_id: productId
       });
-      console.log('Q&A 작성 응답:', res.data);
       return res.data;
     },
-    onSuccess: async (responseData) => {
-      console.log('Q&A 작성 성공:', responseData);
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      console.log('refetch 시작...');
-      await queryClient.refetchQueries({ 
+    onSuccess: async () => {
+      await queryClient.refetchQueries({
         queryKey: ['productQnA', productId],
-        exact: true 
+        exact: true,
       });
-      console.log('refetch 완료!');
     },
-    onError: (error: any) => {
-      console.error('Q&A 작성 실패:', error);
-      console.error('에러 응답:', error.response?.data);
-    }
   });
 }
 
@@ -64,7 +51,6 @@ export function useUpdateQnA(productId: number) {
       return res.data;
     },
     onSuccess: async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
       await queryClient.refetchQueries({ queryKey: ['productQnA', productId] });
     }
   });
@@ -83,7 +69,6 @@ export function useDeleteQnA(productId: number) {
       return res.data;
     },
     onSuccess: async () => {
-      await new Promise(resolve => setTimeout(resolve, 500));
       await queryClient.refetchQueries({ queryKey: ['productQnA', productId] });
     }
   });
