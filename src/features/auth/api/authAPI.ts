@@ -18,6 +18,7 @@ export const authSignup = (data: {
   username: string;
   nickname: string;
   phone_number: string;
+  email_checked: boolean;
 }) => backendAPI.post(API_ENDPOINTS.SIGNUP, data);
 
 export const authLogout = () => backendAPI.post(API_ENDPOINTS.LOGOUT);
