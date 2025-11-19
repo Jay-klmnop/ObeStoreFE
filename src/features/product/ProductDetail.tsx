@@ -6,7 +6,6 @@ import { EmptyHeartIcon, FilledHeartIcon } from '@/components/icon/HeartIcon';
 import { ProductReviews } from '@/features/product';
 import { ProductQnA } from './ProductQnA';
 import { useProductToCart } from './api/useProductToCart';
-import { useCustomerQuery } from '../mypage';
 
 interface ProductDetailProps {
   product: ProductDetailType;
@@ -14,17 +13,17 @@ interface ProductDetailProps {
 
 export function ProductDetail({ product }: ProductDetailProps) {
   const navigate = useNavigate();
-  const { data: customer, isLoading: customerLoading } = useCustomerQuery();
+  // const { data: customer } = useCustomerQuery();
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('info');
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteCount, setFavoriteCount] = useState(product.favorite_count || 0);
   const { mutate: addToCart } = useProductToCart();
-  if (customerLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (customerLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  const cartId = customer?.id || 0;
+  // const cartId = customer?.id || 0;
   const handleQuantityChange = (type: 'increase' | 'decrease') => {
     if (type === 'increase') {
       setQuantity((prev) => prev + 1);
@@ -55,7 +54,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
 
   const handleAddToCart = () => {
     // 장바구니에 상품 추가
-    addToCart([product, quantity, cartId]);
+    //addToCart([product, quantity, cartId]);
+    addToCart([product, quantity]);
     navigate('/users/cart'); // 장바구니 페이지로 이동
   };
 
