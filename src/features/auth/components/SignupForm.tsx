@@ -59,8 +59,13 @@ export function SignupForm() {
   }, [email]);
 
   const onSubmit = async (data: SignupFormData) => {
+    if (!emailCheckSuccess) {
+      alert('이메일 중복확인을 먼저 해주세요!');
+      return;
+    }
     try {
-      await signup(data);
+      const payload = { ...data, email_checked: true };
+      await signup(payload);
       alert('회원가입 완료! 이메일 인증을 위해 메일함을 확인해주세요.');
       closeModal();
     } catch (err: any) {
@@ -155,7 +160,7 @@ export function SignupForm() {
                 placeholder='닉네임을 입력해주세요'
                 {...register('nickname')}
                 required
-                className='auth-input reduced'
+                className='auth-input'
               />
             </div>
             {errors.nickname && (
