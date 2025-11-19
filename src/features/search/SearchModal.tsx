@@ -1,16 +1,24 @@
-import { useSearchNavigation, useSearchStore } from '@/features/search';
-import type { MouseEvent } from 'react';
+import { useSearchStore } from '@/features/search';
+import { type MouseEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SearchIcon } from '@/components/icon';
 
 export function SearchModal() {
-  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal } = useSearchStore();
-  useSearchNavigation();
+  const { searchTerm, setSearchTerm, isOpenSearchModal, closeSearchModal, resetSearch } =
+    useSearchStore();
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    resetSearch();
+    closeSearchModal();
+    navigate('/products', { replace: true });
+  };
 
   if (!isOpenSearchModal) return null;
 
   const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      closeSearchModal();
+      handleClose();
     }
   };
 
@@ -31,12 +39,7 @@ export function SearchModal() {
             value={searchTerm}
             autoFocus
           />
-          <button
-            onClick={() => {
-              closeSearchModal();
-            }}
-            className='text-primary-700 ml-4 text-2xl font-black'
-          >
+          <button onClick={handleClose} className='text-primary-700 ml-4 text-2xl font-black'>
             ✕
           </button>
         </div>
