@@ -1,11 +1,9 @@
 import { ButtonBase } from '@/components/ui';
 import { naverIcon } from '@/assets';
-import { API_ENDPOINTS } from '../api';
 
 export function NaverLoginButton() {
-  const NAVER_LOGIN_URL = `${import.meta.env.VITE_FRONT_URL}${API_ENDPOINTS.NAVER_LOGIN}`;
-
   const handleLogin = () => {
+    const NAVER_LOGIN_URL = `${import.meta.env.VITE_API_URL}/auth/naver/login?redirect_uri=${encodeURIComponent('https://www.obestore.o-r.kr/auth/naver/callback/')}`;
     window.location.href = NAVER_LOGIN_URL;
   };
 
