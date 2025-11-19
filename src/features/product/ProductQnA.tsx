@@ -291,7 +291,7 @@ export function ProductQnA({ product }: ProductQnAProps) {
                               <button
                                 onClick={() => handleDelete(qna.product_question_id)}
                                 disabled={deleteMutation.isPending}
-                                className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50">
+                                className="px-4 py-2 text-sm bg-[#EAD5CE] text-white rounded hover:bg-[#f9dfdc]] disabled:opacity-50">
                                 {deleteMutation.isPending ? '삭제 중' : '삭제'}
                               </button>
                             </div>
