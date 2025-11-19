@@ -28,8 +28,8 @@ export function MyPageInfo() {
     setEditModalOpen(false);
   };
 
-  const provider = customer?.provider ?? 'email';
-  const isSocialLogin = provider !== 'email';
+  const loginType = customer?.login_type ?? 'email';
+  const isSocialLogin = loginType !== 'email';
   if (isLoading) return <div>나의 정보를 준비 중입니다...</div>;
   if (isError) return <div>나의 정보 필요한 정보를 찾을 수 없습니다.</div>;
 
