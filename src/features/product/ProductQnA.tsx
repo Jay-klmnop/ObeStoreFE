@@ -161,7 +161,7 @@ export function ProductQnA({ product }: ProductQnAProps) {
                 type="submit"
                 disabled={createMutation.isPending}
                 className="px-6 py-2 bg-primary-700 text-white rounded hover:bg-primary-800 transition-colors disabled:opacity-50">
-                {createMutation.isPending ? '등록 중...' : '등록'}
+                {createMutation.isPending ? '등록 중' : '등록'}
               </button>
             </div>
           </form>
