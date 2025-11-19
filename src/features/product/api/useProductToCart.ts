@@ -27,21 +27,15 @@ export interface CartToItem {
 // 장바구니에 추가할 상품 데이터 형식
 export interface CartItem {
   amount: number;
-  cart: number; // 카트 ID
-  product: number; // 상품 ID
+  product: number; // 상품 ID만 필요
 }
 
 // 장바구니에 상품을 추가하는 함수
-const addToCart = async ([product, quantity, cartId]: [
-  ProductDetailType,
-  number,
-  number,
-]): Promise<CartToItem> => {
-  // 서버로 보낼 데이터 형식
+const addToCart = async ([product, quantity]: [ProductDetailType, number]): Promise<CartToItem> => {
+  // 서버로 보낼 데이터 형식 (cartId 제거)
   const cartItem: CartItem = {
     amount: quantity,
-    cart: cartId, // 실제 로그인된 유저의 카트 ID 사용
-    product: product.id,
+    product: product.id, // 상품 ID만 포함
   };
 
   try {
@@ -83,7 +77,7 @@ const addToCart = async ([product, quantity, cartId]: [
 export const useProductToCart = () => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation<CartToItem, Error, [ProductDetailType, number, number], unknown>({
+  const mutation = useMutation<CartToItem, Error, [ProductDetailType, number], unknown>({
     mutationFn: addToCart, // POST 요청을 보내는 함수
     onSuccess: (response) => {
       console.log('장바구니 추가 성공:', response);
