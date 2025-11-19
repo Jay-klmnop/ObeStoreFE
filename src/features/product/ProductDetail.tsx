@@ -53,6 +53,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
   ];
 
   const handleAddToCart = () => {
+    console.log('🛒 handleAddToCart 호출됨');
+    console.log('👉 전달되는 product:', product);
+    console.log('👉 전달되는 quantity:', quantity);
+
     // 장바구니에 상품 추가
     //addToCart([product, quantity, cartId]);
     addToCart([product, quantity]);
