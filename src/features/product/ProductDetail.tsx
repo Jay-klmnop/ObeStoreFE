@@ -126,7 +126,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </div>
             </div>
           </div>
-
+          <div className='text-custom-gray-60'>결제액 5만원 이상시 무료, 미만시 배송비 3,500원</div>
           <div className='flex items-center justify-between py-2'>
             <span className='text-base text-gray-600'>총 {quantity}개</span>
             <span className='text-2xl font-bold text-gray-900'>
