@@ -62,9 +62,15 @@ export function ReviewForm({ product }: ReviewFormProps) {
         alert('리뷰가 성공적으로 등록되었습니다.');
         closeModal();
       },
-      onError: (error) => {
-        console.error('리뷰 등록 실패:', error);
-        alert('리뷰 등록에 실패했습니다. 다시 시도해주세요.');
+      onError: (error: any) => {
+        console.error('리뷰 등록 실패:', error.response);
+        const specificMessage = error.response?.data?.detail;
+
+        if (specificMessage) {
+          alert(specificMessage);
+        } else {
+          alert('리뷰 등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
       },
     });
   };
@@ -115,7 +121,8 @@ export function ReviewForm({ product }: ReviewFormProps) {
               <li>200자 이상의 진솔한 후기를 기대합니다. (더 자세한 내용은 언제나 환영해요!)</li>
               <li>
                 <span className='font-bold'>⚠ 참고해 주세요:</span> 신중하게 작성 부탁드립니다.
-                등록하신 리뷰는 추후 수정이 어려우며 삭제를 원하실 경우에도 제한될 수 있습니다.
+                등록하신 리뷰는 추후 수정이 어려우며 설령 리뷰의 수정이나 삭제를 원하실 경우에도
+                편집 제한될 수 있습니다. 리뷰는 상품을 실제로 사용해보신 후에 작성해주시길 바랍니다.
               </li>
             </ul>
           </div>
