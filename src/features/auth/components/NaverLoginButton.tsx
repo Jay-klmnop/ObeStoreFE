@@ -3,7 +3,7 @@ import { naverIcon } from '@/assets';
 import { API_ENDPOINTS } from '../api';
 
 export function NaverLoginButton() {
-  const NAVER_LOGIN_URL = `${import.meta.env.VITE_API_URL}${API_ENDPOINTS.NAVER_LOGIN}`;
+  const NAVER_LOGIN_URL = `${import.meta.env.VITE_FRONT_URL}${API_ENDPOINTS.NAVER_LOGIN}`;
 
   const handleLogin = () => {
     window.location.href = NAVER_LOGIN_URL;
