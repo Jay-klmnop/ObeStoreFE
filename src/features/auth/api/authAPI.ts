@@ -1,8 +1,16 @@
 import { backendAPI } from '@/api';
-import { API_ENDPOINTS } from '@/features/auth';
+import { API_ENDPOINTS, useAuthStore } from '@/features/auth';
 
-export const authLogin = (data: { email: string; password: string }) =>
-  backendAPI.post(API_ENDPOINTS.LOGIN, data);
+export const authLogin = async (data: { email: string; password: string }) => {
+  const res = await backendAPI.post(API_ENDPOINTS.LOGIN, data);
+  const { access, user } = res.data;
+
+  const store = useAuthStore.getState();
+  store.setToken(access);
+  store.setUser(user);
+
+  return res.data;
+};
 
 export const authSignup = (data: {
   email: string;
@@ -13,9 +21,6 @@ export const authSignup = (data: {
 }) => backendAPI.post(API_ENDPOINTS.SIGNUP, data);
 
 export const authLogout = () => backendAPI.post(API_ENDPOINTS.LOGOUT);
-
-export const authRefreshToken = (data: { refreshToken: string }) =>
-  backendAPI.post(API_ENDPOINTS.REFRESH_TOKEN, data);
 
 export const checkEmail = async (email: string) => {
   const res = await backendAPI.get(API_ENDPOINTS.EMAIL_CHECK, {
