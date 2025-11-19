@@ -21,7 +21,13 @@ export interface ProductType {
 export interface ProductCardType
   extends Pick<
     ProductType,
-    'id' | 'product_name' | 'brand_name' | 'product_value' | 'dc_value' | 'product_rating'
+    | 'id'
+    | 'product_name'
+    | 'brand_name'
+    | 'product_value'
+    | 'discount_rate'
+    | 'dc_value'
+    | 'product_rating'
   > {
   product_image: { product_card_image: string }[];
 }
