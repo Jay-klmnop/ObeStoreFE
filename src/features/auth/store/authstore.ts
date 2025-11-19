@@ -1,17 +1,25 @@
 import { authLogin, authSignup, authLogout } from '@/features/auth';
-import type { SignupFormData } from '@/features/auth';
 import { useFavoriteStore } from '@/features/favorite';
 import { useRewardStore } from '@/features/reward/store';
 import type { NavigateFunction } from 'react-router-dom';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
+interface SignupPayload {
+  email: string;
+  password: string;
+  username: string;
+  nickname: string;
+  phone_number: string;
+  email_checked: boolean;
+}
+
 interface AuthState {
   access: string | null;
   user: any | null;
   setToken: (access: string) => void;
   setUser: (user: any) => void;
-  signup: (data: SignupFormData) => Promise<void>;
+  signup: (data: SignupPayload) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: (navigate: NavigateFunction) => void;
 }
@@ -19,20 +27,13 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         access: null,
         user: null,
         setToken: (access) => set({ access }),
         setUser: (user) => set({ user }),
         signup: async (data) => {
-          await authSignup({
-            email: data.email,
-            password: data.password,
-            username: data.username,
-            nickname: data.nickname,
-            phone_number: data.phone,
-          });
-          await get().login(data.email, data.password);
+          await authSignup(data);
         },
         login: async (email, password) => {
           const { access, user } = await authLogin({ email, password });
