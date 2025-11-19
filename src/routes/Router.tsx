@@ -30,6 +30,7 @@ export function Router() {
             <Route path='/' element={<MainPage />} />
             <Route path='about' element={<AboutPage />} />
             <Route path='/auth/naver/callback' element={<CallbackPage />} />
+            <Route path='/auth/naver/callback/' element={<CallbackPage />} />
             <Route path='/products' element={<ProductsPage />} />
             <Route path='/products/:id' element={<ProductDetailPage />} />
             <Route path='/order/order' element={<OrderPage />} />
